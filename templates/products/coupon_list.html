@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Quản Lý Mã Khuyến Mãi (Coupons)" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🎟️</span>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Quản Lý Mã Giảm Giá & Coupon" %}</h1>
+      </div>
+      <p class="text-xs text-gray-500">{% trans "Thiết lập các điều kiện ưu đãi linh hoạt: Sinh nhật khách, Kỷ niệm tiệm bánh, Dịp Lễ Tết, VIP Only" %}</p>
+    </div>
+    
+    <a href="/products/coupons/add/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+      <span>+ {% trans "Tạo Mã Coupon Mới" %}</span>
+    </a>
+  </div>
+
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3.5 px-4">{% trans "Mã Coupon" %}</th>
+            <th class="py-3.5 px-4">{% trans "Tên Chương Trình" %}</th>
+            <th class="py-3.5 px-4">{% trans "Loại & Mức Giảm" %}</th>
+            <th class="py-3.5 px-4">{% trans "Điều Kiện Áp Dụng" %}</th>
+            <th class="py-3.5 px-4">{% trans "Đơn Tối Thiểu" %}</th>
+            <th class="py-3.5 px-4">{% trans "Hiệu Lực Đến" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "Đã Dùng / Tối Đa" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "Trạng Thái" %}</th>
+            <th class="py-3.5 px-4 text-right">{% trans "Thao Tác" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for c in coupons %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4 font-mono font-black text-sm text-amber-900 bg-amber-50/40">
+                {{ c.code }}
+              </td>
+              <td class="py-3 px-4 font-bold text-gray-800">{{ c.title }}</td>
+              <td class="py-3 px-4 font-extrabold text-emerald-700">
+                {% if c.discount_type == 'PERCENT' %}{{ c.discount_value|floatformat:0 }}%{% else %}{{ c.discount_value|floatformat:0 }}đ{% endif %}
+              </td>
+              <td class="py-3 px-4">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-900">
+                  {{ c.get_condition_type_display }}
+                </span>
+              </td>
+              <td class="py-3 px-4 text-gray-600">{{ c.min_order_amount|floatformat:0 }}đ</td>
+              <td class="py-3 px-4 font-mono text-gray-500">{{ c.valid_to|date:"d/m/Y H:i" }}</td>
+              <td class="py-3 px-4 text-center font-bold">{{ c.used_count }} / {{ c.usage_limit }}</td>
+              <td class="py-3 px-4 text-center">
+                {% if c.is_active and c.valid_to >= now %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{% trans "Hiệu Lực" %}</span>
+                {% else %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-500">{% trans "Hết Hạn/Khóa" %}</span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-right space-x-2">
+                <a href="/products/coupons/{{ c.id }}/edit/" class="text-amber-800 font-bold hover:underline">{% trans "Sửa" %}</a>
+                <a href="/products/coupons/{{ c.id }}/delete/" class="text-rose-600 font-bold hover:underline">{% trans "Xóa" %}</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="9" class="py-8 text-center text-gray-400">{% trans "Chưa có mã khuyến mãi nào." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

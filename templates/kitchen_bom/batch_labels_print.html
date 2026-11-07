@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "In Tem Barcode Bánh" %} - {{ batch.batch_code }}{% endblock %}
+
+{% block content %}
+<style>
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    #printable-labels-area, #printable-labels-area * {
+      visibility: visible;
+    }
+    #printable-labels-area {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .no-print {
+      display: none !important;
+    }
+    .label-card {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      margin-bottom: 8mm;
+      box-shadow: none !important;
+      border: 1px dashed #666 !important;
+    }
+  }
+
+  .label-card {
+    width: 80mm;
+    min-height: 48mm;
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+</style>
+
+<div class="max-w-5xl mx-auto px-4 py-6">
+  <!-- Top Control Bar (Screen Only) -->
+  <div class="no-print bg-white p-4 rounded-2xl border border-amber-200 shadow-md mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <a href="{% url 'kitchen:kitchen_screen' %}" class="text-xs font-bold text-amber-800 hover:underline">
+          &larr; {% trans "Quay lại Bếp" %}
+        </a>
+        <span class="text-gray-300">|</span>
+        <span class="font-mono text-xs font-bold bg-amber-100 text-amber-900 px-2 py-0.5 rounded">
+          {{ batch.batch_code }}
+        </span>
+      </div>
+      <h1 class="text-xl font-black text-amber-950 mt-1">{% trans "Tem Nhãn Barcode & Hạn Dùng Bánh Tươi" %}</h1>
+      <p class="text-xs text-gray-500">
+        {{ product.name }} (SKU: <span class="font-mono font-bold">{{ product.sku_code }}</span>) - 
+        {% trans "Thời hạn:" %} <span class="font-bold text-amber-900">{{ product.shelf_life_hours }} {% trans "giờ" %}</span>
+      </p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Change Qty Form -->
+      <form method="GET" class="flex items-center gap-2">
+        <label for="qty" class="text-xs font-semibold text-gray-600">{% trans "Số tem cần in:" %}</label>
+        <input type="number" id="qty" name="qty" min="1" max="100" value="{{ label_count }}"
+               class="w-16 px-2 py-1 text-sm border border-gray-300 rounded-lg text-center font-bold text-gray-800 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        <button type="submit" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg transition">
+          {% trans "Cập nhật" %}
+        </button>
+      </form>
+
+      <button type="button" onclick="openNiimbotPrintModal({ name: '{{ product.name|escapejs }}', price: '{{ product.price }}', sku: '{{ product.sku_code }}', shelf_life_hours: '{{ product.shelf_life_hours }}', batch_code: '{{ batch.batch_code }}', copies: '{{ label_count }}' })" class="px-5 py-2.5 bg-amber-800 hover:bg-amber-900 text-white font-black text-sm rounded-xl shadow-md flex items-center gap-2 transition hover:-translate-y-0.5 btn-tactile">
+        <span>🏷️</span>
+        <span>{% trans "In Máy Niimbot (Bluetooth)" %}</span>
+      </button>
+
+      <button onclick="window.print()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-black text-sm rounded-xl shadow-lg shadow-amber-600/30 flex items-center gap-2 transition hover:-translate-y-0.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+        </svg>
+        {% trans "🖨️ In Tem Ngay (Print)" %}
+      </button>
+    </div>
+  </div>
+
+  <!-- Instruction Banner (Screen Only) -->
+  <div class="no-print bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-xs text-amber-900 flex items-start gap-3">
+    <span class="text-xl">💡</span>
+    <div>
+      <p class="font-bold">{% trans "Hướng dẫn dán tem bánh tươi:" %}</p>
+      <p class="mt-0.5">
+        {% trans "Mỗi chiếc bánh nướng ra sẽ được dán 1 tem nhãn này. Khách hàng hoặc Thu ngân quét mã barcode này tại quầy POS để thanh toán nhanh. Khi bánh chỉ còn lại 25% thời hạn sử dụng, hệ thống tự động áp dụng mức giảm giá 40% giờ vàng." %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Printable Labels Container -->
+  <div id="printable-labels-area" class="flex flex-wrap gap-4 justify-center sm:justify-start">
+    {% for i in labels_list %}
+      <div class="label-card border-2 border-dashed border-gray-400 rounded-xl p-3 shadow-sm flex flex-col justify-between text-gray-900 bg-white">
+        <!-- Bakery Brand & Cake Name -->
+        <div class="border-b border-gray-200 pb-1.5 mb-1.5 flex justify-between items-start">
+          <div class="flex-1 pr-1">
+            <div class="text-[9px] uppercase tracking-wider text-amber-800 font-extrabold flex items-center gap-1">
+              <span>🥖 BAKERY FRESH</span>
+              <span class="text-gray-400">•</span>
+              <span class="font-mono text-gray-500">{{ batch.batch_code }}</span>
+            </div>
+            <h2 class="text-xs font-black text-gray-900 leading-tight line-clamp-1 mt-0.5">
+              {{ product.name }}
+            </h2>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-extrabold text-amber-900">
+              {{ product.price|floatformat:0 }}đ
+            </span>
+          </div>
+        </div>
+
+        <!-- Barcode Vector SVG Image -->
+        <div class="flex flex-col items-center justify-center my-1">
+          {% if barcode_svg %}
+            <img src="{{ barcode_svg }}" alt="Barcode {{ product.sku_code }}" class="h-11 w-full max-w-[200px] object-contain" />
+          {% else %}
+            <div class="font-mono font-bold tracking-widest text-xs py-2 bg-gray-100 px-4 rounded border">
+              *{{ product.sku_code }}*
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Dates & Expiry Info -->
+        <div class="bg-amber-50/80 rounded border border-amber-200/80 px-2 py-1 text-[9px] leading-tight space-y-0.5">
+          <div class="flex justify-between font-mono">
+            <span class="text-gray-600">{% trans "NSX (Nướng):" %}</span>
+            <span class="font-bold text-gray-900">{{ baked_at|date:"d/m H:i" }}</span>
+          </div>
+          <div class="flex justify-between font-mono">
+            <span class="text-gray-600">{% trans "HSD (Hạn):" %}</span>
+            <span class="font-black text-rose-700">{{ expires_at|date:"d/m H:i" }}</span>
+          </div>
+        </div>
+
+        <!-- Strategy Notice -->
+        <div class="mt-1 text-[8px] text-center text-amber-800 font-bold bg-amber-100/60 rounded py-0.5">
+          {% trans "⚡ Giảm 40% khi còn 25% thời hạn sử dụng" %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

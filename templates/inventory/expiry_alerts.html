@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Cảnh Báo Hạn Sử Dụng & Tồn Kho" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex items-center gap-3">
+    <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-2xl shadow-sm">
+      🚨
+    </div>
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Bảng Cảnh Báo Đỏ: Hạn Sử Dụng & Tồn Kho" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Giám sát các loại bánh tươi cận hạn bảo quản (<24h) và nguyên vật liệu dưới ngưỡng an toàn" %}</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+    
+    <!-- Left Box: BÁNH TƯƠI CẬN HẠN (<24H) CẦN BÁN TRONG NGÀY -->
+    <div class="bg-white rounded-3xl p-6 border-2 border-rose-200 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-rose-100">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-600 animate-ping"></span>
+          <h2 class="text-base font-black text-rose-900">{% trans "Bánh Tươi Cận Hạn Bảo Quản (< 24 Giờ)" %}</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 font-black text-xs">{{ fresh_cakes.count }} {% trans "loại bánh" %}</span>
+      </div>
+      <p class="text-xs text-gray-500">{% trans "Các loại bánh này có hạn sử dụng ngắn, cần ưu tiên trưng bày phía trước quầy POS và đẩy mạnh bán trong ca." %}</p>
+
+      <div class="space-y-3">
+        {% for p in fresh_cakes %}
+          <div class="p-3.5 rounded-2xl bg-rose-50/40 border border-rose-100 flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-bold text-rose-900 bg-rose-200/80 px-1.5 py-0.5 rounded">{{ p.sku_code }}</span>
+                <h4 class="font-extrabold text-sm text-bakery-crust">{{ p.name }}</h4>
+              </div>
+              <p class="text-xs text-rose-800 font-semibold mt-1">
+                {% trans "Hạn tối đa:" %} <strong>{{ p.shelf_life_hours }} {% trans "giờ" %}</strong> | {% trans "Tồn hiện tại:" %} <strong class="text-base text-rose-900">{{ p.stock_quantity }} {% trans "chiếc" %}</strong>
+              </p>
+            </div>
+            <a href="/pos/" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs transition whitespace-nowrap btn-tactile">
+              {% trans "Mở POS Bán" %} &rarr;
+            </a>
+          </div>
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Không có cảnh báo bánh cận hạn." %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Right Box: NGUYÊN LIỆU DƯỚI ĐỊNH MỨC TỒN TỐI THIỂU -->
+    <div class="bg-white rounded-3xl p-6 border-2 border-amber-300 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-amber-100">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+          <h2 class="text-base font-black text-amber-900">{% trans "Nguyên Liệu Thiếu (Dưới Định Mức)" %}</h2>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-black text-xs">{{ critical_materials|length }} {% trans "nguyên liệu" %}</span>
+      </div>
+      <p class="text-xs text-gray-500">{% trans "Nguyên liệu đã chạm hoặc dưới ngưỡng tối thiểu, cần nhập bổ sung để không gián đoạn mẻ bánh của Bếp." %}</p>
+
+      <div class="space-y-3">
+        {% for m in critical_materials %}
+          <div class="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-200 flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-bold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">{{ m.code }}</span>
+                <h4 class="font-extrabold text-sm text-bakery-crust">{{ m.name }}</h4>
+              </div>
+              <p class="text-xs text-amber-900 font-semibold mt-1">
+                {% trans "Tồn kho:" %} <strong class="text-rose-600 text-sm">{{ m.stock_quantity }} {{ m.unit }}</strong> ({% trans "Ngưỡng an toàn:" %} {{ m.min_threshold }} {{ m.unit }})
+              </p>
+            </div>
+            <a href="/inventory/materials/{{ m.id }}/import/" class="px-3 py-1.5 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs transition whitespace-nowrap btn-tactile">
+              + {% trans "Nhập Kho" %}
+            </a>
+          </div>
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Tất cả nguyên liệu trong kho đang ở mức an toàn." %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

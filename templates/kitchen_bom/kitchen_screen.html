@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Điều Phối Khu Vực Bếp & Lò Nướng" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">👨‍🍳</span>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Khu Vực Bếp & Lò Nướng Bánh" %}</h1>
+      </div>
+      <p class="text-xs text-gray-500">{% trans "Quản lý lệnh sản xuất mẻ bánh, công thức định mức BOM và tự động trừ nguyên liệu (+5% hao hụt)" %}</p>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <a href="/kitchen/bom/" class="px-4 py-2.5 rounded-2xl bg-white border border-amber-200 text-amber-900 font-bold text-xs hover:bg-amber-50 transition">
+        📖 {% trans "Bảng Định Mức BOM" %}
+      </a>
+      {% if request.user.role != 'CASHIER' %}
+      <a href="/kitchen/batches/create/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+        <span>+ {% trans "Lệnh Nướng Mẻ Mới" %}</span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- 2-Columns Grid: Active Batches vs Custom Cakes -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+    
+    <!-- Left 2 Cols: MẺ BÁNH ĐANG NƯỚNG / TIẾN HÀNH -->
+    <div class="lg:col-span-2 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-black text-bakery-crust flex items-center gap-2">
+          <span>🔥 {% trans "Các Mẻ Bánh Đang Thực Hiện" %}</span>
+          <span class="px-2 py-0.5 rounded-full bg-amber-500 text-white text-xs font-bold">{{ active_batches.count }}</span>
+        </h2>
+      </div>
+
+      <div class="space-y-3">
+        {% for b in active_batches %}
+          <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-900 font-mono font-black text-xs">{{ b.batch_code }}</span>
+                <span class="text-xs text-gray-400 font-mono">{{ b.created_at|date:"H:i - d/m" }}</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-800">
+                  {{ b.get_status_display }}
+                </span>
+              </div>
+
+              <h3 class="text-lg font-black text-bakery-crust mt-1.5">{{ b.product.name }}</h3>
+              <p class="text-xs text-amber-800 font-semibold">
+                {% trans "Kế hoạch:" %} <strong>{{ b.planned_quantity }} {% trans "chiếc" %}</strong> | {% trans "Hao hụt tiêu chuẩn:" %} <strong>{{ b.waste_rate }}%</strong>
+              </p>
+              {% if b.notes %}
+                <p class="text-xs text-gray-500 mt-1 italic">{% trans "Ghi chú:" %} {{ b.notes }}</p>
+              {% endif %}
+            </div>
+
+            <div class="w-full sm:w-auto flex items-center gap-2">
+              {% if request.user.role != 'CASHIER' %}
+              <a href="/kitchen/batches/{{ b.id }}/complete/" 
+                 class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md shadow-emerald-600/20 text-center transition btn-tactile">
+                ✓ {% trans "Nghiệm Thu & Nhập Kho" %}
+              </a>
+              {% else %}
+              <span class="text-xs text-gray-400 italic">{% trans "Chỉ Thợ Bánh nghiệm thu" %}</span>
+              {% endif %}
+            </div>
+          </div>
+        {% empty %}
+          <div class="bg-white rounded-3xl p-12 text-center border border-amber-100 shadow-sm">
+            <span class="text-4xl mb-2 block">🥐</span>
+            <h3 class="font-bold text-gray-700 text-sm">{% trans "Hiện không có mẻ nướng nào đang chạy" %}</h3>
+            <p class="text-xs text-gray-400 mt-1">{% trans 'Bấm nút "+ Lệnh Nướng Mẻ Mới" ở trên để khởi tạo' %}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Recent completed batches -->
+      <div class="pt-6">
+        <h3 class="text-sm font-black text-gray-700 uppercase tracking-wider mb-3">{% trans "Lịch Sử Nghiệm Thu Mẻ Gần Đây" %}</h3>
+        <div class="bg-white rounded-2xl border border-amber-100 overflow-hidden shadow-sm">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-amber-50/60 text-amber-900 font-bold border-b border-amber-100">
+              <tr>
+                <th class="py-2.5 px-3">{% trans "Mã Mẻ" %}</th>
+                <th class="py-2.5 px-3">{% trans "Tên Bánh" %}</th>
+                <th class="py-2.5 px-3 text-center">{% trans "KH / Đạt" %}</th>
+                <th class="py-2.5 px-3">{% trans "Thợ Bánh" %}</th>
+                <th class="py-2.5 px-3">{% trans "Thời Gian Hoàn Tất" %}</th>
+                <th class="py-2.5 px-3 text-right">{% trans "In Tem" %}</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-amber-50">
+              {% for b in completed_batches %}
+                <tr>
+                  <td class="py-2 px-3 font-mono font-bold text-amber-900">{{ b.batch_code }}</td>
+                  <td class="py-2 px-3 font-semibold">{{ b.product.name }}</td>
+                  <td class="py-2 px-3 text-center font-bold text-emerald-700">{{ b.planned_quantity }} / {{ b.actual_quantity }}</td>
+                  <td class="py-2 px-3 text-gray-500">{{ b.baker.get_full_name|default:b.baker.username|default:_("Thợ bếp") }}</td>
+                  <td class="py-2 px-3 text-gray-400 font-mono">{{ b.completed_at|date:"d/m H:i" }}</td>
+                  <td class="py-2 px-3 text-right">
+                    <a href="{% url 'kitchen:batch_print_labels' b.id %}"
+                       class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-[11px] transition">
+                      🖨️ {% trans "In Tem" %}
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="6" class="py-4 text-center text-gray-400">{% trans "Chưa có mẻ nào hoàn thành." %}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Col: BÁNH KEM THEO HẸN KHÁCH ĐẶT CẦN LÀM -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-black text-bakery-crust flex items-center gap-1.5">
+          <span>🎂 {% trans "Bánh Kem Cần Nướng" %}</span>
+          <span class="px-2 py-0.5 rounded-full bg-amber-500 text-white text-xs font-bold">{{ custom_cakes.count }}</span>
+        </h2>
+        <a href="/custom-orders/" class="text-xs text-amber-700 font-bold hover:underline">{% trans "Xem Kanban" %}</a>
+      </div>
+
+      <div class="space-y-3">
+        {% for c in custom_cakes %}
+          <div class="bg-white rounded-2xl p-4 border border-amber-100 shadow-sm space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-mono font-bold text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded">{{ c.order_code }}</span>
+              <span class="text-rose-600 font-bold">{% trans "Hẹn:" %} {{ c.pickup_datetime|date:"d/m - H:i" }}</span>
+            </div>
+            
+            <h4 class="font-extrabold text-sm text-bakery-crust">{{ c.customer_name }}</h4>
+            <div class="text-xs text-gray-600 space-y-0.5">
+              <div>{% trans "Cốt:" %} <strong>{{ c.cake_base }}</strong> | {% trans "Vị:" %} <strong>{{ c.cream_flavor }}</strong></div>
+              <div>Size: <strong>{{ c.size }}</strong></div>
+              {% if c.custom_message %}
+                <div class="text-amber-900 font-serif italic pt-1">"{{ c.custom_message }}"</div>
+              {% endif %}
+            </div>
+
+            <div class="pt-2 border-t border-amber-50 flex items-center justify-between">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-100 text-amber-900">
+                {{ c.get_status_display }}
+              </span>
+              <a href="/custom-orders/{{ c.id }}/" class="text-xs text-amber-800 font-bold hover:underline">
+                {% trans "Chi tiết" %} &rarr;
+              </a>
+            </div>
+          </div>
+        {% empty %}
+          <div class="bg-white rounded-2xl p-6 text-center text-xs text-gray-400 border border-amber-100">
+            {% trans "Không có đơn bánh kem hẹn trước cần làm ngay." %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

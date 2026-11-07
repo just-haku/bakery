@@ -1,0 +1,6 @@
+# Default docker-compose.yml pointing to Development environment
+# To run Development: docker compose -f docker-compose.dev.yml up -d
+# To run Production:  docker compose -f docker-compose.prod.yml up -d --build
+
+include:
+  - docker-compose.dev.yml

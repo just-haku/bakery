@@ -1,0 +1,56 @@
+{
+  "name": "Artisan Bakery - Tiệm Bánh Thủ Công",
+  "short_name": "Artisan Bakery",
+  "description": "Hệ thống quản lý tiệm bánh thủ công, đặt bánh online, bán lẻ POS và điều phối bếp",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#B45309",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/static/images/pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/images/pwa/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Thực Đơn Bánh",
+      "short_name": "Thực Đơn",
+      "description": "Xem danh sách các loại bánh nướng tươi ngon",
+      "url": "/online/",
+      "icons": [{ "src": "/static/images/pwa/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Bán Lẻ POS",
+      "short_name": "POS",
+      "description": "Quầy thu ngân bán lẻ tại chỗ",
+      "url": "/pos/",
+      "icons": [{ "src": "/static/images/pwa/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Bếp & Lò Nướng KDS",
+      "short_name": "Bếp KDS",
+      "description": "Màn hình điều phối mẻ bánh lò nướng",
+      "url": "/kitchen/",
+      "icons": [{ "src": "/static/images/pwa/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["shopping", "food", "business"],
+  "dir": "ltr",
+  "lang": "vi"
+}

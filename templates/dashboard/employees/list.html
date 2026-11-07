@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Quản Lý Nhân Viên & Phân Quyền" %} - Bakery Management{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-amber-100 shadow-sm">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-amber-800 font-bold uppercase tracking-wider">
+        <span>🛡️ {% trans "Cổng Quản Trị" %} (Port 8010)</span>
+        <span>•</span>
+        <span>{% trans "Quản Trị Nhân Sự" %}</span>
+      </div>
+      <h1 class="text-2xl font-black text-amber-950 mt-1">{% trans "Danh Sách Nhân Viên & Quản Trị Viên" %}</h1>
+      <p class="text-xs text-gray-500 mt-0.5">
+        {% trans "Nhân viên chỉ đăng nhập qua Cổng Nhân Viên (Port 8009). Chỉ được xóa tài khoản chưa từng phát sinh đơn hàng/mẻ bánh." %}
+      </p>
+    </div>
+
+    <a href="{% url 'employees:employee_create' %}" class="px-5 py-3 rounded-2xl bg-amber-800 hover:bg-amber-900 text-white font-extrabold text-xs shadow-md transition btn-tactile flex items-center gap-2">
+      <span>➕</span>
+      <span>{% trans "Tạo Nhân Viên Mới" %}</span>
+    </a>
+  </div>
+
+  <!-- Employee Table -->
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/60 border-b border-amber-100 text-gray-600 font-bold uppercase tracking-wider">
+          <tr>
+            <th class="py-4 px-6">{% trans "Nhân Viên" %}</th>
+            <th class="py-4 px-6">{% trans "Vai Trò" %}</th>
+            <th class="py-4 px-6">{% trans "Số Điện Thoại" %}</th>
+            <th class="py-4 px-6">{% trans "Lịch Sử Giao Dịch" %}</th>
+            <th class="py-4 px-6">{% trans "Trạng Thái" %}</th>
+            <th class="py-4 px-6 text-right">{% trans "Hành Động" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50 text-gray-700">
+          {% for emp in employees %}
+          <tr class="hover:bg-amber-50/30 transition">
+            <!-- Name & Username -->
+            <td class="py-4 px-6">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center font-black text-sm">
+                  {{ emp.username|slice:":2"|upper }}
+                </div>
+                <div>
+                  <div class="font-extrabold text-amber-950 text-sm">
+                    {{ emp.get_full_name|default:emp.username }}
+                    {% if emp.id == user.id %}
+                      <span class="ml-1 text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">({% trans "Bạn" %})</span>
+                    {% endif %}
+                  </div>
+                  <div class="text-[11px] text-gray-400 font-mono">{{ emp.email }}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Role -->
+            <td class="py-4 px-6">
+              {% if emp.role == 'ADMIN' %}
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                  👑 {% trans "Quản Trị Viên (Admin)" %}
+                </span>
+              {% elif emp.role == 'CASHIER' %}
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                  💳 {% trans "Thu Ngân POS" %}
+                </span>
+              {% elif emp.role == 'BAKER' %}
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-200">
+                  👨‍🍳 {% trans "Thợ Bánh KDS" %}
+                </span>
+              {% else %}
+                <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                  {{ emp.get_role_display }}
+                </span>
+              {% endif %}
+            </td>
+
+            <!-- Phone -->
+            <td class="py-4 px-6 font-mono">
+              {{ emp.phone|default:"---" }}
+            </td>
+
+            <!-- Orders/Batches counts -->
+            <td class="py-4 px-6">
+              <div class="space-y-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-gray-400">🧾 {% trans "Đơn bán lẻ" %}:</span>
+                  <span class="font-extrabold {% if emp.order_count > 0 %}text-emerald-700{% else %}text-gray-400{% endif %}">
+                    {{ emp.order_count }}
+                  </span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-gray-400">🥖 {% trans "Mẻ nướng" %}:</span>
+                  <span class="font-extrabold {% if emp.batch_count > 0 %}text-amber-800{% else %}text-gray-400{% endif %}">
+                    {{ emp.batch_count }}
+                  </span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Active Status -->
+            <td class="py-4 px-6">
+              {% if emp.is_active %}
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                  <span class="w-2 h-2 rounded-full bg-emerald-700"></span>
+                  {% trans "Đang hoạt động" %}
+                </span>
+              {% else %}
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-red-600 bg-red-50 border border-red-200 px-3 py-1 rounded-full">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  {% trans "Đã vô hiệu hóa" %}
+                </span>
+              {% endif %}
+            </td>
+
+            <!-- Actions -->
+            <td class="py-4 px-6 text-right space-x-2">
+              {% if emp.id != user.id %}
+                <!-- Toggle Active Button -->
+                <form action="{% url 'employees:employee_toggle_active' emp.id %}" method="POST" class="inline">
+                  {% csrf_token %}
+                  <button type="submit" class="px-3 py-1.5 rounded-xl border text-[11px] font-extrabold transition {% if emp.is_active %}border-red-200 text-red-600 hover:bg-red-50{% else %}border-emerald-200 text-emerald-700 hover:bg-emerald-50{% endif %}">
+                    {% if emp.is_active %}
+                      🔒 {% trans "Khóa tài khoản" %}
+                    {% else %}
+                      🔓 {% trans "Kích hoạt lại" %}
+                    {% endif %}
+                  </button>
+                </form>
+
+                <!-- Delete Button (Conditional) -->
+                {% if emp.can_be_deleted %}
+                  <form action="{% url 'employees:employee_delete' emp.id %}" method="POST" class="inline" onsubmit="return confirm('Bạn có chắc chắn muốn XÓA VĨNH VIỄN nhân viên này? Thao tác không thể phục hồi!');">
+                    {% csrf_token %}
+                    <button type="submit" class="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-[11px] shadow-sm transition">
+                      🗑️ {% trans "Xóa" %}
+                    </button>
+                  </form>
+                {% else %}
+                  <button type="button" disabled title="{% trans "Nhân viên đã có lịch sử đơn hàng hoặc mẻ bánh. Chỉ được phép vô hiệu hóa để bảo vệ số liệu kế toán." %}" class="px-3 py-1.5 rounded-xl bg-gray-100 text-gray-400 font-extrabold text-[11px] cursor-not-allowed">
+                    🔒 {% trans "Đã có dữ liệu" %}
+                  </button>
+                {% endif %}
+              {% else %}
+                <span class="text-xs text-gray-400 italic">{% trans "Tài khoản hiện tại" %}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="py-12 text-center text-gray-400">
+              {% trans "Chưa có nhân viên nào trong danh sách." %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

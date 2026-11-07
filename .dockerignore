@@ -1,0 +1,11 @@
+docker-data/
+docker-data/*
+.git/
+.agent/
+.gemini/
+__pycache__/
+*.pyc
+*.docx
+*.log
+.env
+media/

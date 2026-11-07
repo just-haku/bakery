@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Khởi Tạo Quản Trị Viên Ban Đầu (Operator Setup)" %} - Bakery Management{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto px-4 py-12">
+  <div class="bg-white rounded-3xl border border-amber-200 p-8 shadow-xl shadow-amber-900/5 relative overflow-hidden">
+    <!-- Top accent bar -->
+    <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-600 via-amber-700 to-amber-900"></div>
+
+    <div class="text-center space-y-2 mb-8">
+      <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-900 mx-auto flex items-center justify-center text-3xl shadow-inner">
+        👑
+      </div>
+      <div class="text-[11px] font-black tracking-widest text-amber-800 uppercase">
+        🛡️ {% trans "Cổng Quản Trị" %} (Port 8010)
+      </div>
+      <h1 class="text-2xl font-black text-amber-950">{% trans "Khởi Tạo Quản Trị Viên Ban Đầu" %}</h1>
+      <p class="text-xs text-gray-500 max-w-sm mx-auto">
+        {% trans "Đây là tài khoản Operator cao nhất của hệ thống tiệm bánh. Trang này chỉ được phép tạo 1 LẦN DUY NHẤT khi hệ thống mới thiết lập." %}
+      </p>
+    </div>
+
+    {% if form.errors %}
+    <div class="mb-6 p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs">
+      <div class="font-bold mb-1">{% trans "Lỗi đăng ký:" %}</div>
+      {{ form.errors }}
+    </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.username.label }} *</label>
+        {{ form.username }}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.first_name.label }}</label>
+          {{ form.first_name }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.last_name.label }}</label>
+          {{ form.last_name }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.email.label }}</label>
+          {{ form.email }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.phone.label }}</label>
+          {{ form.phone }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.password.label }} *</label>
+        {{ form.password }}
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1.5">{{ form.password_confirm.label }} *</label>
+        {{ form.password_confirm }}
+      </div>
+
+      <div class="pt-4">
+        <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-700 to-amber-900 hover:from-amber-800 hover:to-amber-950 text-white font-black text-sm shadow-lg shadow-amber-900/20 transition btn-tactile">
+          🚀 {% trans "Xác Nhận & Kích Hoạt Quản Trị Viên Ban Đầu" %}
+        </button>
+      </div>
+    </form>
+
+    <div class="mt-6 text-center text-[11px] text-gray-400">
+      {% trans "Sau khi kích hoạt, mọi tài khoản Admin hoặc Nhân viên tiếp theo sẽ do bạn quản lý trong trang Nhân Sự." %}
+    </div>
+  </div>
+</div>
+{% endblock %}

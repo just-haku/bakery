@@ -1,0 +1,205 @@
+/* Artisan Bakery Design Tokens & Responsive / PWA Styles */
+:root {
+  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --color-crust: #261309;
+  --color-caramel: #78350F;
+  --color-amber-gold: #D97706;
+  --color-cream: #FAF6F0;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #FAF6F0;
+  color: #261309;
+  overscroll-behavior-y: contain;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(217, 119, 6, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(217, 119, 6, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 119, 6, 0.45);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Tactile Button Feedback */
+.btn-tactile {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.btn-tactile:active {
+  transform: scale(0.96);
+}
+
+/* Shimmer & Glow Effects */
+.glow-amber {
+  box-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.25), 0 8px 10px -6px rgba(217, 119, 6, 0.2);
+}
+
+/* Pulse badge */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s infinite ease-in-out;
+}
+
+/* PWA Standalone Mode Styling */
+@media (display-mode: standalone) {
+  /* Standalone App: Extra breathing room for status bar & notch */
+  header.sticky {
+    padding-top: max(0.5rem, var(--sat));
+  }
+  
+  /* Prevent pull-to-refresh reload in standalone app when scrolling */
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  input, textarea, select {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+
+/* Mobile Safe-Area padding for bottom navigation */
+.safe-bottom-padding {
+  padding-bottom: calc(4.75rem + var(--sab));
+}
+
+.safe-bottom-nav {
+  padding-bottom: max(0.5rem, var(--sab));
+}
+
+/* Mobile Input Form Fix: prevent iOS auto-zoom on focus */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ========================================== */
+/* ROBUST OFFCANVAS MOBILE DRAWER             */
+/* ========================================== */
+#mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  transition: visibility 0.25s ease;
+}
+#mobile-drawer.drawer-closed {
+  visibility: hidden;
+  pointer-events: none;
+}
+#mobile-drawer.drawer-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#mobile-drawer.drawer-closed #drawer-backdrop {
+  opacity: 0;
+  pointer-events: none;
+}
+#mobile-drawer.drawer-open #drawer-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#drawer-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 20rem;
+  max-width: 85vw;
+  background-color: #ffffff;
+  box-shadow: -10px 0 35px -5px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+#mobile-drawer.drawer-closed #drawer-panel {
+  transform: translateX(100%) !important;
+  pointer-events: none;
+}
+#mobile-drawer.drawer-open #drawer-panel {
+  transform: translateX(0) !important;
+  pointer-events: auto;
+}
+
+
+/* Printable Thermal Receipt Styles (80mm) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 10px;
+    background: white;
+    color: black;
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

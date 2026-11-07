@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Quản Lý Xuất Nhập Tồn Kho" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Quản Lý Xuất Nhập Tồn Kho" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Giám sát tổng thể kho bánh thành phẩm và kho nguyên vật liệu" %}</p>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <a href="/inventory/alerts/" class="px-4 py-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 font-bold text-xs hover:bg-rose-100 transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-rose-600 animate-pulse"></span>
+        <span>{% trans "Cảnh Báo Cận Hạn & Thiếu Kho" %}</span>
+      </a>
+      <a href="/inventory/materials/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition btn-tactile">
+        <span>{% trans "Danh Sách Nguyên Vật Liệu" %}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm">
+      <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">{% trans "Tổng Món Bánh Đang Bán" %}</span>
+      <div class="text-3xl font-black text-amber-900 mt-1">{{ products.count }}</div>
+      <span class="text-xs text-emerald-700 font-semibold mt-1 block">{% trans "Tất cả danh mục bánh" %}</span>
+    </div>
+
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm">
+      <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">{% trans "Bánh Cận Hạn (< 24 Giờ)" %}</span>
+      <div class="text-3xl font-black text-rose-600 mt-1">{{ fresh_cakes_warning.count }}</div>
+      <span class="text-xs text-rose-700 font-semibold mt-1 block">{% trans "Cần đẩy bán trong ngày" %}</span>
+    </div>
+
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm">
+      <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">{% trans "Nguyên Liệu Cần Nhập" %}</span>
+      <div class="text-3xl font-black text-amber-600 mt-1">{{ low_stock_materials|length }}</div>
+      <span class="text-xs text-amber-700 font-semibold mt-1 block">{% trans "Dưới ngưỡng an toàn" %}</span>
+    </div>
+  </div>
+
+  <!-- Finished Products Stock Table -->
+  <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-base font-black text-bakery-crust">{% trans "Tồn Kho Bánh Thành Phẩm Tại Quầy" %}</h2>
+      <a href="/products/" class="text-xs text-amber-800 font-bold hover:underline">{% trans "Quản lý món bánh" %} &rarr;</a>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3 px-4">{% trans "SKU" %}</th>
+            <th class="py-3 px-4">{% trans "Tên Sản Phẩm Bánh" %}</th>
+            <th class="py-3 px-4">{% trans "Danh Mục" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Đơn Giá" %}</th>
+            <th class="py-3 px-4 text-center">{% trans "Hạn Dùng (Giờ)" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Số Lượng Tồn" %}</th>
+            <th class="py-3 px-4 text-center">{% trans "Tình Trạng" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for p in products %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4 font-mono font-bold text-amber-900">{{ p.sku_code }}</td>
+              <td class="py-3 px-4 font-bold text-gray-900">{{ p.name }}</td>
+              <td class="py-3 px-4 text-gray-600">{{ p.category.name }}</td>
+              <td class="py-3 px-4 text-right font-extrabold text-amber-800">{{ p.price|floatformat:0 }}đ</td>
+              <td class="py-3 px-4 text-center">
+                <span class="px-2 py-0.5 rounded text-[11px] font-bold {% if p.shelf_life_hours <= 24 %}bg-rose-100 text-rose-800{% else %}bg-gray-100 text-gray-700{% endif %}">
+                  {{ p.shelf_life_hours }}h
+                </span>
+              </td>
+              <td class="py-3 px-4 text-right font-black text-sm {% if p.stock_quantity == 0 %}text-rose-600{% elif p.stock_quantity <= 5 %}text-amber-600{% else %}text-emerald-700{% endif %}">
+                {{ p.stock_quantity }}
+              </td>
+              <td class="py-3 px-4 text-center">
+                {% if p.stock_quantity == 0 %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-600 text-white">{% trans "HẾT HÀNG" %}</span>
+                {% elif p.stock_quantity <= 5 %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-white">{% trans "SẮP HẾT" %}</span>
+                {% else %}
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{% trans "DỒI DÀO" %}</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

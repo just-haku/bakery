@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Cảnh Báo Vượt Quyền - Artisan Bakery Security</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #2A0808 0%, #120303 60%, #080101 100%);
+      color: #F8FAFC;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-warning {
+      animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .glass-card {
+      background: rgba(30, 10, 10, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      box-shadow: 0 25px 50px -12px rgba(185, 28, 28, 0.35), 0 0 40px rgba(220, 38, 38, 0.15);
+    }
+    .btn-tactile:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4 sm:p-6 overflow-x-hidden select-none">
+
+  <div class="w-full max-w-xl glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden transition-all my-auto">
+    <!-- Ambient glowing accents -->
+    <div class="absolute -top-24 -right-24 w-48 h-48 bg-rose-600/25 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-amber-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Security Header Pill -->
+    <div class="flex items-center justify-center mb-6">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-black tracking-wider uppercase">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+        <span>Hệ Thống Giám Sát Nội Bộ • Security Alert</span>
+      </div>
+    </div>
+
+    <!-- Alert Icon -->
+    <div class="flex justify-center mb-5">
+      <div class="relative">
+        <div class="absolute inset-0 rounded-3xl bg-rose-600/20 pulse-warning"></div>
+        <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-rose-600 to-amber-700 flex items-center justify-center text-4xl shadow-xl shadow-rose-950 border border-rose-400/30 relative z-10">
+          🚨
+        </div>
+      </div>
+    </div>
+
+    <!-- Primary Warning Headline (Exact user-requested statement) -->
+    <div class="text-center mb-6">
+      <h1 class="text-xl sm:text-2xl font-black text-white leading-snug tracking-tight mb-2">
+        “Cảnh báo, admin đang theo dõi hoạt động của từng tài khoản, đừng vi phạm nội quy nhé!”
+      </h1>
+      <p class="text-xs sm:text-sm text-rose-200/80 font-medium">
+        {% if reason %}{{ reason }}{% else %}Bạn không có thẩm quyền truy cập hoặc thực hiện thao tác tại khu vực này.{% endif %}
+      </p>
+    </div>
+
+    <!-- Audit Details Card -->
+    <div class="bg-black/40 rounded-2xl p-4 border border-rose-500/20 space-y-2.5 mb-6 text-xs sm:text-sm font-medium">
+      <div class="flex items-center justify-between text-gray-300">
+        <span class="text-gray-400">👤 Tài khoản nhân viên:</span>
+        <span class="font-bold text-amber-300">
+          {% if request.user.is_authenticated %}
+            {{ request.user.get_full_name|default:request.user.username }} (@{{ request.user.username }})
+          {% else %}
+            Khách vãng lai / Chưa đăng nhập
+          {% endif %}
+        </span>
+      </div>
+      <div class="flex items-center justify-between text-gray-300">
+        <span class="text-gray-400">🏷️ Vai trò hệ thống:</span>
+        <span class="font-bold px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+          {% if request.user.is_authenticated %}
+            {{ request.user.get_role_display|default:request.user.role }}
+          {% else %}
+            Chưa xác định
+          {% endif %}
+        </span>
+      </div>
+      <div class="flex items-center justify-between text-gray-300">
+        <span class="text-gray-400">🚫 Đường dẫn vi phạm:</span>
+        <span class="font-mono text-rose-300 font-bold max-w-[220px] truncate" title="{{ request.path }}">{{ request.path }}</span>
+      </div>
+      <div class="flex items-center justify-between text-gray-300">
+        <span class="text-gray-400">⏱️ Thời gian ghi nhận:</span>
+        <span class="font-mono text-gray-400">{{ current_time|date:"H:i:s - d/m/Y" }}</span>
+      </div>
+      <div class="flex items-center justify-between text-gray-300">
+        <span class="text-gray-400">🌐 Địa chỉ IP:</span>
+        <span class="font-mono text-gray-400">{{ client_ip|default:"127.0.0.1" }}</span>
+      </div>
+    </div>
+
+    <!-- Security Note -->
+    <div class="bg-rose-950/40 border border-rose-500/30 rounded-xl p-3 text-[11px] sm:text-xs text-rose-300 flex items-start gap-2.5 mb-6">
+      <span class="text-base flex-shrink-0">⚠️</span>
+      <div>
+        <p class="font-bold text-rose-200">Ghi chú kỷ luật nội bộ tiệm bánh:</p>
+        <p class="mt-0.5 opacity-90">
+          Mọi hành vi cố tình vượt cấp phân quyền (thu ngân tự ý in tem bánh, sửa kho BOM hoặc can thiệp dữ liệu quản trị) đều được tự động lưu vào <strong>Nhật Ký Giám Sát (Audit Log)</strong> của Admin.
+        </p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row items-center gap-3">
+      {% if request.user.role == 'CASHIER' or request.portal_role == 'EMPLOYEE' %}
+        <a href="{% url 'pos:pos_screen' %}" 
+           class="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-black text-sm text-center shadow-lg shadow-amber-900/40 transition btn-tactile flex items-center justify-center gap-2">
+          <span>🛒</span>
+          <span>Quay Lại Quầy Thu Ngân (POS)</span>
+        </a>
+      {% elif request.user.role == 'BAKER' %}
+        <a href="{% url 'kitchen:kitchen_screen' %}" 
+           class="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-black text-sm text-center shadow-lg shadow-amber-900/40 transition btn-tactile flex items-center justify-center gap-2">
+          <span>🥖</span>
+          <span>Quay Lại Màn Hình Bếp</span>
+        </a>
+      {% elif request.user.is_authenticated and request.user.role == 'ADMIN' %}
+        <a href="{% url 'dashboard:index' %}" 
+           class="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-black text-sm text-center shadow-lg shadow-amber-900/40 transition btn-tactile flex items-center justify-center gap-2">
+          <span>📊</span>
+          <span>Về Bảng Điều Khiển Quản Trị</span>
+        </a>
+      {% else %}
+        <a href="/" 
+           class="w-full sm:flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-black text-sm text-center shadow-lg shadow-amber-900/40 transition btn-tactile flex items-center justify-center gap-2">
+          <span>🥐</span>
+          <span>Quay Về Trang Chủ</span>
+        </a>
+      {% endif %}
+
+      {% if request.user.is_authenticated %}
+        <a href="{% url 'auth:logout' %}" 
+           class="w-full sm:w-auto py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white font-bold text-sm text-center border border-white/10 transition btn-tactile flex items-center justify-center gap-2">
+          <span>🚪</span>
+          <span>Đăng Xuất</span>
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Watermark footer -->
+    <div class="text-center mt-6 text-[10px] text-gray-500 font-mono">
+      ARTISAN BAKERY OS • ACCESS CONTROL POLICY ID: 403-FORBIDDEN
+    </div>
+  </div>
+
+</body>
+</html>

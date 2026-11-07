@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Phiếu Đặt Bánh" %} {{ order.order_code }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+  
+    {% if current_portal_role == 'EMPLOYEE' %}
+      <a href="/custom-orders/" class="text-xs text-amber-800 font-bold hover:underline flex items-center gap-1">
+        &larr; {% trans "Bảng Kanban tiến độ Bếp" %}
+      </a>
+    {% else %}
+      <a href="/online/" class="text-xs text-amber-800 font-bold hover:underline flex items-center gap-1">
+        &larr; {% trans "Quay lại Cửa Hàng Bánh" %}
+      </a>
+    {% endif %}
+    <button onclick="window.print()" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+      <span>🖨️ {% trans "In Giấy Hẹn Lấy Bánh" %}</span>
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+    
+    <!-- Left 2 Cols: Order Specification -->
+    <div id="printable-receipt" class="md:col-span-2 bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-5">
+      <div class="flex items-center justify-between pb-4 border-b border-amber-100">
+        <div>
+          <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 text-xs font-mono font-black">
+            {{ order.order_code }}
+          </span>
+          <h1 class="text-xl font-black text-bakery-crust mt-1">{% trans "Phiếu Hẹn Bánh Kem Nghệ Thuật" %}</h1>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold 
+          {% if order.status == 'RECEIVED' %}bg-amber-100 text-amber-900
+          {% elif order.status == 'BAKING' %}bg-orange-100 text-orange-900
+          {% elif order.status == 'READY' %}bg-emerald-100 text-emerald-900
+          {% else %}bg-slate-100 text-slate-900{% endif %}">
+          {{ order.get_status_display }}
+        </span>
+      </div>
+
+      <!-- Customer -->
+      <div class="text-xs space-y-1">
+        <div>{% trans "Khách hàng:" %} <strong class="text-base text-amber-900">{{ order.customer_name }}</strong></div>
+        <div>{% trans "Số điện thoại:" %} <strong>{{ order.customer_phone }}</strong></div>
+        <div>{% trans "Thời gian hẹn nhận:" %} <strong class="text-amber-800 text-sm font-mono">{{ order.pickup_datetime|date:"d/m/Y - H:i" }}</strong></div>
+      </div>
+
+      <!-- Specs Table -->
+      <div class="rounded-2xl bg-amber-50/50 p-4 border border-amber-100 text-xs space-y-2">
+        <div class="grid grid-cols-2 gap-2">
+          <div>{% trans "Cốt bánh:" %} <strong class="text-amber-900">{{ order.cake_base }}</strong></div>
+          <div>{% trans "Vị kem:" %} <strong class="text-amber-900">{{ order.cream_flavor }}</strong></div>
+          <div>{% trans "Kích cỡ:" %} <strong class="text-amber-900">{{ order.size }}</strong></div>
+          <div>{% trans "Ngày đặt:" %} <strong>{{ order.created_at|date:"d/m/Y H:i" }}</strong></div>
+        </div>
+
+        {% if order.custom_message %}
+          <div class="pt-2 border-t border-amber-200">
+            <span class="text-gray-500 block text-[11px]">{% trans "Chữ viết trên bánh:" %}</span>
+            <span class="font-serif italic font-bold text-amber-900 text-sm">"{{ order.custom_message }}"</span>
+          </div>
+        {% endif %}
+
+        {% if order.notes %}
+          <div class="pt-2 border-t border-amber-200">
+            <span class="text-gray-500 block text-[11px]">{% trans "Ghi chú đặc biệt:" %}</span>
+            <span class="font-medium text-gray-800">{{ order.notes }}</span>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Money Breakdown -->
+      <div class="space-y-1.5 text-xs pt-2">
+        <div class="flex justify-between">
+          <span>{% trans "Tổng giá trị đơn bánh:" %}</span>
+          <strong class="text-sm font-bold text-gray-900">{{ order.total_price|floatformat:0 }}đ</strong>
+        </div>
+        <div class="flex justify-between text-emerald-700 font-bold">
+          <span>{% trans "Tiền đặt cọc đã ghi nhận (>= 30%):" %}</span>
+          <span>{{ order.deposit_amount|floatformat:0 }}đ</span>
+        </div>
+        <div class="flex justify-between text-base font-black text-amber-900 pt-2 border-t border-amber-100">
+          <span>{% trans "Còn lại phải thanh toán khi nhận:" %}</span>
+          <span>{{ order.remaining_amount|floatformat:0 }}đ</span>
+        </div>
+      </div>
+
+      <div class="text-center text-[11px] text-gray-400 pt-3 border-t border-dashed border-gray-300">
+        {% trans "Quý khách vui lòng mang theo Giấy hẹn này hoặc đọc SĐT khi đến nhận bánh tại tiệm." %}
+      </div>
+    </div>
+
+    <!-- Right Col: VietQR Deposit Code -->
+    <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm text-center flex flex-col items-center no-print">
+      <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 text-xl flex items-center justify-center mb-2">
+        📲
+      </div>
+      <h3 class="font-black text-sm text-bakery-crust">{% trans "Mã VietQR Đặt Cọc" %}</h3>
+      <p class="text-[11px] text-gray-500 mt-0.5">{% trans "Quét để chuyển khoản tiền cọc" %}</p>
+
+      <div class="my-3 p-2 bg-amber-50 rounded-2xl border border-amber-200">
+        <img src="{{ deposit_qr_url }}" alt="{% trans 'VietQR Đặt cọc' %}" class="w-48 h-48 object-contain rounded-xl">
+      </div>
+
+      <div class="w-full bg-amber-50/60 p-2.5 rounded-xl text-left text-[11px] space-y-1 font-medium">
+        <div class="flex justify-between">
+          <span class="text-gray-500">{% trans "Số tiền cọc:" %}</span>
+          <strong class="text-amber-800 font-bold">{{ order.deposit_amount|floatformat:0 }}đ</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">{% trans "Nội dung CK:" %}</span>
+          <strong class="font-mono text-amber-900 bg-amber-200 px-1 rounded">{{ deposit_desc }}</strong>
+        </div>
+      </div>
+
+      <div class="mt-4 w-full">
+        <button onclick="showToast('{% filter escapejs %}{% trans "Đã xác nhận tiền cọc thành công!" %}{% endfilter %}', 'success')" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition btn-tactile">
+          ✓ {% trans "Đã Nhận Tiền Cọc" %}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

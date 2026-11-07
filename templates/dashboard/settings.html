@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Cài Đặt Hệ Thống & Cấu Hình VietQR" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-3xl p-8 border border-amber-100 shadow-xl space-y-6">
+    
+    <div class="flex items-center gap-3 pb-6 border-b border-amber-100">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold">
+        ⚙️
+      </div>
+      <div>
+        <h1 class="text-xl font-black text-bakery-crust">{% trans "Cài Đặt Hệ Thống & Cấu Hình VietQR" %}</h1>
+        <p class="text-xs text-gray-500">{% trans "Thiết lập tài khoản nhận tiền ngân hàng, thông tin tiệm và chính sách hội viên" %}</p>
+      </div>
+    </div>
+
+    <form method="POST" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Store Info -->
+      <div class="p-4 rounded-2xl bg-amber-50/40 border border-amber-100 space-y-3">
+        <h3 class="font-extrabold text-xs text-amber-900 uppercase tracking-wider">1. {% trans "Thông Tin Tiệm Bánh" %}</h3>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Tên Tiệm Bánh" %} *</label>
+          <input type="text" name="store_name" value="{{ setting.store_name }}" required 
+                 class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-bold focus:ring-2 focus:ring-amber-500 bg-white">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Số điện thoại hotline" %} *</label>
+            <input type="text" name="phone" value="{{ setting.phone }}" required 
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Địa chỉ tiệm bánh" %} *</label>
+            <input type="text" name="address" value="{{ setting.address }}" required 
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+        </div>
+      </div>
+
+      <!-- VietQR Bank Account Settings -->
+      <div class="p-4 rounded-2xl bg-amber-50/40 border-2 border-amber-200 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📲</span>
+          <h3 class="font-extrabold text-xs text-amber-900 uppercase tracking-wider">2. {% trans "Cấu Hình Thanh Toán VietQR Tự Động" %}</h3>
+        </div>
+        <p class="text-[11px] text-gray-500">
+          {% trans "Cấu trúc URL sinh mã QR:" %} <code class="bg-amber-100 px-1 py-0.5 rounded font-mono text-[10px]">https://img.vietqr.io/image/&lt;BANK_ID&gt;-&lt;ACCOUNT_NO&gt;-&lt;TEMPLATE&gt;.png</code>
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Mã Ngân Hàng (BANK_ID)" %} *</label>
+            <input type="text" name="vietqr_bank_id" value="{{ setting.vietqr_bank_id }}" required 
+                   placeholder="{% trans 'VD: MB, VCB, ICB, ACB, TPB...' %}"
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-mono font-bold uppercase focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Số Tài Khoản Nhận Tiền" %} *</label>
+            <input type="text" name="vietqr_account_no" value="{{ setting.vietqr_account_no }}" required 
+                   placeholder="VD: 0912345678"
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-mono font-bold focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Tên Chủ Tài Khoản (In Hoa Không Dấu)" %} *</label>
+            <input type="text" name="vietqr_account_name" value="{{ setting.vietqr_account_name }}" required 
+                   placeholder="VD: TIEM BANH ARTISAN"
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-bold uppercase focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Mẫu hiển thị VietQR (Template)" %} *</label>
+            <select name="vietqr_template" class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-semibold bg-white">
+              <option value="compact2" {% if setting.vietqr_template == 'compact2' %}selected{% endif %}>compact2 ({% trans "Hiện kèm logo ngân hàng & số tiền" %})</option>
+              <option value="compact" {% if setting.vietqr_template == 'compact' %}selected{% endif %}>compact ({% trans "Rút gọn thanh thoát" %})</option>
+              <option value="qr_only" {% if setting.vietqr_template == 'qr_only' %}selected{% endif %}>qr_only ({% trans "Chỉ mã QR lớn thuần túy" %})</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping & VIP Membership Policies -->
+      <div class="p-4 rounded-2xl bg-amber-50/40 border border-amber-100 space-y-3">
+        <h3 class="font-extrabold text-xs text-amber-900 uppercase tracking-wider">3. {% trans "Phí Vận Chuyển & Gói Hội Viên VIP" %}</h3>
+        
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Phí Giao Hàng Mặc Định (COD / Ship tận nơi) (VNĐ)" %} *</label>
+          <input type="number" name="default_shipping_fee" value="{{ setting.default_shipping_fee|floatformat:0 }}" required 
+                 class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-bold focus:ring-2 focus:ring-amber-500 bg-white">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Giá VIP 1 Tháng (VNĐ)" %}</label>
+            <input type="number" name="vip_monthly_price" value="{{ setting.vip_monthly_price|floatformat:0 }}" required 
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Giá VIP 1 Năm (VNĐ)" %}</label>
+            <input type="number" name="vip_yearly_price" value="{{ setting.vip_yearly_price|floatformat:0 }}" required 
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "% Chiết Khấu VIP Mặc Định" %}</label>
+            <input type="number" name="vip_discount_percent" value="{{ setting.vip_discount_percent }}" step="0.5" required 
+                   class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-bold text-amber-800 focus:ring-2 focus:ring-amber-500 bg-white">
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 flex items-center justify-between">
+        <a href="/" class="text-xs text-gray-500 font-bold hover:underline">&larr; {% trans "Về trang chủ" %}</a>
+        <button type="submit" class="px-8 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-sm shadow-md transition btn-tactile">
+          {% trans "LƯU TOÀN BỘ CÀI ĐẶT" %}
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,682 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Giỏ Hàng & Đặt Hàng Online" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Giỏ Hàng Đặt Bánh Trực Tuyến" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Hỗ trợ giao hàng COD tận nơi (phí ship 30.000đ) hoặc nhận trực tiếp tại quầy" %}</p>
+    </div>
+    <a href="/online/" class="text-xs text-amber-800 font-bold hover:underline">&larr; {% trans "Tiếp tục chọn bánh" %}</a>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+    
+    <!-- Left 2 Cols: Cart Items & Delivery Info -->
+    <div class="lg:col-span-2 space-y-4">
+      <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-4">
+        <h2 class="text-base font-black text-bakery-crust pb-3 border-b border-amber-100">{% trans "Các Món Trong Giỏ" %}</h2>
+        <div id="cart-list" class="space-y-3">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- Delivery Info Form -->
+      <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-4">
+        <h2 class="text-base font-black text-bakery-crust pb-3 border-b border-amber-100">{% trans "Thông Tin Nhận Hàng" %}</h2>
+        
+        <div class="space-y-3">
+          <!-- Delivery Type selection -->
+          <div class="grid grid-cols-2 gap-3">
+            <label class="p-3 rounded-2xl border-2 border-amber-600 bg-amber-50/50 cursor-pointer flex items-center gap-2 text-xs font-bold text-amber-900" id="delivery-type-label-DELIVERY">
+              <input type="radio" name="delivery_type" value="DELIVERY" checked onchange="updateDeliveryType('DELIVERY')">
+              <span>🛵 {% trans "Giao hàng tận nơi (+30.000đ)" %}</span>
+            </label>
+            <label class="p-3 rounded-2xl border border-gray-200 cursor-pointer flex items-center gap-2 text-xs font-bold text-gray-700" id="delivery-type-label-STORE_PICKUP">
+              <input type="radio" name="delivery_type" value="STORE_PICKUP" onchange="updateDeliveryType('STORE_PICKUP')">
+              <span>🏪 {% trans "Nhận tại tiệm (Miễn phí ship)" %}</span>
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Họ và tên người nhận" %} *</label>
+              <input type="text" id="cust-name" value="{{ user.get_full_name|default:'' }}" 
+                     class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-amber-500">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Số điện thoại nhận bánh" %} *</label>
+              <input type="text" id="cust-phone" value="{{ user.phone|default:'' }}" 
+                     class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-amber-500">
+            </div>
+          </div>
+
+          <div id="address-field" class="space-y-2.5">
+            <label class="block text-xs font-bold text-gray-700">{% trans "Địa chỉ giao hàng (Nội thành TP.HCM & TP. Hà Nội)" %} *</label>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-600 mb-1">{% trans "Tỉnh / Thành phố" %}</label>
+                <select id="addr-city" onchange="onCityChange()" class="w-full px-3 py-2 rounded-xl border border-amber-200 text-xs bg-white focus:ring-2 focus:ring-amber-500 font-bold text-amber-950">
+                  <option value="TP. Hồ Chí Minh" selected>TP. Hồ Chí Minh</option>
+                  <option value="TP. Hà Nội">TP. Hà Nội</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-600 mb-1">{% trans "Quận nội thành" %}</label>
+                <select id="addr-district" class="w-full px-3 py-2 rounded-xl border border-amber-200 text-xs bg-white focus:ring-2 focus:ring-amber-500 font-semibold text-gray-800">
+                  <!-- Populated by JS -->
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-semibold text-gray-600 mb-1">{% trans "Số nhà, tên đường, phường / xã" %} *</label>
+              <input type="text" id="cust-address-street" placeholder="{% trans 'Ví dụ: 123 Nguyễn Huệ, Phường Bến Nghé' %}" 
+                     class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-amber-500 bg-white">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Ghi chú giao bánh" %}</label>
+            <textarea id="cust-notes" rows="2" placeholder="{% trans 'Lời dặn tài xế, thời gian muốn nhận...' %}" 
+                      class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-amber-500"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Col: Payment Summary & Checkout -->
+    <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-xl space-y-4">
+      <h2 class="text-base font-black text-bakery-crust pb-3 border-b border-amber-100">{% trans "Chi Tiết Thanh Toán" %}</h2>
+
+      <!-- Loyalty points & Coupons -->
+      <div class="space-y-3 text-xs">
+        {% if customer_profile %}
+          <div class="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-extrabold text-amber-950 text-xs block">✨ {% trans "Ví Điểm Tích Lũy Hội Viên" %}</span>
+                <span class="text-[11px] text-amber-800 font-medium">{% trans "Số dư:" %} <strong>{{ customer_profile.points_balance }} {% trans "điểm" %}</strong> (<span data-vnd="{{ customer_profile.points_in_vnd }}">{{ customer_profile.points_in_vnd|floatformat:0 }}đ</span>)</span>
+              </div>
+              <label class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-amber-300 font-bold text-amber-900 cursor-pointer hover:bg-amber-100 transition shadow-xs">
+                <input type="checkbox" id="use-points-box" onchange="renderCheckoutSummary()" class="w-4 h-4 text-amber-600 rounded">
+                <span class="text-xs">{% trans "Dùng điểm" %}</span>
+              </label>
+            </div>
+            <p class="text-[10px] text-gray-500">{% trans "Hệ thống chỉ trừ điểm khi bạn chọn ô trên. Đơn hàng online này sẽ tự động tích lũy thêm 10% điểm vào ví!" %}</p>
+          </div>
+        {% endif %}
+
+        <!-- Coupon Selection & Recommendation Section -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-gray-800 text-xs flex items-center gap-1.5">
+              <span>🎟️</span>
+              <span>{% trans "Mã Khuyến Mãi Khả Dụng" %}</span>
+            </span>
+            <span id="coupon-best-deal-indicator" class="text-[10px] text-amber-700 font-bold hidden">
+              {% trans "Đã chọn mã tốt nhất" %}
+            </span>
+          </div>
+
+          <!-- Dynamic List of Available Coupons with Algorithm & Best Deal Badge -->
+          <div id="available-coupons-container" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+            <!-- Populated via JS algorithm -->
+          </div>
+
+          <!-- Custom code input -->
+          <div class="flex gap-2 pt-1">
+            <input type="text" id="cart-coupon-input" placeholder="{% trans 'Nhập mã khác nếu có...' %}" 
+                   class="flex-1 px-3 py-2 rounded-xl border border-amber-200 text-xs font-mono uppercase focus:ring-2 focus:ring-amber-500">
+            <button id="btn-apply-coupon" onclick="applyOnlineCoupon()" class="px-4 py-2 bg-amber-800 text-white rounded-xl font-bold hover:bg-amber-900 transition btn-tactile text-xs">
+              {% trans "Áp Dụng" %}
+            </button>
+          </div>
+
+          <div id="online-coupon-msg" class="hidden p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🎉</span>
+              <span id="online-coupon-text"></span>
+            </div>
+            <button id="btn-remove-coupon-active" onclick="removeOnlineCoupon()" class="text-xs text-rose-600 font-black hover:underline" title="{% trans 'Bỏ mã' %}">
+              {% trans "Gỡ mã" %}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Lines -->
+      <div class="space-y-2 text-xs text-gray-600 pt-2 border-t border-amber-100">
+        <div class="flex justify-between">
+          <span>{% trans "Tiền hàng:" %}</span>
+          <span id="line-subtotal" class="font-bold text-gray-900">0 đ</span>
+        </div>
+        <div class="flex justify-between">
+          <span>{% trans "Phí vận chuyển:" %}</span>
+          <span id="line-shipping" class="font-bold text-gray-900">30.000 đ</span>
+        </div>
+        <div id="line-coupon-row" class="hidden flex justify-between text-emerald-700 font-bold">
+          <span>{% trans "Giảm giá Voucher:" %}</span>
+          <span id="line-coupon">-0 đ</span>
+        </div>
+        <div id="line-points-row" class="hidden flex justify-between text-amber-800 font-bold">
+          <span>{% trans "Trừ điểm ví:" %}</span>
+          <span id="line-points">-0 đ</span>
+        </div>
+        <div class="flex justify-between text-base font-black text-bakery-crust pt-2 border-t border-amber-200">
+          <span>{% trans "Tổng Thanh Toán:" %}</span>
+          <span id="line-final" class="text-amber-700 text-lg">0 đ</span>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="space-y-2 pt-2 border-t border-amber-100">
+        <span class="text-xs font-bold text-gray-700 block">{% trans "Hình thức thanh toán:" %}</span>
+        <div class="space-y-1.5 text-xs">
+          <label class="p-2.5 rounded-xl border border-amber-200 flex items-center gap-2 cursor-pointer font-bold hover:bg-amber-50">
+            <input type="radio" id="pay-method-cod" name="payment_method" value="COD" checked>
+            <span>💵 {% trans "Thanh toán khi nhận hàng (COD)" %}</span>
+          </label>
+          <label class="p-2.5 rounded-xl border border-amber-200 flex items-center gap-2 cursor-pointer font-bold hover:bg-amber-50">
+            <input type="radio" id="pay-method-transfer" name="payment_method" value="TRANSFER">
+            <span>📲 {% trans "Chuyển khoản VietQR tức thì" %}</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Submit Order Button -->
+      <button onclick="submitOnlineOrder()" id="online-order-btn" 
+              class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-extrabold text-sm shadow-md shadow-amber-600/30 transition btn-tactile">
+        {% trans "XÁC NHẬN ĐẶT HÀNG" %} &rarr;
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Guest Login Prompt Modal -->
+<div id="guest-login-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-amber-100 text-center space-y-4 relative">
+    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 text-3xl flex items-center justify-center mx-auto shadow-inner">
+      🎁
+    </div>
+    <div>
+      <h3 class="text-xl font-black text-bakery-crust">{% trans "Đăng Nhập Để Nhận Ưu Đãi!" %}</h3>
+      <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+        {% trans "Bạn đang mua bánh với tư cách khách vãng lai. Đăng nhập hoặc đăng ký tài khoản để được tự động tích lũy 10% điểm vào ví, hưởng đặc quyền hội viên và theo dõi đơn hàng!" %}
+      </p>
+    </div>
+    <div class="space-y-2 pt-2">
+      <a href="/auth/login/?next=/online/cart/" class="block w-full py-3 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-extrabold text-xs shadow-md shadow-amber-600/30 transition btn-tactile">
+        🔑 {% trans "Đăng Nhập / Đăng Ký Tài Khoản" %}
+      </a>
+      <button type="button" id="btn-guest-continue" onclick="dismissGuestModal()" class="w-full py-2.5 rounded-2xl border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-50 transition">
+        {% trans "Tiếp tục đặt không cần tài khoản" %}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- VietQR Online Payment Modal -->
+<div id="online-vietqr-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl text-center space-y-3 relative">
+    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 text-2xl flex items-center justify-center mx-auto mb-2">📲</div>
+    <h3 class="text-xl font-black text-bakery-crust">{% trans "Quét Mã VietQR Thanh Toán" %}</h3>
+    <p class="text-xs text-gray-500">{% trans "Đơn hàng của bạn đã được ghi nhận! Vui lòng quét mã để thanh toán." %}</p>
+    
+    <div class="p-2 border border-amber-200 rounded-2xl bg-amber-50/50 inline-block my-2">
+      <img id="online-qr-img" src="" alt="VietQR" class="w-60 h-60 object-contain rounded-xl">
+    </div>
+
+    <div class="bg-amber-50 p-3 rounded-xl text-left text-xs space-y-1 font-medium">
+      <div class="flex justify-between"><span>{% trans "Số tiền:" %}</span><strong id="online-qr-amount" class="text-amber-800"></strong></div>
+      <div class="flex justify-between"><span>{% trans "Nội dung CK:" %}</span><strong id="online-qr-desc" class="font-mono text-amber-900 bg-amber-200 px-1 rounded"></strong></div>
+    </div>
+
+    <button id="btn-finish-vietqr-order" onclick="finishOnlineOrder()" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm transition btn-tactile">
+      ✓ {% trans "HOÀN TẤT & VỀ TRANG ĐƠN HÀNG" %}
+    </button>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let onlineCoupon = null;
+  let deliveryType = 'DELIVERY';
+  const IS_AUTHENTICATED = {% if user.is_authenticated %}true{% else %}false{% endif %};
+  const DEFAULT_SHIPPING = {{ setting.default_shipping_fee|stringformat:"d" }};
+  const USER_POINTS = {% if customer_profile %}{{ customer_profile.points_balance|stringformat:"d" }}{% else %}0{% endif %};
+  const IS_VIP = {% if customer_profile and customer_profile.check_vip_active %}true{% else %}false{% endif %};
+  const HAS_BIRTHDAY = {% if user.birthday %}true{% else %}false{% endif %};
+
+  const AVAILABLE_COUPONS = [
+    {% for c in active_coupons %}
+    {
+      code: "{{ c.code }}",
+      title: "{{ c.title|escapejs }}",
+      discount_type: "{{ c.discount_type }}",
+      discount_value: parseFloat("{{ c.discount_value|stringformat:'f' }}") || 0,
+      max_discount_amount: {% if c.max_discount_amount %}parseFloat("{{ c.max_discount_amount|stringformat:'f' }}"){% else %}null{% endif %},
+      min_order_amount: {% if c.min_order_amount %}parseFloat("{{ c.min_order_amount|stringformat:'f' }}"){% else %}0{% endif %},
+      condition_type: "{{ c.condition_type }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  function evaluateCoupon(coupon, subtotal) {
+    if (subtotal < coupon.min_order_amount) {
+      return { eligible: false, discount: 0, reason: `{% trans "Đơn tối thiểu" %} ${formatVND(coupon.min_order_amount)}` };
+    }
+    if (coupon.condition_type === 'VIP_ONLY' && !IS_VIP) {
+      return { eligible: false, discount: 0, reason: '{% trans "Chỉ dành cho Hội Viên VIP" %}' };
+    }
+    if (coupon.condition_type === 'BIRTHDAY' && !HAS_BIRTHDAY) {
+      return { eligible: false, discount: 0, reason: '{% trans "Ưu đãi tháng sinh nhật" %}' };
+    }
+
+    let discount = 0;
+    if (coupon.discount_type === 'PERCENT') {
+      discount = subtotal * (coupon.discount_value / 100);
+      if (coupon.max_discount_amount) {
+        discount = Math.min(discount, coupon.max_discount_amount);
+      }
+    } else {
+      discount = Math.min(subtotal, coupon.discount_value);
+    }
+    return { eligible: true, discount: Math.round(discount), reason: '' };
+  }
+
+  let autoSelectedBestCoupon = false;
+
+  function renderCouponSelector(subtotal) {
+    const container = document.getElementById('available-coupons-container');
+    if (!container) return;
+
+    if (AVAILABLE_COUPONS.length === 0) {
+      container.innerHTML = `<p class="text-gray-400 italic text-[11px]">{% trans "Hiện chưa có mã ưu đãi khả dụng." %}</p>`;
+      return;
+    }
+
+    const evaluations = AVAILABLE_COUPONS.map(c => {
+      const evalRes = evaluateCoupon(c, subtotal);
+      return { coupon: c, ...evalRes };
+    });
+
+    let best = null;
+    evaluations.forEach(e => {
+      if (e.eligible && e.discount > 0) {
+        if (!best || e.discount > best.discount) {
+          best = e;
+        }
+      }
+    });
+
+    // Auto-apply best coupon with Đề xuất tag if not already picked
+    if (best && !onlineCoupon && !autoSelectedBestCoupon && subtotal > 0) {
+      autoSelectedBestCoupon = true;
+      onlineCoupon = {
+        code: best.coupon.code,
+        title: best.coupon.title,
+        discount_amount: best.discount
+      };
+      document.getElementById('cart-coupon-input').value = best.coupon.code;
+      document.getElementById('online-coupon-text').textContent = `${best.coupon.code}: {% trans "Giảm" %} ${formatVND(best.discount)}`;
+      document.getElementById('online-coupon-msg').classList.remove('hidden');
+      const indicator = document.getElementById('coupon-best-deal-indicator');
+      if (indicator) indicator.classList.remove('hidden');
+    }
+
+    container.innerHTML = evaluations.map(e => {
+      const isBest = best && e.coupon.code === best.coupon.code;
+      const isSelected = onlineCoupon && onlineCoupon.code === e.coupon.code;
+
+      return `
+        <div onclick="selectCouponCard('${e.coupon.code}', ${e.eligible})" 
+             class="p-2.5 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-2 ${
+               isSelected ? 'border-amber-600 bg-amber-50/80 shadow-xs ring-1 ring-amber-500' :
+               e.eligible ? 'border-amber-200 bg-white hover:bg-amber-50/40' : 'border-gray-200 bg-gray-50 opacity-60 cursor-not-allowed'
+             }">
+          <div class="flex-1">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-mono text-xs font-black px-2 py-0.5 rounded ${isSelected ? 'bg-amber-800 text-white' : 'bg-amber-100 text-amber-900'}">
+                ${e.coupon.code}
+              </span>
+              ${isBest ? `<span class="px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[10px] font-black uppercase shadow-xs">⭐ {% trans "Đề xuất" %}</span>` : ''}
+              ${isSelected ? `<span class="text-emerald-700 font-extrabold text-[11px]">✓ {% trans "Đang áp dụng" %}</span>` : ''}
+            </div>
+            <div class="text-[11px] font-bold text-gray-800 mt-1">${e.coupon.title}</div>
+            ${e.eligible ? `<span class="text-emerald-700 font-extrabold text-xs block">{% trans "Tiết kiệm" %} ${formatVND(e.discount)}</span>` : `<span class="text-rose-600 text-[10px] block">${e.reason}</span>`}
+          </div>
+          <div>
+            ${isSelected ? `
+              <button type="button" onclick="event.stopPropagation(); removeOnlineCoupon();" class="px-2 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold text-[11px] hover:bg-rose-100">
+                ✕ {% trans "Bỏ" %}
+              </button>
+            ` : e.eligible ? `
+              <button type="button" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 font-bold text-[11px] hover:bg-amber-200">
+                {% trans "Chọn" %}
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function selectCouponCard(code, eligible) {
+    if (!eligible) return;
+    document.getElementById('cart-coupon-input').value = code;
+    applyOnlineCoupon();
+  }
+
+  function updateDeliveryType(type) {
+    deliveryType = type;
+    const addressField = document.getElementById('address-field');
+    const labelDel = document.getElementById('delivery-type-label-DELIVERY');
+    const labelPick = document.getElementById('delivery-type-label-STORE_PICKUP');
+
+    if (type === 'DELIVERY') {
+      addressField.classList.remove('hidden');
+      labelDel.className = 'p-3 rounded-2xl border-2 border-amber-600 bg-amber-50/50 cursor-pointer flex items-center gap-2 text-xs font-bold text-amber-900';
+      labelPick.className = 'p-3 rounded-2xl border border-gray-200 cursor-pointer flex items-center gap-2 text-xs font-bold text-gray-700';
+    } else {
+      addressField.classList.add('hidden');
+      labelDel.className = 'p-3 rounded-2xl border border-gray-200 cursor-pointer flex items-center gap-2 text-xs font-bold text-gray-700';
+      labelPick.className = 'p-3 rounded-2xl border-2 border-amber-600 bg-amber-50/50 cursor-pointer flex items-center gap-2 text-xs font-bold text-amber-900';
+    }
+    renderCheckoutSummary();
+  }
+
+  function renderCartItems() {
+    const cart = JSON.parse(localStorage.getItem('online_cart') || '[]');
+    const container = document.getElementById('cart-list');
+
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <div class="py-12 text-center text-gray-400 space-y-2">
+          <span class="text-4xl block">🛍️</span>
+          <p class="font-bold text-sm">{% trans "Giỏ hàng của bạn đang trống" %}</p>
+          <a href="/online/" class="inline-block px-4 py-2 rounded-xl bg-amber-600 text-white text-xs font-bold">{% trans "Khám phá thực đơn" %} &rarr;</a>
+        </div>
+      `;
+      renderCheckoutSummary();
+      return;
+    }
+
+    container.innerHTML = cart.map(item => `
+      <div id="cart-row-${item.id}" class="p-3 rounded-2xl border border-amber-100 flex items-center justify-between gap-3 text-xs">
+        <div class="w-12 h-12 rounded-xl overflow-hidden bg-amber-50 flex items-center justify-center flex-shrink-0">
+          ${item.image_url ? `<img src="${item.image_url}" class="w-full h-full object-cover">` : `<span class="text-xl">🥖</span>`}
+        </div>
+        <div class="flex-1">
+          <h4 class="font-bold text-gray-900 text-sm">${item.name}</h4>
+          <span class="text-amber-700 font-extrabold">${formatVND(item.price)}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-qty-minus-${item.id}" onclick="changeOnlineQty(${item.id}, -1)" class="w-8 h-8 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold transition btn-tactile text-sm flex items-center justify-center">-</button>
+          <span id="qty-val-${item.id}" class="w-8 text-center font-bold text-sm text-gray-900">${item.quantity}</span>
+          <button id="btn-qty-plus-${item.id}" onclick="changeOnlineQty(${item.id}, 1)" class="w-8 h-8 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold transition btn-tactile text-sm flex items-center justify-center">+</button>
+        </div>
+        <div id="item-total-${item.id}" class="w-24 text-right font-black text-amber-800 text-sm">
+          ${formatVND(item.price * item.quantity)}
+        </div>
+        <button id="btn-remove-${item.id}" onclick="removeOnlineItem(${item.id})" class="text-gray-400 hover:text-rose-600 p-1.5 rounded-lg transition" title="{% trans 'Xóa món' %}">&times;</button>
+      </div>
+    `).join('');
+
+    renderCheckoutSummary();
+  }
+
+  function changeOnlineQty(id, delta) {
+    let cart = JSON.parse(localStorage.getItem('online_cart') || '[]');
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+
+    const newQty = item.quantity + delta;
+    if (newQty <= 0) {
+      cart = cart.filter(i => i.id !== id);
+    } else if (newQty > item.stock) {
+      showToast(`{% trans "Kho chỉ còn" %} ${item.stock} {% trans "cái." %}`, 'warning');
+      return;
+    } else {
+      item.quantity = newQty;
+    }
+    localStorage.setItem('online_cart', JSON.stringify(cart));
+    renderCartItems();
+  }
+
+  function removeOnlineItem(id) {
+    let cart = JSON.parse(localStorage.getItem('online_cart') || '[]');
+    cart = cart.filter(i => i.id !== id);
+    localStorage.setItem('online_cart', JSON.stringify(cart));
+    renderCartItems();
+  }
+
+  function renderCheckoutSummary() {
+    const cart = JSON.parse(localStorage.getItem('online_cart') || '[]');
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const shipping = deliveryType === 'DELIVERY' ? DEFAULT_SHIPPING : 0;
+
+    // Refresh dynamic coupon evaluations
+    renderCouponSelector(subtotal);
+
+    let couponDiscount = 0;
+    if (onlineCoupon) {
+      couponDiscount = onlineCoupon.discount_amount;
+      document.getElementById('line-coupon-row').classList.remove('hidden');
+      document.getElementById('line-coupon').textContent = `-${formatVND(couponDiscount)}`;
+    } else {
+      document.getElementById('line-coupon-row').classList.add('hidden');
+    }
+
+    let pointsDiscount = 0;
+    const usePoints = document.getElementById('use-points-box')?.checked;
+    if (usePoints && USER_POINTS > 0) {
+      const maxPtsDiscount = USER_POINTS * 1000;
+      pointsDiscount = Math.min(maxPtsDiscount, subtotal - couponDiscount);
+      document.getElementById('line-points-row').classList.remove('hidden');
+      document.getElementById('line-points').textContent = `-${formatVND(pointsDiscount)}`;
+    } else {
+      document.getElementById('line-points-row').classList.add('hidden');
+    }
+
+    const finalAmount = Math.max(0, subtotal + shipping - couponDiscount - pointsDiscount);
+
+    document.getElementById('line-subtotal').textContent = formatVND(subtotal);
+    document.getElementById('line-shipping').textContent = formatVND(shipping);
+    document.getElementById('line-final').textContent = formatVND(finalAmount);
+  }
+
+  async function applyOnlineCoupon() {
+    const code = document.getElementById('cart-coupon-input').value.trim();
+    if (!code) return;
+
+    const cart = JSON.parse(localStorage.getItem('online_cart') || '[]');
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+    try {
+      const res = await fetch('/products/api/validate-coupon/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify({ code: code, order_amount: subtotal })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        onlineCoupon = data;
+        document.getElementById('online-coupon-text').textContent = `${data.code}: {% trans "Giảm" %} ${formatVND(data.discount_amount)}`;
+        document.getElementById('online-coupon-msg').classList.remove('hidden');
+        showToast('{% trans "Áp dụng mã khuyến mãi thành công!" %}', 'success');
+        renderCheckoutSummary();
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {}
+  }
+
+  function removeOnlineCoupon() {
+    onlineCoupon = null;
+    document.getElementById('cart-coupon-input').value = '';
+    document.getElementById('online-coupon-msg').classList.add('hidden');
+    const indicator = document.getElementById('coupon-best-deal-indicator');
+    if (indicator) indicator.classList.add('hidden');
+    renderCheckoutSummary();
+  }
+
+  function checkGuestUser() {
+    if (!IS_AUTHENTICATED && !sessionStorage.getItem('guest_checkout_dismissed')) {
+      const modal = document.getElementById('guest-login-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+  }
+
+  function dismissGuestModal() {
+    sessionStorage.setItem('guest_checkout_dismissed', 'true');
+    const modal = document.getElementById('guest-login-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  async function submitOnlineOrder() {
+    const cart = JSON.parse(localStorage.getItem('online_cart') || '[]');
+    if (cart.length === 0) {
+      showToast('{% trans "Giỏ hàng trống!" %}', 'warning');
+      return;
+    }
+
+    if (!IS_AUTHENTICATED && !sessionStorage.getItem('guest_checkout_dismissed')) {
+      checkGuestUser();
+      return;
+    }
+
+    const name = document.getElementById('cust-name').value.trim();
+    const phone = document.getElementById('cust-phone').value.trim();
+    const notes = document.getElementById('cust-notes')?.value.trim() || '';
+    const paymentMethod = document.querySelector('input[name="payment_method"]:checked')?.value || 'COD';
+
+    if (!name) {
+      showToast('{% trans "Vui lòng nhập họ và tên người nhận." %}', 'warning');
+      document.getElementById('cust-name')?.focus();
+      return;
+    }
+    if (!phone) {
+      showToast('{% trans "Vui lòng nhập số điện thoại nhận bánh." %}', 'warning');
+      document.getElementById('cust-phone')?.focus();
+      return;
+    }
+
+    let address = '';
+    if (deliveryType === 'DELIVERY') {
+      const city = document.getElementById('addr-city')?.value || '';
+      const district = document.getElementById('addr-district')?.value || '';
+      const street = document.getElementById('cust-address-street')?.value.trim() || '';
+      if (!street) {
+        showToast('{% trans "Vui lòng điền số nhà, tên đường nhận bánh." %}', 'warning');
+        document.getElementById('cust-address-street')?.focus();
+        return;
+      }
+      address = `${street}, ${district}, ${city}`;
+    }
+
+    let pointsUsed = 0;
+    const usePoints = document.getElementById('use-points-box')?.checked;
+    if (IS_AUTHENTICATED && usePoints && USER_POINTS > 0) {
+      const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      const couponDiscount = onlineCoupon ? onlineCoupon.discount_amount : 0;
+      // Điểm không dùng để trừ phí ship -> points_discount tối đa = subtotal - couponDiscount
+      pointsUsed = Math.min(USER_POINTS, Math.ceil((subtotal - couponDiscount) / 1000));
+    }
+
+    const payload = {
+      items: cart.map(i => ({ id: i.id, quantity: i.quantity })),
+      recipient_name: name,
+      recipient_phone: phone,
+      delivery_type: deliveryType,
+      shipping_address: address,
+      notes: notes,
+      coupon_code: onlineCoupon ? onlineCoupon.code : '',
+      points_used: pointsUsed,
+      payment_method: paymentMethod,
+    };
+
+    try {
+      const btn = document.getElementById('online-order-btn');
+      btn.disabled = true;
+      btn.textContent = '{% trans "Đang xử lý đơn..." %}';
+
+      const res = await fetch('/online/api/checkout/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      btn.disabled = false;
+      btn.textContent = '{% trans "XÁC NHẬN ĐẶT HÀNG" %} →';
+
+      if (data.status === 'success') {
+        localStorage.removeItem('online_cart');
+
+        let successMsg = data.message;
+        if (data.points_earned > 0) {
+          successMsg += ` ({% trans "Tích lũy +" %}${data.points_earned} {% trans "điểm" %})`;
+        }
+
+        if (data.vietqr_url) {
+          document.getElementById('online-qr-img').src = data.vietqr_url;
+          document.getElementById('online-qr-amount').textContent = formatVND(data.final_amount);
+          document.getElementById('online-qr-desc').textContent = data.vietqr_desc;
+          document.getElementById('online-vietqr-modal').classList.remove('hidden');
+        } else {
+          showToast(successMsg, 'success');
+          setTimeout(() => {
+            window.location.href = IS_AUTHENTICATED ? '/online/my-orders/' : '/online/';
+          }, 1500);
+        }
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi khi gửi đơn hàng." %}', 'error');
+    }
+  }
+
+  function finishOnlineOrder() {
+    window.location.href = IS_AUTHENTICATED ? '/online/my-orders/' : '/online/';
+  }
+
+  // Cascading Dropdown for Hanoi and HCM Inner Cities
+  const CITIES_DISTRICTS = {
+    'TP. Hồ Chí Minh': [
+      'Quận 1', 'Quận 3', 'Quận 4', 'Quận 5', 'Quận 6', 'Quận 7', 'Quận 8', 'Quận 10', 'Quận 11',
+      'Quận Phú Nhuận', 'Quận Bình Thạnh', 'Quận Tân Bình', 'Quận Tân Phú', 'Quận Gò Vấp', 'TP. Thủ Đức'
+    ],
+    'TP. Hà Nội': [
+      'Quận Ba Đình', 'Quận Hoàn Kiếm', 'Quận Đống Đa', 'Quận Hai Bà Trưng', 'Quận Cầu Giấy',
+      'Quận Tây Hồ', 'Quận Thanh Xuân', 'Quận Hoàng Mai', 'Quận Long Biên', 'Quận Nam Từ Liêm',
+      'Quận Bắc Từ Liêm', 'Quận Hà Đông'
+    ]
+  };
+
+  function onCityChange() {
+    const city = document.getElementById('addr-city')?.value || 'TP. Hồ Chí Minh';
+    const districtSelect = document.getElementById('addr-district');
+    if (!districtSelect) return;
+    const districts = CITIES_DISTRICTS[city] || [];
+    districtSelect.innerHTML = districts.map(d => `<option value="${d}">${d}</option>`).join('');
+  }
+
+  // Currency change listener to re-render prices smoothly
+  window.addEventListener('currencyChanged', () => {
+    renderCartItems();
+  });
+
+  onCityChange();
+  renderCartItems();
+  checkGuestUser();
+</script>
+{% endblock %}

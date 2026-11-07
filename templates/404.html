@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Chưa Ai Build Đường Dẫn Này - Artisan Bakery</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FAF6F0;
+      color: #261309;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    .artisan-card {
+      background: #FFFDF9;
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      box-shadow: 0 20px 40px -15px rgba(180, 83, 9, 0.15), 0 0 20px rgba(245, 158, 11, 0.08);
+    }
+    .btn-tactile:active {
+      transform: scale(0.96);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+    .floating-baker {
+      animation: float 3.5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4 sm:p-6 overflow-x-hidden select-none">
+
+  <div class="w-full max-w-xl artisan-card rounded-3xl p-6 sm:p-10 relative overflow-hidden transition-all my-auto text-center">
+    <!-- Decorative background elements -->
+    <div class="absolute -top-16 -right-16 w-36 h-36 bg-amber-200/50 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="absolute -bottom-16 -left-16 w-36 h-36 bg-orange-200/40 rounded-full blur-2xl pointer-events-none"></div>
+
+    <!-- 404 Bakery Construction Badge -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 border border-amber-300/80 text-amber-900 text-xs font-black tracking-wider uppercase mb-5">
+      <span>🥐</span>
+      <span>404 • Đường Dẫn Đang Xây Dựng</span>
+      <span>🏗️</span>
+    </div>
+
+    <!-- Bakery Illustration -->
+    <div class="flex justify-center mb-6">
+      <div class="floating-baker relative w-24 h-24 rounded-3xl bg-amber-50 border-2 border-amber-200 flex items-center justify-center text-5xl shadow-md">
+        🧁
+        <span class="absolute -bottom-2 -right-2 text-2xl bg-amber-700 text-white w-8 h-8 rounded-full flex items-center justify-center shadow">
+          🔨
+        </span>
+      </div>
+    </div>
+
+    <!-- Exact User-Requested Headline -->
+    <h1 class="text-2xl sm:text-3xl font-black text-amber-950 tracking-tight leading-snug mb-3">
+      “Hình như chưa ai build đường dẫn này, bạn có muốn build không?”
+    </h1>
+
+    <p class="text-xs sm:text-sm text-amber-800/80 mb-6 font-medium max-w-md mx-auto">
+      Đường dẫn <code class="px-2 py-0.5 rounded bg-amber-100 font-mono text-amber-950 font-bold">{{ request.path }}</code> hiện chưa có trong lò nướng của tiệm bánh chúng mình.
+    </p>
+
+    <!-- Two Main Choice Buttons: Có / Không -->
+    <div id="choice-buttons-container" class="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-6">
+      <!-- Nút "Có" -->
+      <button type="button" id="btn-build-yes" onclick="handleBuildChoice(true)" 
+              class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-black text-sm shadow-lg shadow-amber-600/30 transition hover:-translate-y-0.5 btn-tactile flex items-center justify-center gap-2">
+        <span>✨</span>
+        <span>Có, mình muốn build!</span>
+      </button>
+
+      <!-- Nút "Không" -->
+      <a href="{% if request.portal_role == 'CUSTOMER' %}{% url 'dashboard:online_catalog' %}{% else %}/{% endif %}" id="btn-build-no" 
+         class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-amber-100/80 hover:bg-amber-200 text-amber-950 font-bold text-sm border border-amber-300 transition hover:-translate-y-0.5 btn-tactile flex items-center justify-center gap-2">
+        <span>🏠</span>
+        <span>Không, về trang chủ</span>
+      </a>
+    </div>
+
+    <!-- Admin Contact Box (Revealed when clicking "Có") -->
+    <div id="admin-contact-box" class="hidden transition-all duration-300 text-left bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-300 rounded-2xl p-5 mb-6 shadow-sm">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xl">📬</span>
+        <h3 class="text-sm sm:text-base font-black text-amber-950 uppercase tracking-wide">
+          Liên hệ admin để build:
+        </h3>
+      </div>
+      
+      <p class="text-xs text-amber-900/80 mb-3">
+        Hãy gửi email cho quản trị viên tiệm bánh để đề xuất tính năng hoặc yêu cầu mở đường dẫn này nhé!
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-white p-2.5 rounded-xl border border-amber-200">
+        <div class="flex-1 flex items-center gap-2 px-2 overflow-hidden">
+          <span class="text-amber-700 text-sm">📧</span>
+          <span id="admin-email-val" class="font-mono text-sm sm:text-base font-black text-amber-950 truncate select-all">
+            {{ admin_email|default:"admin@bakery.local" }}
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button type="button" onclick="copyAdminEmail()" class="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition btn-tactile flex items-center justify-center gap-1">
+            <span id="copy-icon">📋</span>
+            <span id="copy-text">Sao chép</span>
+          </button>
+          <a href="mailto:{{ admin_email|default:'admin@bakery.local' }}?subject=Yêu%20cầu%20build%20tính%20năng%20mới:%20{{ request.path|urlencode }}&body=Chào%20Admin,%0A%0ATôi%20muốn%20đề%20xuất%20build%20đường%20dẫn:%20{{ request.build_absolute_uri|urlencode }}%0ACảm%20ơn%20bạn!"
+             class="flex-1 sm:flex-none px-3.5 py-2 rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs shadow-xs transition btn-tactile flex items-center justify-center gap-1">
+            <span>✉️</span>
+            <span>Gửi Mail</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-amber-200/60 flex items-center justify-between text-xs">
+        <span class="text-amber-800/70">Cần mua bánh ngay?</span>
+        <a href="{% if request.portal_role == 'CUSTOMER' %}{% url 'dashboard:online_catalog' %}{% else %}/{% endif %}" class="font-bold text-amber-800 hover:text-amber-950 underline">
+          Về Menu Bánh Thơm Ngon →
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer brand -->
+    <div class="text-[11px] text-amber-800/60 font-medium">
+      Tiệm Bánh Thủ Công Artisan Bakery • Hotline: 0912 345 678
+    </div>
+  </div>
+
+  <script>
+    function handleBuildChoice(wantBuild) {
+      if (wantBuild) {
+        const contactBox = document.getElementById('admin-contact-box');
+        if (contactBox) {
+          contactBox.classList.remove('hidden');
+          contactBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        const yesBtn = document.getElementById('btn-build-yes');
+        if (yesBtn) {
+          yesBtn.classList.add('ring-2', 'ring-amber-500', 'ring-offset-2');
+        }
+      }
+    }
+
+    function copyAdminEmail() {
+      const emailElem = document.getElementById('admin-email-val');
+      if (!emailElem) return;
+      const email = emailElem.innerText.trim();
+      navigator.clipboard.writeText(email).then(() => {
+        const copyText = document.getElementById('copy-text');
+        const copyIcon = document.getElementById('copy-icon');
+        if (copyText) copyText.textContent = 'Đã chép!';
+        if (copyIcon) copyIcon.textContent = '✅';
+        setTimeout(() => {
+          if (copyText) copyText.textContent = 'Sao chép';
+          if (copyIcon) copyIcon.textContent = '📋';
+        }, 2500);
+      }).catch(err => {
+        alert('Email Admin: ' + email);
+      });
+    }
+  </script>
+
+</body>
+</html>

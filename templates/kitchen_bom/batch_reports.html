@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Báo Cáo Từng Mẻ Bánh & Kiểm Soát Hao Hụt" %} - Artisan Bakery{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <a href="{% url 'kitchen:kitchen_screen' %}" class="text-xs font-bold text-amber-800 hover:underline">
+          &larr; {% trans "Quay lại Bếp" %}
+        </a>
+        <span class="text-gray-300">|</span>
+        <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">{% trans "Kiểm toán mẻ nướng" %}</span>
+      </div>
+      <h1 class="text-2xl font-black text-bakery-crust mt-1">{% trans "Báo Cáo Mẻ Bánh & Định Mức Hao Hụt" %}</h1>
+      <p class="text-xs text-gray-500">
+        {% trans "Theo dõi chi tiết từng mẻ nướng, định mức nguyên liệu BOM, sản lượng KCS và 4 cấp độ cảnh báo hao hụt" %}
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="{% url 'kitchen:counter_barcode_sheet' %}" target="_blank" class="px-4 py-2.5 rounded-2xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-xs shadow-sm flex items-center gap-1.5 transition btn-tactile">
+        <span>📋</span>
+        <span>{% trans "Bảng Mã Vạch Quầy POS" %}</span>
+      </a>
+      <a href="{% url 'kitchen:batch_create' %}" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-600/30 flex items-center gap-1.5 transition btn-tactile">
+        <span>+</span>
+        <span>{% trans "Tạo Mẻ Bánh Mới" %}</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- KPI Summary Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white p-5 rounded-3xl border border-amber-100 shadow-sm space-y-1">
+      <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{% trans "Tổng Mẻ Nghiệm Thu" %}</div>
+      <div class="text-3xl font-black text-amber-950 font-mono">{{ total_batches }}</div>
+      <div class="text-[10px] text-gray-400">{% trans "Tổng bánh ra lò:" %} <strong class="text-gray-700">{{ total_baked_cakes }} chiếc</strong></div>
+    </div>
+
+    <div class="bg-white p-5 rounded-3xl border border-amber-100 shadow-sm space-y-1">
+      <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{% trans "Hao Hụt Trung Bình" %}</div>
+      <div class="text-3xl font-black text-amber-600 font-mono">{{ avg_waste }}%</div>
+      <div class="text-[10px] text-gray-400">{% trans "Mục tiêu tối ưu: ≤ 5.0%" %}</div>
+    </div>
+
+    <div class="bg-white p-5 rounded-3xl border border-amber-100 shadow-sm space-y-1">
+      <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{% trans "Mẻ Đạt Chuẩn (0-5%)" %}</div>
+      <div class="text-3xl font-black text-emerald-600 font-mono">{{ good_count }}</div>
+      <div class="text-[10px] text-emerald-700 font-medium">{% trans "Hao hụt tối ưu tiêu chuẩn" %}</div>
+    </div>
+
+    <div class="bg-white p-5 rounded-3xl border border-rose-100 bg-rose-50/20 shadow-sm space-y-1">
+      <div class="text-[11px] font-bold text-rose-700 uppercase tracking-wider">{% trans "Báo Động Đỏ (>15%)" %}</div>
+      <div class="text-3xl font-black text-rose-600 font-mono">{{ critical_count }}</div>
+      <div class="text-[10px] text-rose-600 font-bold">{% trans "Cần thanh tra & xử lý ngay" %}</div>
+    </div>
+  </div>
+
+  <!-- 4-Level Standards Legend -->
+  <div class="bg-amber-50/60 p-4 rounded-3xl border border-amber-200/70 text-xs flex flex-wrap items-center justify-between gap-3">
+    <div class="font-bold text-amber-900 flex items-center gap-1.5">
+      <span>📐</span>
+      <span>{% trans "Quy chuẩn nghiệm thu mẻ nướng 4 cấp độ:" %}</span>
+    </div>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300">
+        ● 0 - 5%: {% trans "Tốt (Đạt chuẩn nghệ nhân)" %}
+      </span>
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black bg-blue-100 text-blue-800 border border-blue-300">
+        ● 5 - 10%: {% trans "Bình thường" %}
+      </span>
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black bg-amber-100 text-amber-800 border border-amber-300">
+        ● 10 - 15%: {% trans "Cảnh báo kỹ thuật" %}
+      </span>
+      <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+        ● > 15%: {% trans "BÁO ĐỘNG ĐỎ" %}
+      </span>
+    </div>
+  </div>
+
+  <!-- Filters & Table -->
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-amber-100 bg-amber-50/30 flex flex-col gap-3">
+      <!-- Quick Filter Pills -->
+      <div class="flex flex-wrap items-center gap-1.5 pb-2 w-full border-b border-amber-100/60">
+        <span class="text-xs font-bold text-gray-500 mr-1">{% trans "Bộ lọc nhanh:" %}</span>
+        <a href="{% url 'kitchen:batch_reports' %}" id="filter-tier-all" class="px-3 py-1 rounded-xl text-xs font-bold transition btn-tactile {% if not selected_tier %}bg-amber-800 text-white shadow-xs{% else %}bg-white border border-amber-200 text-gray-700 hover:bg-amber-50{% endif %}">
+          {% trans "Tất cả" %}
+        </a>
+        <a href="{% url 'kitchen:batch_reports' %}?tier=GOOD" id="filter-tier-good" class="px-3 py-1 rounded-xl text-xs font-bold transition btn-tactile {% if selected_tier == 'GOOD' %}bg-emerald-600 text-white shadow-xs{% else %}bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100{% endif %}">
+          ● {% trans "Tốt (0-5%)" %}
+        </a>
+        <a href="{% url 'kitchen:batch_reports' %}?tier=NORMAL" id="filter-tier-normal" class="px-3 py-1 rounded-xl text-xs font-bold transition btn-tactile {% if selected_tier == 'NORMAL' %}bg-blue-600 text-white shadow-xs{% else %}bg-blue-50 border border-blue-200 text-blue-800 hover:bg-blue-100{% endif %}">
+          ● {% trans "Bình thường (5-10%)" %}
+        </a>
+        <a href="{% url 'kitchen:batch_reports' %}?tier=WARNING" id="filter-tier-warning" class="px-3 py-1 rounded-xl text-xs font-bold transition btn-tactile {% if selected_tier == 'WARNING' %}bg-amber-600 text-white shadow-xs{% else %}bg-amber-50 border border-amber-200 text-amber-900 hover:bg-amber-100{% endif %}">
+          ● {% trans "Cảnh báo (10-15%)" %}
+        </a>
+        <a href="{% url 'kitchen:batch_reports' %}?tier=CRITICAL" id="filter-tier-critical" class="px-3 py-1 rounded-xl text-xs font-bold transition btn-tactile {% if selected_tier == 'CRITICAL' %}bg-rose-600 text-white shadow-xs animate-pulse{% else %}bg-rose-50 border border-rose-200 text-rose-800 hover:bg-rose-100{% endif %}">
+          ● {% trans "Báo động đỏ (>15%)" %}
+        </a>
+      </div>
+
+      <form method="GET" class="flex flex-wrap items-center gap-3 text-xs">
+        <div>
+          <label class="font-bold text-gray-600 mr-1">{% trans "Lọc theo cấp độ:" %}</label>
+          <select id="select-tier-filter" name="tier" onchange="this.form.submit()" class="px-3 py-1.5 rounded-xl border border-amber-200 font-bold bg-white text-xs">
+            <option value="">{% trans "-- Tất cả cấp độ --" %}</option>
+            <option value="GOOD" {% if selected_tier == 'GOOD' %}selected{% endif %}>{% trans "Tốt (0 - 5%)" %}</option>
+            <option value="NORMAL" {% if selected_tier == 'NORMAL' %}selected{% endif %}>{% trans "Bình thường (5 - 10%)" %}</option>
+            <option value="WARNING" {% if selected_tier == 'WARNING' %}selected{% endif %}>{% trans "Cảnh báo (10 - 15%)" %}</option>
+            <option value="CRITICAL" {% if selected_tier == 'CRITICAL' %}selected{% endif %}>{% trans "Báo động đỏ (> 15%)" %}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold text-gray-600 mr-1">{% trans "Trạng thái:" %}</label>
+          <select id="select-status-filter" name="status" onchange="this.form.submit()" class="px-3 py-1.5 rounded-xl border border-amber-200 font-bold bg-white text-xs">
+            <option value="">{% trans "-- Tất cả trạng thái --" %}</option>
+            <option value="COMPLETED" {% if selected_status == 'COMPLETED' %}selected{% endif %}>{% trans "Đã nghiệm thu" %}</option>
+            <option value="IN_PROGRESS" {% if selected_status == 'IN_PROGRESS' %}selected{% endif %}>{% trans "Đang nướng" %}</option>
+            <option value="PENDING" {% if selected_status == 'PENDING' %}selected{% endif %}>{% trans "Chờ chuẩn bị" %}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="font-bold text-gray-600 mr-1">{% trans "Ngày nướng:" %}</label>
+          <input type="date" id="input-date-filter" name="date" value="{{ selected_date }}" onchange="this.form.submit()" class="px-3 py-1.5 rounded-xl border border-amber-200 font-mono text-xs">
+        </div>
+
+        {% if selected_tier or selected_status or selected_date %}
+          <a href="{% url 'kitchen:batch_reports' %}" id="btn-clear-tier-filter" class="text-rose-600 font-bold hover:underline">
+            ✕ {% trans "Bỏ lọc" %}
+          </a>
+        {% endif %}
+      </form>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3 px-4">{% trans "Mã Mẻ Bánh" %}</th>
+            <th class="py-3 px-4">{% trans "Sản Phẩm Bánh" %}</th>
+            <th class="py-3 px-4">{% trans "Thợ Phụ Trách" %}</th>
+            <th class="py-3 px-4 text-center">{% trans "Kế Hoạch / Ra Lò" %}</th>
+            <th class="py-3 px-4 text-center">{% trans "Hao Hụt Thực Tế" %}</th>
+            <th class="py-3 px-4 text-center">{% trans "Đánh Giá Kiểm Toán" %}</th>
+            <th class="py-3 px-4">{% trans "Thời Gian Hoàn Tất" %}</th>
+            <th class="py-3 px-4 text-center">{% trans "Thao Tác" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for item in batches %}
+            {% with b=item.obj tier=item.tier %}
+              <tr id="batch-row-{{ b.id }}" data-tier="{{ tier.code }}" class="hover:bg-amber-50/30 transition {% if tier.code == 'CRITICAL' %}bg-rose-50/40{% elif tier.code == 'WARNING' %}bg-amber-50/20{% endif %}">
+                <td class="py-3.5 px-4 font-mono font-bold text-amber-950">
+                  <span id="batch-code-{{ b.id }}" class="bg-amber-100 px-2 py-0.5 rounded text-[11px]">{{ b.batch_code }}</span>
+                </td>
+                <td class="py-3.5 px-4">
+                  <div class="font-bold text-gray-900 text-sm">{{ b.product.name }}</div>
+                  <div class="text-[10px] text-gray-400 font-mono">SKU: {{ b.product.sku_code }}</div>
+                </td>
+                <td class="py-3.5 px-4 text-gray-700">
+                  {{ b.baker.get_full_name|default:b.baker.username|default:"---" }}
+                </td>
+                <td class="py-3.5 px-4 text-center font-mono">
+                  <span class="text-gray-500">{{ b.planned_quantity }}</span>
+                  <span class="text-gray-300">→</span>
+                  <span class="font-black text-sm text-emerald-800">{{ b.actual_quantity }}</span>
+                  <span class="text-[10px] text-gray-400">cái</span>
+                </td>
+                <td class="py-3.5 px-4 text-center font-mono font-black text-sm" style="color: {{ tier.color }};">
+                  {{ b.waste_rate }}%
+                </td>
+                <td class="py-3.5 px-4 text-center">
+                  <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black border"
+                        style="background-color: {{ tier.bg_color }}; color: {{ tier.color }}; border-color: {{ tier.border_color }};">
+                    ● {{ tier.label }}
+                  </span>
+                  {% if tier.code == 'CRITICAL' %}
+                    <div class="text-[9px] text-rose-600 font-extrabold mt-0.5 animate-pulse">⚠️ Báo động đỏ</div>
+                  {% endif %}
+                </td>
+                <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">
+                  {% if b.completed_at %}
+                    {{ b.completed_at|date:"d/m/Y H:i" }}
+                  {% else %}
+                    <span class="text-amber-700 font-bold">{% trans "Đang nướng..." %}</span>
+                  {% endif %}
+                </td>
+                <td class="py-3.5 px-4 text-center">
+                  {% if b.status == 'COMPLETED' %}
+                    <a href="{% url 'kitchen:batch_print_labels' b.id %}" class="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold transition text-[11px]">
+                      🏷️ {% trans "In Tem" %}
+                    </a>
+                  {% else %}
+                    <a href="{% url 'kitchen:batch_complete' b.id %}" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition text-[11px]">
+                      ✓ {% trans "Nghiệm Thu" %}
+                    </a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endwith %}
+          {% empty %}
+            <tr>
+              <td colspan="8" class="py-8 text-center text-gray-400 font-medium">
+                {% trans "Chưa có mẻ bánh nào khớp với bộ lọc." %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

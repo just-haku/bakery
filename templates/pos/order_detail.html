@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Hóa Đơn" %} {{ order.order_code }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8 space-y-4">
+  
+  <div class="flex items-center justify-between no-print">
+    <a href="/pos/orders/" class="text-xs text-amber-800 font-bold hover:underline flex items-center gap-1">
+      &larr; {% trans "Quay lại danh sách" %}
+    </a>
+    <button onclick="window.print()" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+      <span>🖨️ {% trans "In Hóa Đơn Nhiệt" %}</span>
+    </button>
+  </div>
+
+  <!-- Printable Thermal Card -->
+  <div id="printable-receipt" class="bg-white rounded-3xl p-6 border border-gray-200 shadow-lg font-mono text-xs text-gray-800">
+    <div class="text-center pb-3 border-b border-dashed border-gray-400">
+      <h2 class="font-black text-base">{{ setting.store_name }}</h2>
+      <p>{{ setting.address }}</p>
+      <p>{% trans "Hotline:" %} {{ setting.phone }}</p>
+      <h3 class="font-black text-sm mt-2 uppercase">{% trans "HÓA ĐƠN BÁN HÀNG" %}</h3>
+      <p class="text-[11px] font-bold text-amber-900">{% trans "Mã:" %} {{ order.order_code }}</p>
+      <p class="text-[10px]">{% trans "Thời gian:" %} {{ order.created_at|date:"d/m/Y H:i:s" }}</p>
+      <p class="text-[10px]">{% trans "Thu ngân:" %} {{ order.cashier.get_full_name|default:order.cashier.username|default:_("Online") }}</p>
+      {% if order.customer %}
+        <p class="text-[10px] text-amber-800 font-bold">{% trans "Khách hàng:" %} {{ order.customer.full_name }} ({{ order.customer.phone }})</p>
+      {% endif %}
+    </div>
+
+    <!-- Items -->
+    <table class="w-full my-3 text-left">
+      <thead>
+        <tr class="border-b border-gray-400">
+          <th class="py-1">{% trans "Món Bánh" %}</th>
+          <th class="py-1 text-center">{% trans "SL" %}</th>
+          <th class="py-1 text-right">{% trans "Đơn Giá" %}</th>
+          <th class="py-1 text-right">{% trans "T.Tiền" %}</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for it in order.items.all %}
+          <tr>
+            <td class="py-1.5">{{ it.product.name }}</td>
+            <td class="py-1.5 text-center">{{ it.quantity }}</td>
+            <td class="py-1.5 text-right">{{ it.unit_price|floatformat:0 }}đ</td>
+            <td class="py-1.5 text-right font-bold">{{ it.subtotal|floatformat:0 }}đ</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Totals -->
+    <div class="border-t border-dashed border-gray-400 pt-2 space-y-1">
+      <div class="flex justify-between">
+        <span>{% trans "Tiền hàng ban đầu:" %}</span>
+        <span>{{ order.subtotal|floatformat:0 }}đ</span>
+      </div>
+      {% if order.shipping_fee > 0 %}
+      <div class="flex justify-between">
+        <span>{% trans "Phí vận chuyển:" %}</span>
+        <span>+{{ order.shipping_fee|floatformat:0 }}đ</span>
+      </div>
+      {% endif %}
+      {% if order.discount_amount > 0 %}
+      <div class="flex justify-between text-emerald-700">
+        <span>{% trans "Giảm giá (Coupon/VIP):" %}</span>
+        <span>-{{ order.discount_amount|floatformat:0 }}đ</span>
+      </div>
+      {% endif %}
+      {% if order.points_discount_amount > 0 %}
+      <div class="flex justify-between text-amber-800">
+        <span>{% trans "Trừ điểm ví" %} ({{ order.points_used }} {% trans "điểm" %}):</span>
+        <span>-{{ order.points_discount_amount|floatformat:0 }}đ</span>
+      </div>
+      {% endif %}
+
+      <div class="flex justify-between font-black text-sm pt-1.5 border-t border-gray-400 text-amber-900">
+        <span>{% trans "TỔNG THANH TOÁN:" %}</span>
+        <span>{{ order.final_amount|floatformat:0 }}đ</span>
+      </div>
+
+      <!-- Payment Breakdown -->
+      <div class="pt-1.5 border-t border-gray-200 text-[11px] space-y-0.5">
+        <div class="flex justify-between">
+          <span>{% trans "Phương thức:" %}</span>
+          <span class="font-bold">{{ order.get_payment_method_display }}</span>
+        </div>
+        {% if order.cash_paid > 0 %}
+        <div class="flex justify-between">
+          <span>{% trans "Tiền mặt trả:" %}</span>
+          <span>{{ order.cash_paid|floatformat:0 }}đ</span>
+        </div>
+        {% endif %}
+        {% if order.transfer_paid > 0 %}
+        <div class="flex justify-between">
+          <span>{% trans "Chuyển khoản VietQR:" %}</span>
+          <span>{{ order.transfer_paid|floatformat:0 }}đ</span>
+        </div>
+        {% endif %}
+        {% if order.change_amount > 0 %}
+        <div class="flex justify-between text-emerald-800 font-bold">
+          <span>{% trans "Tiền thừa thối lại:" %}</span>
+          <span>{{ order.change_amount|floatformat:0 }}đ</span>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if order.points_earned > 0 %}
+      <div class="flex justify-between text-xs text-emerald-800 font-bold pt-1.5 border-t border-dashed border-gray-300">
+        <span>{% trans "Điểm tích lũy hóa đơn này (+10%):" %}</span>
+        <span>+{{ order.points_earned }} {% trans "điểm" %}</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="text-center pt-4 mt-4 border-t border-dashed border-gray-400 text-[10px]">
+      <p>{% trans "Cảm ơn Quý khách & Hẹn gặp lại!" %}</p>
+      <p>{% trans "Hân hạnh phục vụ Quý khách!" %}</p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

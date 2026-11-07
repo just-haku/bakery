@@ -1,0 +1,87 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C and C++ extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django stuff
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Word Documents, Diagrams & Reports 
+*.docx
+*.doc
+reports/
+report_assets/
+static/report_assets/
+staticfiles/
+staticfiles/report_assets/
+*.zip
+
+# Test scripts & Headless automation
+scripts/
+*.headless.py
+
+# Mobile APK builds, thermo printer raw APKs & Keystores
+thermo_printer/
+dist_apk/
+*.apk
+*.idsig
+*.keystore
+*.jks
+mobile_apps/keystore/
+mobile_apps/**/build/
+
+# Docker persistence and MySQL database volumes
+docker-data/
+docker-data/*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+
+# Temporary scratch and subagent logs
+.agent/
+.gemini/
+scratch/
+/cookies.txt
+/post_login.html
+/login.html

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <rect width="400" height="400" fill="#FAF6F0" />
+  <!-- Cake Stand -->
+  <path d="M140 330 L260 330 L240 290 L160 290 Z" fill="#E5D5C5" />
+  <ellipse cx="200" cy="290" rx="130" ry="16" fill="#D7C3B1" />
+  <!-- Cake Base Tier -->
+  <rect x="110" y="200" width="180" height="85" rx="10" fill="#E8B87A" />
+  <ellipse cx="200" cy="200" rx="90" ry="18" fill="#FCE7D0" />
+  <!-- Drips of Cream -->
+  <path d="M110 205 C115 225, 125 225, 130 205 C135 235, 145 235, 150 205 C160 240, 175 240, 185 205 C195 235, 205 235, 215 205 C225 240, 240 240, 250 205 C260 230, 275 230, 285 205 L290 205" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" />
+  <!-- Top Tier -->
+  <rect x="135" y="140" width="130" height="65" rx="8" fill="#F49D37" />
+  <ellipse cx="200" cy="140" rx="65" ry="14" fill="#FFE8D6" />
+  <!-- Cherry / Strawberry on top -->
+  <circle cx="200" cy="115" r="15" fill="#E63946" />
+  <path d="M200 102 C205 90, 215 88, 220 85" stroke="#2B9348" stroke-width="3" fill="none" stroke-linecap="round" />
+  <!-- Text -->
+  <text x="200" y="370" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle" letter-spacing="1">ARTISAN BAKERY CAKE</text>
+</svg>

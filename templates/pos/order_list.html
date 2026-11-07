@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Lịch Sử Hóa Đơn Bán Hàng" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Lịch Sử Hóa Đơn Bán Hàng" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Xem lại và in lại các giao dịch tại quầy POS & Đơn Online" %}</p>
+    </div>
+    <a href="/pos/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+      <span>+ {% trans "Vào Quầy Bán Lẻ POS" %}</span>
+    </a>
+  </div>
+
+  <!-- Filters -->
+  <div class="bg-white rounded-2xl p-4 border border-amber-100 shadow-sm flex flex-wrap items-center gap-3">
+    <form method="GET" class="flex flex-wrap items-center gap-3 w-full">
+      <input type="text" name="q" value="{{ search_query }}" placeholder="{% trans 'Mã hóa đơn (HD...) hoặc SĐT khách...' %}" 
+             class="flex-1 min-w-[240px] px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-amber-500">
+      
+      <select name="payment" class="px-3 py-2.5 rounded-xl border border-amber-200 text-xs font-semibold">
+        <option value="">{% trans "Tất cả hình thức TT" %}</option>
+        <option value="CASH" {% if payment_filter == 'CASH' %}selected{% endif %}>{% trans "Tiền mặt" %}</option>
+        <option value="TRANSFER" {% if payment_filter == 'TRANSFER' %}selected{% endif %}>{% trans "Chuyển khoản VietQR" %}</option>
+        <option value="SPLIT" {% if payment_filter == 'SPLIT' %}selected{% endif %}>{% trans "Tách thanh toán" %}</option>
+        <option value="COD" {% if payment_filter == 'COD' %}selected{% endif %}>{% trans "COD" %}</option>
+      </select>
+
+      <button type="submit" class="px-4 py-2.5 rounded-xl bg-amber-800 text-white text-xs font-bold hover:bg-amber-900 transition btn-tactile">
+        {% trans "Lọc Hóa Đơn" %}
+      </button>
+    </form>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3.5 px-4">{% trans "Mã Hóa Đơn" %}</th>
+            <th class="py-3.5 px-4">{% trans "Kênh Bán" %}</th>
+            <th class="py-3.5 px-4">{% trans "Thu Ngân / Khách Hàng" %}</th>
+            <th class="py-3.5 px-4 text-right">{% trans "Tổng Tiền" %}</th>
+            <th class="py-3.5 px-4">{% trans "Thanh Toán" %}</th>
+            <th class="py-3.5 px-4">{% trans "Thời Gian" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "Thao Tác" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for order in orders %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4 font-mono font-extrabold text-amber-900">
+                <a href="/pos/orders/{{ order.id }}/" class="hover:underline">{{ order.order_code }}</a>
+              </td>
+              <td class="py-3 px-4">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold {% if order.order_type == 'POS' %}bg-amber-100 text-amber-900{% else %}bg-sky-100 text-sky-900{% endif %}">
+                  {{ order.get_order_type_display }}
+                </span>
+              </td>
+              <td class="py-3 px-4">
+                <div class="font-bold text-gray-800">{{ order.customer.full_name|default:order.recipient_name|default:_("Khách vãng lai") }}</div>
+                <div class="text-[10px] text-gray-400">{% trans "Thu ngân:" %} {{ order.cashier.get_full_name|default:order.cashier.username|default:_("Online") }}</div>
+              </td>
+              <td class="py-3 px-4 text-right font-black text-amber-700 text-sm">
+                {{ order.final_amount|floatformat:0 }}đ
+              </td>
+              <td class="py-3 px-4 font-medium">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 border border-amber-200 text-amber-900">
+                  {{ order.get_payment_method_display }}
+                </span>
+              </td>
+              <td class="py-3 px-4 text-gray-500 font-mono">{{ order.created_at|date:"d/m/Y H:i" }}</td>
+              <td class="py-3 px-4 text-center">
+                <a href="/pos/orders/{{ order.id }}/" class="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold transition">
+                  {% trans "Xem & In Bill" %}
+                </a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="7" class="py-10 text-center text-gray-400">{% trans "Không tìm thấy hóa đơn nào phù hợp." %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

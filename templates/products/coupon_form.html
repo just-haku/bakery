@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-3xl p-8 border border-amber-100 shadow-xl space-y-6">
+    
+    <div class="flex items-center gap-3 pb-6 border-b border-amber-100">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold">
+        🎟️
+      </div>
+      <div>
+        <h1 class="text-xl font-black text-bakery-crust">{{ title }}</h1>
+        <p class="text-xs text-gray-500">{% trans "Cấu hình điều kiện áp dụng, thời hạn và số lượng mã" %}</p>
+      </div>
+    </div>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.code.label|default:_("Mã Khuyến Mãi (In Hoa)") }} *</label>
+          {{ form.code }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.discount_type.label|default:_("Loại giảm giá") }} *</label>
+          {{ form.discount_type }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.title.label|default:_("Tên chương trình ưu đãi") }} *</label>
+        {{ form.title }}
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.discount_value.label|default:_("Giá trị giảm (% hoặc VNĐ)") }} *</label>
+          {{ form.discount_value }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.max_discount_amount.label|default:_("Mức giảm tối đa (0 = Không giới hạn)") }}</label>
+          {{ form.max_discount_amount }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.condition_type.label|default:_("Điều kiện áp dụng đặc biệt") }} *</label>
+          {{ form.condition_type }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.min_order_amount.label|default:_("Đơn hàng tối thiểu (VNĐ)") }}</label>
+          {{ form.min_order_amount }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.valid_from.label|default:_("Hiệu lực từ ngày") }} *</label>
+          {{ form.valid_from }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.valid_to.label|default:_("Hiệu lực đến ngày") }} *</label>
+          {{ form.valid_to }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.usage_limit.label|default:_("Số lượt sử dụng tối đa") }} *</label>
+          {{ form.usage_limit }}
+        </div>
+        <div class="flex items-center gap-2 pt-6">
+          {{ form.is_active }}
+          <label class="text-xs font-bold text-gray-700">{{ form.is_active.label|default:_("Đang kích hoạt cho phép dùng") }}</label>
+        </div>
+      </div>
+
+      <div class="pt-4 flex items-center justify-between gap-4">
+        <a href="/products/coupons/" class="text-xs text-gray-500 font-bold hover:underline">
+          &larr; {% trans "Hủy & Quay lại" %}
+        </a>
+        <button type="submit" class="px-8 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition btn-tactile">
+          {% trans "LƯU MÃ KHUYẾN MÃI" %}
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

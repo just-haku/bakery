@@ -1,0 +1,54 @@
+{% load i18n %}
+<div class="bg-white rounded-2xl p-3.5 border border-amber-100 shadow-sm hover:shadow-md transition flex flex-col justify-between gap-2.5">
+  <div>
+    <div class="flex items-center justify-between">
+      <span class="font-mono text-[10px] font-black text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">
+        {{ order.order_code }}
+      </span>
+      <span class="text-[10px] font-bold text-gray-500">
+        {% trans "Hẹn:" %} {{ order.pickup_datetime|date:"d/m H:i" }}
+      </span>
+    </div>
+
+    <h4 class="font-bold text-sm text-bakery-crust mt-1.5">{{ order.customer_name }}</h4>
+    <p class="text-[11px] text-gray-500 font-medium">{% trans "SĐT:" %} {{ order.customer_phone }}</p>
+
+    <!-- Cake details -->
+    <div class="mt-2 p-2 rounded-xl bg-amber-50/40 text-[11px] text-gray-700 space-y-0.5">
+      <div>{% trans "Cốt:" %} <strong class="text-amber-900">{{ order.cake_base }}</strong> | {% trans "Vị:" %} <strong class="text-amber-900">{{ order.cream_flavor }}</strong></div>
+      <div>{% trans "Kích cỡ:" %} <strong class="text-amber-900">{{ order.size }}</strong></div>
+      {% if order.custom_message %}
+        <div class="text-amber-800 font-serif italic pt-1 border-t border-amber-100/60">
+          "{{ order.custom_message }}"
+        </div>
+      {% endif %}
+      {% if order.notes %}
+        <div class="text-gray-500 text-[10px] pt-1">
+          {% trans "Ghi chú:" %} {{ order.notes }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Pricing & Action -->
+  <div class="pt-2 border-t border-amber-50 flex items-center justify-between">
+    <div>
+      <span class="block text-[10px] text-gray-400">{% trans "Đã cọc / Tổng" %}</span>
+      <span class="font-extrabold text-xs text-amber-700">
+        {{ order.deposit_amount|floatformat:0 }}đ / {{ order.total_price|floatformat:0 }}đ
+      </span>
+    </div>
+
+    <div class="flex items-center gap-1.5">
+      <a href="/custom-orders/{{ order.id }}/" class="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs transition" title="{% trans 'Xem chi tiết & mã QR cọc' %}">
+        👁️
+      </a>
+      {% if next_status %}
+        <button onclick="advanceCakeStatus({{ order.id }}, '{{ next_status }}')" 
+                class="px-2.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] transition btn-tactile">
+          {{ next_action }} &rarr;
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</div>

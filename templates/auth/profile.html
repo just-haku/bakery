@@ -1,0 +1,404 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Hồ Sơ & Ví Điểm Hội Viên" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header Card: User Info & Wallet -->
+  <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="flex items-center gap-4">
+      <div class="relative group">
+        <div class="w-20 h-20 rounded-3xl overflow-hidden bg-gradient-to-br from-amber-500 to-amber-700 text-white font-black text-3xl flex items-center justify-center shadow-lg shadow-amber-500/20 border-2 border-amber-200">
+          {% if user.avatar %}
+            <img id="profile-avatar-img" src="{{ user.avatar.url }}" alt="{{ user.username }}" class="w-full h-full object-cover">
+          {% else %}
+            <span id="profile-avatar-initial">{{ user.first_name|slice:":1"|default:user.username|slice:":1"|upper }}</span>
+          {% endif %}
+        </div>
+        <label for="avatar-file-input" class="absolute -bottom-1 -right-1 p-2 rounded-xl bg-amber-800 hover:bg-amber-900 text-white cursor-pointer shadow-md transition transform group-hover:scale-110" title="{% trans 'Đổi ảnh đại diện' %}">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </label>
+        <input type="file" id="avatar-file-input" accept="image/*" class="hidden" onchange="uploadNewAvatar(this)">
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl font-black text-bakery-crust">{{ user.get_full_name|default:user.username }}</h1>
+          {% if profile.check_vip_active %}
+            <span class="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-black uppercase tracking-wider shadow-xs">VIP</span>
+          {% endif %}
+        </div>
+        <p class="text-xs text-gray-500 mt-0.5">{% trans "SĐT:" %} {{ profile.phone }} | {% trans "Vai trò:" %} {{ user.get_role_display }}</p>
+        <div class="mt-2 flex items-center gap-2">
+          <span class="px-3 py-1 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-extrabold">
+            {% trans "Hạng:" %} {{ profile.get_tier_display }}
+          </span>
+          <span class="text-xs text-gray-500">
+            {% trans "Tổng chi tiêu:" %} <strong>{{ profile.total_spent|floatformat:0 }}đ</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wallet Balance Box -->
+    <div class="w-full md:w-auto p-5 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-800 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md shadow-amber-700/20">
+      <div>
+        <span class="text-xs text-amber-200 font-bold block uppercase tracking-wider">{% trans "Số Dư Điểm Ví (1đ = 1.000đ)" %}</span>
+        <div class="text-3xl font-black mt-1">
+          {{ profile.points_balance|default:"0" }} <span class="text-lg font-semibold text-amber-200">{% trans "điểm" %}</span>
+        </div>
+        <span class="text-xs text-amber-100 font-medium">{% trans "Tương đương" %} {{ profile.points_in_vnd|floatformat:0 }} VNĐ</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+        <button onclick="openTopupModal()" class="px-4 py-2.5 bg-white text-amber-900 rounded-xl font-extrabold text-xs hover:bg-amber-50 transition shadow-sm btn-tactile">
+          + {% trans "Nạp Thêm Điểm" %}
+        </button>
+        {% if not profile.check_vip_active %}
+          <button onclick="openVIPModal()" class="px-4 py-2.5 bg-amber-900 text-amber-100 border border-amber-400/30 rounded-xl font-extrabold text-xs hover:bg-amber-950 transition btn-tactile">
+            👑 {% trans "Nâng Cấp VIP" %}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- VIP Benefits Section -->
+  <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 border border-amber-200/80 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">👑</span>
+        <h2 class="text-lg font-black text-amber-900">{% trans "Đặc Quyền Hội Viên VIP" %}</h2>
+      </div>
+      <p class="text-xs text-amber-800 mt-1">
+        {% blocktrans with percent=setting.vip_discount_percent %}Tự động giảm <strong>{{ percent }}%</strong> cho mọi đơn hàng bánh, ưu tiên giao hàng và nhận mã voucher sinh nhật đặc biệt!{% endblocktrans %}
+      </p>
+      {% if profile.check_vip_active %}
+        <p class="text-xs font-bold text-emerald-700 mt-1">✓ {% trans "Gói VIP đang kích hoạt (Hạn sử dụng đến ngày:" %} {{ profile.vip_expiry_date|date:"d/m/Y" }})</p>
+      {% endif %}
+    </div>
+
+    <button onclick="openVIPModal()" class="px-5 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-600/20 transition whitespace-nowrap btn-tactile">
+      {% if profile.check_vip_active %}{% trans "GIA HẠN GÓI VIP" %}{% else %}{% trans "ĐĂNG KÝ VIP NGAY" %}{% endif %}
+    </button>
+  </div>
+
+  <!-- Point Transactions History -->
+  <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm">
+    <h2 class="text-lg font-black text-bakery-crust mb-4">{% trans "Lịch Sử Biến Động Điểm Ví" %}</h2>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/60 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3 px-4 rounded-l-xl">{% trans "Thời Gian" %}</th>
+            <th class="py-3 px-4">{% trans "Loại Giao Dịch" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Số Điểm" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Quy Đổi VNĐ" %}</th>
+            <th class="py-3 px-4 rounded-r-xl">{% trans "Ghi Chú" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for t in transactions %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4 text-gray-500 font-mono">{{ t.created_at|date:"d/m/Y H:i" }}</td>
+              <td class="py-3 px-4 font-semibold">{{ t.get_transaction_type_display }}</td>
+              <td class="py-3 px-4 text-right font-black {% if t.points > 0 %}text-emerald-600{% else %}text-rose-600{% endif %}">
+                {% if t.points > 0 %}+{% endif %}{{ t.points }} {% trans "điểm" %}
+              </td>
+              <td class="py-3 px-4 text-right text-gray-700 font-medium">
+                {{ t.amount_money|floatformat:0 }}đ
+              </td>
+              <td class="py-3 px-4 text-gray-600">{{ t.notes|default:"-" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="py-8 text-center text-gray-400">{% trans "Chưa có giao dịch điểm nào." %}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL: NẠP ĐIỂM VÍ QUA VIETQR               -->
+<!-- ========================================== -->
+<div id="topup-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+    <button onclick="closeTopupModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+    
+    <div class="text-center mb-4">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 text-2xl flex items-center justify-center mx-auto mb-2">💎</div>
+      <h3 class="text-lg font-black text-bakery-crust">{% trans "Nạp Điểm Vào Ví Hội Viên" %}</h3>
+      <p class="text-xs text-gray-500">{% trans "Tỷ lệ quy đổi: 1 điểm = 1.000 VNĐ" %}</p>
+    </div>
+
+    <!-- Step 1: Select amount -->
+    <div id="topup-step-1" class="space-y-4">
+      <label class="block text-xs font-bold text-gray-700">{% trans "Chọn số điểm muốn nạp:" %}</label>
+      <div class="grid grid-cols-3 gap-2 text-xs">
+        <button onclick="setTopupPoints(50)" class="p-3 rounded-xl border border-amber-200 hover:border-amber-600 font-bold text-center bg-amber-50/40">
+          50 {% trans "điểm" %}<br><span class="text-[10px] text-gray-500">50.000đ</span>
+        </button>
+        <button onclick="setTopupPoints(100)" class="p-3 rounded-xl border border-amber-200 hover:border-amber-600 font-bold text-center bg-amber-50/40">
+          100 {% trans "điểm" %}<br><span class="text-[10px] text-gray-500">100.000đ</span>
+        </button>
+        <button onclick="setTopupPoints(200)" class="p-3 rounded-xl border border-amber-200 hover:border-amber-600 font-bold text-center bg-amber-50/40">
+          200 {% trans "điểm" %}<br><span class="text-[10px] text-gray-500">200.000đ</span>
+        </button>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Hoặc nhập số điểm tùy ý:" %}</label>
+        <input type="number" id="custom-points-input" value="50" min="10" step="10" 
+               class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-sm font-bold focus:ring-2 focus:ring-amber-500">
+      </div>
+
+      <button onclick="generateTopupQR()" class="w-full py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-sm shadow-md transition btn-tactile">
+        {% trans "TIẾP TỤC & QUÉT MÃ VIETQR" %}
+      </button>
+    </div>
+
+    <!-- Step 2: VietQR display -->
+    <div id="topup-step-2" class="hidden flex flex-col items-center text-center space-y-3">
+      <img id="topup-qr-img" src="" alt="VietQR" class="w-56 h-56 object-contain rounded-xl border border-amber-200 p-2">
+      <div class="bg-amber-50 p-3 rounded-xl w-full text-xs text-left space-y-1 font-medium">
+        <div class="flex justify-between"><span>{% trans "Số tiền chuyển:" %}</span><strong id="topup-amount-text" class="text-amber-800"></strong></div>
+        <div class="flex justify-between"><span>{% trans "Nội dung CK:" %}</span><strong id="topup-desc-text" class="font-mono text-amber-900 bg-amber-200 px-1 rounded"></strong></div>
+      </div>
+      <button onclick="confirmTopupSuccess()" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-md transition btn-tactile">
+        ✓ {% trans "TÔI ĐÃ CHUYỂN KHOẢN XONG" %}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL: NÂNG CẤP GÓI HỘI VIÊN VIP          -->
+<!-- ========================================== -->
+<div id="vip-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+    <button onclick="closeVIPModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+    
+    <div class="text-center mb-4">
+      <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white text-2xl flex items-center justify-center mx-auto mb-2 shadow-md">👑</div>
+      <h3 class="text-lg font-black text-bakery-crust">{% trans "Chọn Gói Hội Viên VIP" %}</h3>
+      <p class="text-xs text-gray-500">{% blocktrans with percent=setting.vip_discount_percent %}Giảm {{ percent }}% tất cả các đơn bánh tại tiệm & online{% endblocktrans %}</p>
+    </div>
+
+    <!-- Packages List -->
+    <div id="vip-step-1" class="space-y-3">
+      {% for pkg in vip_packages %}
+        <div onclick="selectVIPPackage({{ pkg.id }}, '{{ pkg.name }}', {{ pkg.price }})" 
+             class="vip-card p-4 rounded-2xl border-2 border-amber-200 hover:border-amber-600 bg-amber-50/30 cursor-pointer transition flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-sm text-amber-900">{{ pkg.name }}</h4>
+            <p class="text-xs text-gray-500">{{ pkg.description }}</p>
+          </div>
+          <div class="text-right">
+            <span class="font-black text-sm text-amber-700">{{ pkg.price|floatformat:0 }}đ</span>
+            <span class="block text-[10px] text-gray-400 font-medium">/ {{ pkg.duration_days }} {% trans "ngày" %}</span>
+          </div>
+        </div>
+      {% endfor %}
+
+      <div id="vip-selected-notice" class="hidden p-3 rounded-xl bg-amber-100 text-xs font-bold text-amber-900 text-center"></div>
+
+      <button onclick="generateVIPQR()" id="vip-next-btn" disabled 
+              class="w-full py-3.5 rounded-2xl bg-amber-600 disabled:opacity-50 hover:bg-amber-700 text-white font-extrabold text-sm shadow-md transition btn-tactile">
+        {% trans "THANH TOÁN GÓI VIP BẰNG VIETQR" %}
+      </button>
+    </div>
+
+    <!-- Step 2: VietQR for VIP -->
+    <div id="vip-step-2" class="hidden flex flex-col items-center text-center space-y-3">
+      <img id="vip-qr-img" src="" alt="VietQR VIP" class="w-56 h-56 object-contain rounded-xl border border-amber-200 p-2">
+      <div class="bg-amber-50 p-3 rounded-xl w-full text-xs text-left space-y-1 font-medium">
+        <div class="flex justify-between"><span>{% trans "Gói đăng ký:" %}</span><strong id="vip-pkg-name-text"></strong></div>
+        <div class="flex justify-between"><span>{% trans "Số tiền chuyển:" %}</span><strong id="vip-amount-text" class="text-amber-800"></strong></div>
+        <div class="flex justify-between"><span>{% trans "Nội dung CK:" %}</span><strong id="vip-desc-text" class="font-mono text-amber-900 bg-amber-200 px-1 rounded"></strong></div>
+      </div>
+      <button onclick="confirmVIPSuccess()" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-md transition btn-tactile">
+        ✓ {% trans "XÁC NHẬN ĐÃ CHUYỂN KHOẢN" %}
+      </button>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let topupCurrentCode = '';
+  let topupCurrentPoints = 0;
+
+  let selectedVipId = null;
+  let selectedVipName = '';
+  let selectedVipPrice = 0;
+
+  // Top-up Modal Handlers
+  function openTopupModal() {
+    document.getElementById('topup-step-1').classList.remove('hidden');
+    document.getElementById('topup-step-2').classList.add('hidden');
+    document.getElementById('topup-modal').classList.remove('hidden');
+  }
+  function closeTopupModal() {
+    document.getElementById('topup-modal').classList.add('hidden');
+  }
+  function setTopupPoints(pts) {
+    document.getElementById('custom-points-input').value = pts;
+  }
+  async function generateTopupQR() {
+    const pts = parseInt(document.getElementById('custom-points-input').value) || 0;
+    if (pts <= 0) {
+      showToast('{% trans "Vui lòng nhập số điểm lớn hơn 0." %}', 'warning');
+      return;
+    }
+    topupCurrentPoints = pts;
+
+    try {
+      const res = await fetch('/auth/api/topup-points/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify({ points: pts })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        topupCurrentCode = data.order_code;
+        document.getElementById('topup-qr-img').src = data.qr_url;
+        document.getElementById('topup-amount-text').textContent = formatVND(data.amount_vnd);
+        document.getElementById('topup-desc-text').textContent = data.desc;
+
+        document.getElementById('topup-step-1').classList.add('hidden');
+        document.getElementById('topup-step-2').classList.remove('hidden');
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi sinh mã nạp điểm." %}', 'error');
+    }
+  }
+
+  async function confirmTopupSuccess() {
+    try {
+      const res = await fetch('/auth/api/confirm-topup/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify({ points: topupCurrentPoints, order_code: topupCurrentCode })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        showToast(data.message, 'success');
+        setTimeout(() => window.location.reload(), 1200);
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi xác nhận nạp điểm." %}', 'error');
+    }
+  }
+
+  // VIP Modal Handlers
+  function openVIPModal() {
+    document.getElementById('vip-step-1').classList.remove('hidden');
+    document.getElementById('vip-step-2').classList.add('hidden');
+    document.getElementById('vip-modal').classList.remove('hidden');
+  }
+  function closeVIPModal() {
+    document.getElementById('vip-modal').classList.add('hidden');
+  }
+  function selectVIPPackage(id, name, price) {
+    selectedVipId = id;
+    selectedVipName = name;
+    selectedVipPrice = price;
+
+    document.querySelectorAll('.vip-card').forEach(c => c.classList.remove('border-amber-600', 'bg-amber-100/60'));
+    event.currentTarget.classList.add('border-amber-600', 'bg-amber-100/60');
+
+    const notice = document.getElementById('vip-selected-notice');
+    notice.textContent = `{% trans "Đã chọn:" %} ${name} (${formatVND(price)})`;
+    notice.classList.remove('hidden');
+    document.getElementById('vip-next-btn').disabled = false;
+  }
+
+  async function generateVIPQR() {
+    if (!selectedVipId) return;
+
+    try {
+      const res = await fetch('/auth/api/subscribe-vip/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify({ package_id: selectedVipId })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        document.getElementById('vip-qr-img').src = data.qr_url;
+        document.getElementById('vip-pkg-name-text').textContent = data.package_name;
+        document.getElementById('vip-amount-text').textContent = formatVND(data.price);
+        document.getElementById('vip-desc-text').textContent = data.desc;
+
+        document.getElementById('vip-step-1').classList.add('hidden');
+        document.getElementById('vip-step-2').classList.remove('hidden');
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi tạo mã VIP." %}', 'error');
+    }
+  }
+
+  async function confirmVIPSuccess() {
+    try {
+      const res = await fetch('/auth/api/confirm-vip/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify({ package_id: selectedVipId })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        showToast(data.message, 'success');
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi xác nhận gói VIP." %}', 'error');
+    }
+  }
+
+  async function uploadNewAvatar(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    try {
+      showToast('{% trans "Đang tải ảnh đại diện lên..." %}', 'info');
+      const res = await fetch('/auth/api/update-avatar/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': window.CSRF_TOKEN },
+        body: formData
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        const img = document.getElementById('profile-avatar-img');
+        if (img) {
+          img.src = data.avatar_url;
+        } else {
+          window.location.reload();
+        }
+        showToast(data.message, 'success');
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi khi tải ảnh đại diện." %}', 'error');
+    }
+  }
+</script>
+{% endblock %}

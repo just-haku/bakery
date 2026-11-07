@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Tải Ứng Dụng - Artisan Bakery Mobile</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <link rel="apple-touch-icon" href="/static/images/pwa/apple-touch-icon.png">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FAF6F0;
+      color: #261309;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    .artisan-card {
+      background: #FFFDF9;
+      border: 1px solid rgba(217, 119, 6, 0.2);
+      box-shadow: 0 20px 45px -15px rgba(180, 83, 9, 0.15), 0 0 25px rgba(245, 158, 11, 0.06);
+    }
+    .btn-tactile:active {
+      transform: scale(0.97);
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    .pulse-btn {
+      animation: pulse-subtle 2.5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen p-3 sm:p-6 justify-between select-none">
+
+  <!-- Top Navigation / Brand Header -->
+  <header class="w-full max-w-xl mx-auto flex items-center justify-between py-3 mb-2">
+    <a href="{{ current_apk.home_url }}" class="flex items-center gap-2.5">
+      <img src="/static/images/pwa/icon-192.png" alt="Artisan Bakery Icon" class="w-10 h-10 rounded-2xl shadow-md border border-amber-200">
+      <div>
+        <h1 class="font-black text-base text-amber-950 tracking-tight leading-none">ARTISAN BAKERY</h1>
+        <p class="text-[11px] text-amber-800 font-semibold mt-0.5">Tiệm Bánh Thủ Công</p>
+      </div>
+    </a>
+    <a href="{{ current_apk.home_url }}" class="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition btn-tactile">
+      ← Về Web App
+    </a>
+  </header>
+
+  <!-- Main Container -->
+  <main class="w-full max-w-xl mx-auto artisan-card rounded-3xl p-5 sm:p-8 my-auto relative overflow-hidden transition-all">
+    <!-- Ambient glowing accents -->
+    <div class="absolute -top-16 -right-16 w-36 h-36 bg-amber-200/50 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="absolute -bottom-16 -left-16 w-36 h-36 bg-orange-200/40 rounded-full blur-2xl pointer-events-none"></div>
+
+    <!-- OS Tab Switcher -->
+    <div class="flex items-center bg-amber-100/70 p-1.5 rounded-2xl mb-6 border border-amber-200/80">
+      <button type="button" id="tab-btn-android" onclick="switchOsTab('android')" 
+              class="flex-1 py-2 px-3 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 btn-tactile">
+        <span>🤖</span>
+        <span>Android</span>
+      </button>
+      <button type="button" id="tab-btn-ios" onclick="switchOsTab('ios')" 
+              class="flex-1 py-2 px-3 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 btn-tactile">
+        <span>🍎</span>
+        <span>Apple iOS</span>
+      </button>
+      <button type="button" id="tab-btn-pc" onclick="switchOsTab('pc')" 
+              class="flex-1 py-2 px-3 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 btn-tactile">
+        <span>💻</span>
+        <span>Máy Tính</span>
+      </button>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 1. ANDROID TAB CONTENT                                            -->
+    <!-- ================================================================= -->
+    <section id="content-android" class="space-y-5">
+      <!-- Title & Role Badge -->
+      <div class="text-center">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black uppercase tracking-wider mb-2 border border-emerald-300">
+          <span>✓</span>
+          <span>Phát hiện Android • {{ current_apk.badge }}</span>
+        </div>
+        <h2 class="text-2xl font-black text-amber-950 tracking-tight">Tải Ứng Dụng Cho Android</h2>
+        <p class="text-xs text-amber-800/80 font-medium mt-1">
+          Tương thích Android 8.0 đến Android 14+ (POCO, Xiaomi HyperOS, Samsung, Oppo).
+        </p>
+      </div>
+
+      <!-- Main Target APK Card -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50/60 rounded-2xl p-4 sm:p-5 border-2 border-amber-300/80 shadow-xs relative overflow-hidden">
+        <div class="flex items-start gap-3.5">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-600 to-amber-800 text-white flex items-center justify-center text-2xl shadow-md flex-shrink-0">
+            {{ current_apk.icon }}
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-black text-base text-amber-950 truncate">{{ current_apk.app_title }}</h3>
+            <p class="text-xs text-amber-900/90 font-medium line-clamp-2 mt-0.5 leading-relaxed">{{ current_apk.desc }}</p>
+            <div class="flex items-center gap-2 mt-2 text-[11px] font-mono font-bold text-amber-800">
+              <span class="px-2 py-0.5 rounded bg-white border border-amber-200">📦 {{ current_apk.size }}</span>
+              <span class="px-2 py-0.5 rounded bg-white border border-amber-200">🏷️ {{ current_apk.version }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primary Download Button -->
+        <div class="mt-4 pt-3 border-t border-amber-200/80">
+          <a href="{{ current_apk.download_url }}" id="primary-apk-download-btn"
+             class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-700 hover:to-amber-900 text-white font-black text-sm shadow-lg shadow-amber-700/30 transition flex items-center justify-center gap-2 btn-tactile pulse-btn">
+            <span>⬇️</span>
+            <span>TẢI FILE APK NGAY ({{ current_apk.size }})</span>
+          </a>
+          <p id="auto-download-notice" class="text-[11px] text-center text-amber-800/80 font-medium mt-2">
+            ⚡ Đang tự động bắt đầu tải xuống trong giây lát...
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick 3-step Installation Guide -->
+      <div class="bg-white p-4 rounded-2xl border border-amber-200/70 space-y-2.5 text-xs">
+        <h4 class="font-black text-amber-950 flex items-center gap-1.5 uppercase text-[11px] tracking-wider">
+          <span>📋</span>
+          <span>3 Bước Cài Đặt APK Trên Điện Thoại:</span>
+        </h4>
+        <div class="flex items-start gap-2.5 text-gray-700">
+          <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">1</span>
+          <p>Bấm <strong>"Vẫn tải xuống"</strong> nếu trình duyệt (Chrome) hiển thị cảnh báo tệp APK ngoài cửa hàng.</p>
+        </div>
+        <div class="flex items-start gap-2.5 text-gray-700">
+          <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">2</span>
+          <p>Mở file <code>{{ current_apk.apk_filename }}</code> vừa tải > Bật <strong>"Cho phép cài đặt nguồn này"</strong>.</p>
+        </div>
+        <div class="flex items-start gap-2.5 text-gray-700">
+          <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">3</span>
+          <p>Nhấn <strong>"Cài đặt"</strong> và mở ứng dụng. Không cần gỡ cài đặt cũ khi có bản cập nhật mới.</p>
+        </div>
+      </div>
+
+      <!-- Alternative APK Downloads -->
+      <div class="pt-2">
+        <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">Tải Các Phiên Bản Ứng Dụng Khác:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+          {% for key, app in all_apks.items %}
+            {% if key != portal_role %}
+              <a href="{{ app.download_url }}" class="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100/80 border border-amber-200 transition flex items-center justify-between text-amber-950 font-bold btn-tactile">
+                <span class="truncate">{{ app.icon }} {{ app.app_title }}</span>
+                <span class="text-amber-700 text-[10px] ml-1">⬇️</span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 2. IOS TAB CONTENT                                                -->
+    <!-- ================================================================= -->
+    <section id="content-ios" class="hidden space-y-5">
+      <div class="text-center">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-[11px] font-black uppercase tracking-wider mb-2 border border-blue-300">
+          <span>🍎</span>
+          <span>Apple iOS • Màn Hình Chính (PWA)</span>
+        </div>
+        <h2 class="text-2xl font-black text-amber-950 tracking-tight">Cài Đặt Trên iPhone & iPad</h2>
+        <p class="text-xs text-amber-800/80 font-medium mt-1">
+          Trải nghiệm ứng dụng độc lập, mượt mà và toàn màn hình không cần App Store.
+        </p>
+      </div>
+
+      <!-- Step by step visual cards -->
+      <div class="space-y-3">
+        <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 shadow-xs">
+            1
+          </div>
+          <div>
+            <h4 class="font-black text-xs text-amber-950 uppercase">Mở Bằng Safari</h4>
+            <p class="text-xs text-amber-900/80 mt-0.5">
+              Đảm bảo bạn đang mở liên kết này bằng trình duyệt <strong>Safari</strong> của Apple (biểu tượng la bàn 🧭).
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl flex-shrink-0 shadow-xs">
+            ⎋
+          </div>
+          <div>
+            <h4 class="font-black text-xs text-amber-950 uppercase">Bấm Nút Chia Sẻ (Share)</h4>
+            <p class="text-xs text-amber-900/80 mt-0.5">
+              Nhấn vào biểu tượng <strong>Chia sẻ (hình ô vuông có mũi tên trỏ lên)</strong> ở thanh công cụ dưới đáy Safari.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 shadow-xs">
+            ➕
+          </div>
+          <div>
+            <h4 class="font-black text-xs text-amber-950 uppercase">Thêm Vào Màn Hình Chính</h4>
+            <p class="text-xs text-amber-900/80 mt-0.5">
+              Cuộn xuống danh sách tùy chọn và chọn <strong>"Thêm vào MH chính" (Add to Home Screen)</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3.5 p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div class="w-10 h-10 rounded-xl bg-amber-800 text-white flex items-center justify-center text-lg font-bold flex-shrink-0 shadow-xs">
+            ✓
+          </div>
+          <div>
+            <h4 class="font-black text-xs text-amber-950 uppercase">Nhấn "Thêm" (Add)</h4>
+            <p class="text-xs text-amber-900/80 mt-0.5">
+              Nhấn nút <strong>Thêm</strong> ở góc trên bên phải. Biểu tượng app tiệm bánh sẽ xuất hiện ngay trên màn hình chính iPhone!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Niimbot Bluetooth Notice for iOS Staff -->
+      {% if portal_role == 'EMPLOYEE' %}
+      <div class="p-3.5 rounded-2xl bg-amber-100/70 border border-amber-300 text-xs text-amber-950 flex items-start gap-2.5">
+        <span class="text-base flex-shrink-0">🏷️</span>
+        <div>
+          <p class="font-bold">Lưu ý cho Nhân viên in tem Niimbot trên iOS:</p>
+          <p class="mt-0.5 text-amber-900/90">
+            Nếu cần in tem nhiệt Bluetooth từ iPhone, vui lòng mở cổng nhân viên qua trình duyệt <strong>Bluefy (Web BLE Browser)</strong> miễn phí trên App Store.
+          </p>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="pt-1">
+        <a href="{{ current_apk.home_url }}" class="w-full py-3.5 px-4 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-black text-xs text-center transition block btn-tactile shadow-md">
+          ← Mở Giao Diện Bán Hàng Ngay
+        </a>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 3. PC TAB CONTENT                                                 -->
+    <!-- ================================================================= -->
+    <section id="content-pc" class="hidden space-y-5 text-center">
+      <!-- Icon -->
+      <div class="flex justify-center">
+        <div class="w-20 h-20 rounded-3xl bg-amber-100 border border-amber-200 text-4xl flex items-center justify-center shadow-md">
+          💻
+        </div>
+      </div>
+
+      <!-- Exact User-Requested Statement -->
+      <div>
+        <h2 class="text-xl sm:text-2xl font-black text-amber-950 leading-snug tracking-tight mb-2">
+          “App hiện không có sẵn cho PC, vui lòng sử dụng web app”
+        </h2>
+        <p class="text-xs text-amber-800 font-medium">
+          Hệ thống chạy hoàn hảo trên mọi trình duyệt Chrome, Edge, Safari và Cốc Cốc mà không cần cài đặt thêm phần mềm.
+        </p>
+      </div>
+
+      <!-- Countdown Circular / Counter Box -->
+      <div class="bg-amber-50/80 rounded-2xl p-4 border border-amber-200/80 max-w-sm mx-auto">
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Tự động chuyển tiếp</p>
+        <div class="flex items-center justify-center gap-1 text-3xl font-black text-amber-800 font-mono my-1">
+          <span id="pc-countdown-number">30</span>
+          <span class="text-sm text-gray-500 font-bold">giây</span>
+        </div>
+        <!-- Progress bar -->
+        <div class="w-full bg-amber-200/60 rounded-full h-2 overflow-hidden mt-2">
+          <div id="pc-progress-bar" class="bg-amber-600 h-2 rounded-full transition-all duration-1000 ease-linear" style="width: 100%;"></div>
+        </div>
+        <p class="text-[11px] text-amber-800/80 mt-2 font-medium">
+          Tự động quay về trang chủ tiệm bánh...
+        </p>
+      </div>
+
+      <!-- Action Button to return immediately -->
+      <div class="max-w-sm mx-auto space-y-3">
+        <a href="{{ current_apk.home_url }}" id="pc-return-home-btn"
+           class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-black text-sm shadow-lg shadow-amber-600/30 transition block btn-tactile">
+          🏠 Quay Về Trang Chủ Ngay
+        </a>
+      </div>
+
+      <!-- Phone QR Code -->
+      <div class="pt-4 border-t border-amber-100 max-w-xs mx-auto">
+        <p class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-2">Quét mã bằng điện thoại để tải app:</p>
+        <div class="bg-white p-2.5 rounded-2xl border border-amber-200 inline-block shadow-sm">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ current_url|urlencode }}" 
+               alt="QR Code Tải Ứng Dụng" 
+               class="w-32 h-32 rounded-xl">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full max-w-xl mx-auto text-center py-4 text-[11px] text-amber-800/60 font-medium">
+    Artisan Bakery Multiport System • Port: {{ portal_role }} • Phiên bản v1.0.1
+  </footer>
+
+  <!-- Logic Script -->
+  <script>
+    // Initial server detected OS
+    let activeOS = '{{ detected_os }}';
+    const currentApkUrl = '{{ current_apk.download_url }}';
+    const homeUrl = '{{ current_apk.home_url }}';
+
+    // Client-side detection refinement (handles iPads running iPadOS identifying as MacIntel)
+    function detectClientOS() {
+      const ua = navigator.userAgent || '';
+      const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if (isIOS) return 'ios';
+      if (/android/i.test(ua)) return 'android';
+      return 'pc';
+    }
+
+    const clientOS = detectClientOS();
+    if (clientOS) {
+      activeOS = clientOS;
+    }
+
+    // Switch Tab Function
+    function switchOsTab(os) {
+      activeOS = os;
+      const tabAndroid = document.getElementById('tab-btn-android');
+      const tabIos = document.getElementById('tab-btn-ios');
+      const tabPc = document.getElementById('tab-btn-pc');
+
+      const contentAndroid = document.getElementById('content-android');
+      const contentIos = document.getElementById('content-ios');
+      const contentPc = document.getElementById('content-pc');
+
+      // Reset classes
+      [tabAndroid, tabIos, tabPc].forEach(btn => {
+        btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold text-amber-900/70 hover:text-amber-950 transition flex items-center justify-center gap-1.5 btn-tactile';
+      });
+
+      [contentAndroid, contentIos, contentPc].forEach(c => c.classList.add('hidden'));
+
+      if (os === 'android') {
+        tabAndroid.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-black bg-amber-700 text-white shadow-xs transition flex items-center justify-center gap-1.5 btn-tactile';
+        contentAndroid.classList.remove('hidden');
+      } else if (os === 'ios') {
+        tabIos.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-black bg-amber-700 text-white shadow-xs transition flex items-center justify-center gap-1.5 btn-tactile';
+        contentIos.classList.remove('hidden');
+      } else {
+        tabPc.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-black bg-amber-700 text-white shadow-xs transition flex items-center justify-center gap-1.5 btn-tactile';
+        contentPc.classList.remove('hidden');
+        startPcCountdown();
+      }
+    }
+
+    // Start PC 30-Second Countdown
+    let countdownInterval = null;
+    let countdownRemaining = 30;
+
+    function startPcCountdown() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownRemaining = 30;
+      const numberEl = document.getElementById('pc-countdown-number');
+      const barEl = document.getElementById('pc-progress-bar');
+
+      countdownInterval = setInterval(() => {
+        countdownRemaining--;
+        if (numberEl) numberEl.textContent = countdownRemaining;
+        if (barEl) {
+          const pct = Math.max(0, (countdownRemaining / 30) * 100);
+          barEl.style.width = pct + '%';
+        }
+
+        if (countdownRemaining <= 0) {
+          clearInterval(countdownInterval);
+          window.location.href = homeUrl;
+        }
+      }, 1000);
+    }
+
+    // Auto-trigger Android APK download after 1.5s if visiting from Android
+    function handleAndroidAutoDownload() {
+      if (activeOS === 'android') {
+        setTimeout(() => {
+          const notice = document.getElementById('auto-download-notice');
+          if (notice) notice.innerHTML = '✅ <span class="font-bold text-emerald-700">Đã kích hoạt tải file APK!</span> Vui lòng kiểm tra thông báo tải xuống của máy.';
+          window.location.href = currentApkUrl;
+        }, 1500);
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      switchOsTab(activeOS);
+      if (activeOS === 'android') {
+        handleAndroidAutoDownload();
+      }
+    });
+  </script>
+
+</body>
+</html>

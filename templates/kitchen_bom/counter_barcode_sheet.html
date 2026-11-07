@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảng Mã Vạch Chuẩn Quầy Thu Ngân POS - Artisan Bakery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; padding: 0 !important; }
+      .barcode-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1.5px solid #261309 !important;
+      }
+    }
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+  </style>
+</head>
+<body class="bg-amber-50/40 text-stone-900 font-sans p-6">
+
+  <!-- Action Bar (Screen Only) -->
+  <div class="no-print max-w-5xl mx-auto mb-6 bg-white p-4 rounded-2xl border border-amber-200 shadow-md flex items-center justify-between">
+    <div>
+      <h1 class="text-lg font-black text-amber-950 flex items-center gap-2">
+        <span>📋</span>
+        <span>Bảng Mã Vạch Chuẩn Quầy POS (Counter Barcode Sheet)</span>
+      </h1>
+      <p class="text-xs text-gray-500 mt-0.5">
+        In bảng này ra và đặt tại quầy thu ngân để nhân viên quét tính tiền nhanh cho các loại bánh không dán tem lẻ (như Baguette, bánh mì hoa cúc...).
+      </p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="window.close()" class="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100">
+        Đóng
+      </button>
+      <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-600/30 flex items-center gap-1.5 transition">
+        <span>🖨️</span>
+        <span>In Bảng Mã Vạch (A4)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Printable Header -->
+  <div class="max-w-5xl mx-auto mb-4 border-b-2 border-stone-800 pb-3 flex items-end justify-between">
+    <div>
+      <div class="text-xs uppercase tracking-widest font-black text-amber-800">🥖 ARTISAN BAKERY • HỆ THỐNG POS BÁN LẺ</div>
+      <h2 class="text-xl font-black text-stone-900 mt-0.5">BẢNG MÃ VẠCH QUÉT NHANH TẠI QUẦY THU NGÂN</h2>
+      <div class="text-[11px] text-stone-600 italic">Áp dụng cho bánh không dán tem lẻ • Quét tính tiền trực tiếp theo đơn giá niêm yết</div>
+    </div>
+    <div class="text-right text-[11px] font-mono text-stone-500">
+      <div>Thời điểm in: {{ now|date:"d/m/Y H:i" }}</div>
+      <div>Tiêu chuẩn mã: Code 128 (1D)</div>
+    </div>
+  </div>
+
+  <!-- Barcode Grid (3 columns on A4) -->
+  <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 gap-3">
+    {% for it in items %}
+      {% with p=it.product svg=it.barcode_svg %}
+        <div class="barcode-card bg-white p-3 rounded-xl border border-stone-300 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-1 border-b border-stone-100 text-[10px]">
+              <span class="font-extrabold text-amber-900 uppercase tracking-wider">{{ p.category.name }}</span>
+              {% if p.is_fast_bread %}
+                <span class="bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded text-[9px]">Phổ biến</span>
+              {% endif %}
+            </div>
+            <div class="font-black text-stone-900 text-xs mt-1 line-clamp-1 leading-tight">
+              {{ p.name }}
+            </div>
+            <div class="font-black text-amber-900 text-sm mt-0.5 font-mono">
+              {{ p.price|floatformat:0 }} VNĐ
+            </div>
+          </div>
+
+          <!-- Barcode SVG -->
+          <div class="my-2 flex flex-col items-center justify-center">
+            {% if svg %}
+              <img src="{{ svg }}" alt="Barcode {{ p.sku_code }}" class="h-12 w-full object-contain" />
+            {% else %}
+              <div class="font-mono font-bold tracking-widest text-xs py-2 bg-stone-100 px-3 rounded">
+                *{{ p.sku_code }}*
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="text-center font-mono text-[10px] text-stone-500 border-t border-stone-100 pt-1 flex justify-between">
+            <span>SKU: <strong>{{ p.sku_code }}</strong></span>
+            <span>HSD: <strong>{{ p.shelf_life_hours }}h</strong></span>
+          </div>
+        </div>
+      {% endwith %}
+    {% endfor %}
+  </div>
+
+  <!-- Footer Note -->
+  <div class="max-w-5xl mx-auto mt-6 text-center text-[10px] text-stone-500 italic border-t border-stone-200 pt-2">
+    * Ghi chú: Đối với các bánh nướng theo mẻ có dán tem thời gian xuất mẻ, thu ngân vui lòng quét mã vạch trên tem bánh để hệ thống tự động kiểm tra giảm giá 40% giờ vàng nếu mẻ bánh còn dưới 25% thời hạn bảo quản.
+  </div>
+
+</body>
+</html>

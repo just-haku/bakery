@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-3xl p-8 border border-amber-100 shadow-xl space-y-6">
+    
+    <div class="flex items-center gap-3 pb-6 border-b border-amber-100">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold">
+        🥖
+      </div>
+      <div>
+        <h1 class="text-xl font-black text-bakery-crust">{{ title }}</h1>
+        <p class="text-xs text-gray-500">{% trans "Cấu hình thông tin chi tiết sản phẩm bánh" %}</p>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.sku_code.label|default:_("Mã SKU / Barcode") }} *</label>
+          {{ form.sku_code }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.category.label|default:_("Danh mục bánh") }} *</label>
+          {{ form.category }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.name.label|default:_("Tên sản phẩm bánh") }} *</label>
+        {{ form.name }}
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.price.label|default:_("Đơn giá niêm yết (VNĐ)") }} *</label>
+          {{ form.price }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.stock_quantity.label|default:_("Số lượng tồn quầy") }} *</label>
+          {{ form.stock_quantity }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.shelf_life_hours.label|default:_("Hạn bảo quản tối đa (Giờ)") }} *</label>
+          {{ form.shelf_life_hours }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.status.label|default:_("Trạng thái") }} *</label>
+          {{ form.status }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.image_url.label|default:_("URL Hình ảnh minh họa") }}</label>
+        {{ form.image_url }}
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        {{ form.is_custom_cake }}
+        <label class="text-xs font-bold text-gray-700">{% trans "Đánh dấu là Bánh kem đặt theo hẹn (Custom Cake)" %}</label>
+      </div>
+
+      <div class="pt-4 flex items-center justify-between gap-4">
+        <a href="/products/" class="text-xs text-gray-500 font-bold hover:underline">
+          &larr; {% trans "Hủy & Quay lại" %}
+        </a>
+        <button type="submit" class="px-8 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition btn-tactile">
+          {% trans "LƯU SẢN PHẨM BÁNH" %}
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

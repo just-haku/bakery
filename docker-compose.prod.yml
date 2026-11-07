@@ -1,0 +1,67 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: bakery_mysql_prod
+    restart: always
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-bakery_db}
+      MYSQL_USER: ${DB_USER:-bakery_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-bakery_pass123}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-bakery_root_pass123}
+    volumes:
+      - ./docker-data/mysql_prod:/var/lib/mysql
+    ports:
+      - "${PROD_DB_PORT:-3308}:3306"
+    networks:
+      - bakery_prod_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-bakery_root_pass123}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bakery_web_prod
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DEBUG=False
+      - DB_HOST=db
+      - DB_PORT=3306
+    volumes:
+      - ./media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - bakery_prod_net
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile -
+
+  gateway:
+    image: nginx:alpine
+    container_name: bakery_gateway_prod
+    restart: always
+    ports:
+      - "${PROD_CUSTOMER_PORT:-9008}:9008"
+      - "${PROD_EMPLOYEE_PORT:-9009}:9009"
+      - "${PROD_ADMIN_PORT:-9010}:9010"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./static:/app/static:ro
+      - ./media:/app/media:ro
+    depends_on:
+      - web
+    networks:
+      - bakery_prod_net
+
+networks:
+  bakery_prod_net:
+    driver: bridge

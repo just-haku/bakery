@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Công Thức BOM" %} - {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
+
+  <div class="flex items-center justify-between">
+    <a href="/kitchen/bom/" class="text-xs text-amber-800 font-bold hover:underline flex items-center gap-1">
+      &larr; {% trans "Danh sách công thức BOM" %}
+    </a>
+    <span class="px-2.5 py-1 rounded-lg bg-amber-100 font-mono font-bold text-amber-900 text-xs">
+      {{ product.sku_code }}
+    </span>
+  </div>
+
+  <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-amber-100">
+      <div>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Công Thức Định Mức:" %} {{ product.name }}</h1>
+        <p class="text-xs text-gray-500">{% trans "Tính toán trung bình nguyên liệu cho 1 mẻ tiêu chuẩn để hệ thống tự đề xuất khi nhân viên tạo mẻ nướng" %}</p>
+      </div>
+      <div class="flex items-center gap-3 text-xs bg-amber-50 px-4 py-2 rounded-2xl border border-amber-200">
+        <div>{% trans "Đơn giá niêm yết:" %} <strong class="text-amber-900 font-mono">{{ product.price|floatformat:0 }} VNĐ</strong></div>
+        <div class="text-gray-300">|</div>
+        <div>{% trans "Mẻ chuẩn:" %} <strong class="text-emerald-800 font-mono">{{ product.standard_batch_yield }} cái/mẻ</strong></div>
+        <div class="text-gray-300">|</div>
+        <div>{% trans "SKU mẫu:" %} <strong class="font-mono text-amber-950">{{ product.sku_code }}</strong></div>
+      </div>
+    </div>
+
+    <!-- Current BOM Ingredients -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3 px-4">{% trans "Nguyên Liệu" %}</th>
+            <th class="py-3 px-4">{% trans "Phân Loại" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Định Lượng / 1 Bánh" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Lượng Cho 1 Mẻ Chuẩn" %} ({{ product.standard_batch_yield }} cái)</th>
+            <th class="py-3 px-4 text-center">{% trans "Hao Hụt Chuẩn" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Thao Tác" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for b in boms %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4 font-bold text-gray-800">{{ b.material.name }}</td>
+              <td class="py-3 px-4 text-gray-500">{{ b.material.get_material_type_display }}</td>
+              <td class="py-3 px-4 text-right font-extrabold text-amber-900">{{ b.quantity_needed }} {{ b.material.unit }}</td>
+              <td class="py-3 px-4 text-right font-mono font-bold text-emerald-800">
+                {% widthratio b.quantity_needed 1 product.standard_batch_yield as batch_total %}
+                {{ b.get_total_for_quantity|default:b.quantity_needed }} {{ b.material.unit }}
+              </td>
+              <td class="py-3 px-4 text-center font-semibold text-gray-500">{{ b.waste_percentage }}%</td>
+              <td class="py-3 px-4 text-right">
+                <a href="/kitchen/bom/{{ b.id }}/delete/" onclick="return confirm('{% trans "Bạn có chắc muốn xóa nguyên liệu này khỏi công thức?" %}')" 
+                   class="text-rose-600 hover:text-rose-800 font-bold">
+                  {% trans "Xóa" %}
+                </a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6" class="py-8 text-center text-gray-400">{% trans "Chưa có nguyên liệu nào trong công thức." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Add New Material Form -->
+    <div class="pt-6 border-t border-amber-100 bg-amber-50/30 p-4 rounded-2xl">
+      <h3 class="text-xs font-extrabold text-amber-900 mb-3 uppercase tracking-wider">+ {% trans "Thêm Nguyên Liệu Vào Công Thức (Nhập Cho 1 Mẻ Hoặc 1 Chiếc)" %}</h3>
+      <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+        {% csrf_token %}
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Chọn nguyên vật liệu" %} *</label>
+          {{ form.material }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">
+            {% trans "Lượng cho 1 mẻ chuẩn" %} ({{ product.standard_batch_yield }} cái)
+          </label>
+          {{ form.batch_quantity }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Định mức 1 bánh" %} *</label>
+          {{ form.quantity_needed }}
+        </div>
+        <div class="sm:col-span-4 flex justify-end pt-2">
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-sm transition btn-tactile">
+            + {% trans "LƯU VÀO CÔNG THỨC BOM" %}
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+
+</div>
+{% endblock %}

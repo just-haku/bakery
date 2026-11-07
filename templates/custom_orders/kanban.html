@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Theo Dõi Bánh Kem Hẹn Trước - Kanban" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🎂</span>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Theo Dõi Bánh Kem Theo Hẹn" %}</h1>
+      </div>
+      <p class="text-xs text-gray-500">{% trans "Quản lý tiến độ sản xuất bánh kem nghệ thuật từ khâu nhận đơn đến giao bánh" %}</p>
+    </div>
+    
+    <a href="/custom-orders/order/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+      <span>+ {% trans "Đặt Bánh Mới (Cọc >= 30%)" %}</span>
+    </a>
+  </div>
+
+  <!-- Kanban Board (4 Columns) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+    
+    <!-- Column 1: ĐÃ TIẾP NHẬN ĐƠN (RECEIVED) -->
+    <div class="bg-amber-50/60 rounded-3xl p-4 border border-amber-200/80 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-amber-200">
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+          <h3 class="font-extrabold text-xs text-amber-900 uppercase tracking-wider">{% trans "Đã Tiếp Nhận" %}</h3>
+        </div>
+        <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-black text-[11px]">{{ received_orders.count }}</span>
+      </div>
+
+      <div class="space-y-3 min-h-[150px]">
+        {% for o in received_orders %}
+          {% include "custom_orders/card_snippet.html" with order=o next_status="BAKING" next_action=_("Bắt Đầu Nướng") %}
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Không có đơn chờ" %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Column 2: BẾP ĐANG LÀM (BAKING) -->
+    <div class="bg-orange-50/60 rounded-3xl p-4 border border-orange-200/80 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-orange-200">
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-orange-500 animate-pulse"></span>
+          <h3 class="font-extrabold text-xs text-orange-900 uppercase tracking-wider">{% trans "Bếp Đang Làm" %}</h3>
+        </div>
+        <span class="px-2 py-0.5 rounded-full bg-orange-200 text-orange-900 font-black text-[11px]">{{ baking_orders.count }}</span>
+      </div>
+
+      <div class="space-y-3 min-h-[150px]">
+        {% for o in baking_orders %}
+          {% include "custom_orders/card_snippet.html" with order=o next_status="READY" next_action=_("Bánh Đã Xong") %}
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Không có bánh đang làm" %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Column 3: SẴN SÀNG GIAO (READY) -->
+    <div class="bg-emerald-50/60 rounded-3xl p-4 border border-emerald-200/80 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-emerald-200">
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+          <h3 class="font-extrabold text-xs text-emerald-900 uppercase tracking-wider">{% trans "Bánh Sẵn Sàng" %}</h3>
+        </div>
+        <span class="px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900 font-black text-[11px]">{{ ready_orders.count }}</span>
+      </div>
+
+      <div class="space-y-3 min-h-[150px]">
+        {% for o in ready_orders %}
+          {% include "custom_orders/card_snippet.html" with order=o next_status="DELIVERED" next_action=_("Khách Đã Nhận") %}
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Chưa có bánh sẵn sàng" %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Column 4: ĐÃ GIAO KHÁCH (DELIVERED) -->
+    <div class="bg-slate-50 rounded-3xl p-4 border border-slate-200 flex flex-col gap-3">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-slate-400"></span>
+          <h3 class="font-extrabold text-xs text-slate-700 uppercase tracking-wider">{% trans "Đã Giao Xong" %}</h3>
+        </div>
+        <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 font-black text-[11px]">{{ delivered_orders.count }}</span>
+      </div>
+
+      <div class="space-y-3 min-h-[150px]">
+        {% for o in delivered_orders|slice:":8" %}
+          {% include "custom_orders/card_snippet.html" with order=o %}
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Chưa có đơn đã giao" %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  async function advanceCakeStatus(orderId, newStatus) {
+    playClickSound();
+    try {
+      const res = await fetch(`/custom-orders/${orderId}/api/update-status/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+        body: JSON.stringify({ status: newStatus })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        showToast(data.message, 'success');
+        setTimeout(() => window.location.reload(), 600);
+      } else {
+        showToast(data.message, 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi cập nhật trạng thái đơn." %}', 'error');
+    }
+  }
+</script>
+{% endblock %}

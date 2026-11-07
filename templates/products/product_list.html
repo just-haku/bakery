@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Quản Lý Món Bánh - Admin" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Quản Lý Danh Mục & Món Bánh" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Thêm mới, sửa đổi đơn giá, cấu hình hạn dùng và dừng bán các sản phẩm bánh" %}</p>
+    </div>
+    
+    <a href="/products/add/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition flex items-center gap-1.5 btn-tactile">
+      <span>+ {% trans "Thêm Món Bánh Mới" %}</span>
+    </a>
+  </div>
+
+  <!-- Filter & Search -->
+  <div class="bg-white rounded-2xl p-4 border border-amber-100 shadow-sm flex flex-wrap gap-3">
+    <form method="GET" class="flex flex-wrap items-center gap-3 w-full">
+      <input type="text" name="q" value="{{ search_query }}" placeholder="{% trans 'Tìm tên bánh hoặc mã SKU...' %}" 
+             class="flex-1 min-w-[220px] px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-amber-500">
+      
+      <select name="category" class="px-3 py-2.5 rounded-xl border border-amber-200 text-xs font-semibold">
+        <option value="">{% trans "Tất cả danh mục" %}</option>
+        {% for c in categories %}
+          <option value="{{ c.id }}" {% if selected_category == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="px-4 py-2.5 rounded-xl bg-amber-800 text-white text-xs font-bold hover:bg-amber-900 transition btn-tactile">
+        {% trans "Tìm Kiếm" %}
+      </button>
+    </form>
+  </div>
+
+  <!-- Products Table -->
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3.5 px-4">{% trans "Ảnh" %}</th>
+            <th class="py-3.5 px-4">{% trans "Mã SKU" %}</th>
+            <th class="py-3.5 px-4">{% trans "Tên Sản Phẩm Bánh" %}</th>
+            <th class="py-3.5 px-4">{% trans "Danh Mục" %}</th>
+            <th class="py-3.5 px-4 text-right">{% trans "Đơn Giá" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "Tồn Kho" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "Hạn (h)" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "Trạng Thái" %}</th>
+            <th class="py-3.5 px-4 text-right">{% trans "Thao Tác" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for p in products %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4">
+                <div class="w-10 h-10 rounded-xl overflow-hidden bg-amber-50 border border-amber-100 flex items-center justify-center">
+                  {% if p.image_url %}
+                    <img src="{{ p.image_url }}" alt="" class="w-full h-full object-cover">
+                  {% elif p.image %}
+                    <img src="{{ p.image.url }}" alt="" class="w-full h-full object-cover">
+                  {% else %}
+                    <span>🥖</span>
+                  {% endif %}
+                </div>
+              </td>
+              <td class="py-3 px-4 font-mono font-bold text-amber-900">{{ p.sku_code }}</td>
+              <td class="py-3 px-4 font-bold text-gray-900 text-sm">{{ p.name }}</td>
+              <td class="py-3 px-4 text-gray-600">{{ p.category.name }}</td>
+              <td class="py-3 px-4 text-right font-black text-amber-700 text-sm">{{ p.price|floatformat:0 }}đ</td>
+              <td class="py-3 px-4 text-center font-bold text-sm">{{ p.stock_quantity }}</td>
+              <td class="py-3 px-4 text-center">{{ p.shelf_life_hours }}h</td>
+              <td class="py-3 px-4 text-center">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {% if p.status == 'ACTIVE' %}bg-emerald-100 text-emerald-800{% else %}bg-gray-100 text-gray-600{% endif %}">
+                  {{ p.get_status_display }}
+                </span>
+              </td>
+              <td class="py-3 px-4 text-right space-x-2">
+                <a href="/products/{{ p.id }}/edit/" class="text-amber-800 font-bold hover:underline">{% trans "Sửa" %}</a>
+                <a href="/products/{{ p.id }}/delete/" class="text-rose-600 font-bold hover:underline">{% trans "Xóa" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

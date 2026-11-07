@@ -1,0 +1,410 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Kiểm Tra Máy In Nhiệt & In Thử Nghiệm" %} - Artisan Bakery{% endblock %}
+
+{% block extra_head %}
+<style>
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-target, .print-target * {
+    visibility: visible;
+  }
+  .print-target {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-amber-200 gap-4 no-print">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🖨️</span>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Kiểm Tra Máy In Nhiệt & In Thử Nghiệm" %}</h1>
+      </div>
+      <p class="text-xs text-gray-500 mt-1">
+        {% trans "Thử nghiệm in tem nhãn dán sản phẩm (Niimbot 50x30mm) và Hóa đơn bán lẻ POS (Thermal 58mm / 80mm)" %}
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/kitchen/counter-barcodes/" class="px-4 py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition">
+        📄 {% trans "Bảng Barcode Quầy Thu Ngân" %}
+      </a>
+      <a href="/dashboard/audit-logs/" class="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs transition">
+        📋 {% trans "Nhật Ký Kiểm Toán" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start no-print">
+
+    <!-- ========================================== -->
+    <!-- CARD 1: TEST IN TEM NHÃN NHIỆT (50x30mm)  -->
+    <!-- ========================================== -->
+    <div class="bg-white rounded-3xl p-6 border border-amber-200 shadow-sm space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-amber-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-amber-100 text-amber-900 font-bold text-sm">🏷️</span>
+          <div>
+            <h2 class="text-base font-black text-bakery-crust">{% trans "Tem Nhãn Nhiệt Niimbot" %}</h2>
+            <span class="text-[11px] text-amber-700 font-semibold">{% trans "Khổ chuẩn: 50mm × 30mm (Dán trên túi / hộp bánh)" %}</span>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">203 DPI</span>
+      </div>
+
+      <!-- Controls -->
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-gray-700 mb-1">{% trans "Chọn bánh mẫu:" %}</label>
+          <select id="label-prod-select" onchange="updateLabelPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200 bg-white font-medium">
+            {% for p in sample_products %}
+              <option value="{{ p.id }}" data-sku="{{ p.sku_code }}" data-name="{{ p.name }}" data-price="{{ p.price }}" data-shelf="{{ p.shelf_life_hours }}" {% if forloop.first %}selected{% endif %}>
+                {{ p.name }} ({{ p.sku_code }}) - {{ p.price|floatformat:0 }}đ
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">{% trans "Mã Mẻ Bánh:" %}</label>
+            <input type="text" id="label-batch-code" value="ME-{{ now|date:'Ymd' }}-01" oninput="updateLabelPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200 font-mono uppercase">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">{% trans "Thời Gian Xuất Lò:" %}</label>
+            <input type="text" id="label-bake-time" value="{{ now|date:'d/m/Y H:i' }}" oninput="updateLabelPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200 font-mono">
+          </div>
+        </div>
+
+        <div class="p-3 rounded-2xl bg-amber-50/60 border border-amber-100 flex items-center justify-between">
+          <label class="flex items-center gap-2 cursor-pointer font-bold text-amber-950">
+            <input type="checkbox" id="label-discount-check" onchange="updateLabelPreview()" class="w-4 h-4 text-amber-600 rounded">
+            <span>⚡ {% trans "Giờ Vàng Cận Date (-40%)" %}</span>
+          </label>
+          <span class="text-[10px] text-gray-500">{% trans "Tự kích hoạt khi còn <= 25% hạn dùng" %}</span>
+        </div>
+      </div>
+
+      <!-- Preview Area -->
+      <div class="space-y-2">
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block">{% trans "Xem trước tem in thật (Tỉ lệ 50mm × 30mm):" %}</span>
+        <div class="p-6 bg-gray-100 rounded-2xl flex items-center justify-center">
+          
+          <!-- The Physical Label Simulation Box (50mm x 30mm) -->
+          <div id="thermal-label-box" class="w-[250px] h-[150px] bg-white border border-gray-400 rounded-lg p-2 shadow-md flex flex-col justify-between font-mono text-black select-none">
+            <!-- Header -->
+            <div class="flex items-center justify-between border-b border-black pb-0.5">
+              <span class="font-extrabold text-[10px] tracking-tight">ARTISAN BAKERY</span>
+              <span id="lbl-tag-discount" class="hidden text-[9px] font-black bg-black text-white px-1 rounded">-40% GIỜ VÀNG</span>
+            </div>
+
+            <!-- Product Name & Price -->
+            <div class="text-center my-0.5">
+              <div id="lbl-prod-name" class="font-black text-xs leading-tight line-clamp-1">Bánh Sừng Bò Bơ Pháp</div>
+              <div class="flex items-center justify-center gap-1.5 mt-0.5">
+                <span id="lbl-old-price" class="hidden text-[10px] line-through text-gray-600">28.000đ</span>
+                <span id="lbl-cur-price" class="font-black text-sm">28.000đ</span>
+              </div>
+            </div>
+
+            <!-- Barcode SVG -->
+            <div class="flex flex-col items-center justify-center my-0.5">
+              <svg id="lbl-barcode-svg" class="w-full h-8 max-w-[200px]" viewBox="0 0 200 40">
+                <!-- Barcode bars dynamically generated -->
+              </svg>
+              <span id="lbl-barcode-text" class="text-[9px] font-black tracking-widest leading-none mt-0.5">BM01-ME-01</span>
+            </div>
+
+            <!-- Footer: Timestamps -->
+            <div class="flex justify-between items-end border-t border-dashed border-gray-400 pt-0.5 text-[8px] leading-tight text-gray-800">
+              <span>Nướng: <strong id="lbl-bake-disp">14/10/2026 08:30</strong></span>
+              <span>HSD: <strong id="lbl-exp-disp">24 Giờ</strong></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button id="btn-print-thermal-label" onclick="printThermalLabel()" class="w-full py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-md transition btn-tactile">
+        <span>🖨️</span>
+        <span>{% trans "IN THỬ NGHIỆM TEM 50x30mm" %}</span>
+      </button>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- CARD 2: TEST IN HÓA ĐƠN POS (58mm / 80mm) -->
+    <!-- ========================================== -->
+    <div class="bg-white rounded-3xl p-6 border border-amber-200 shadow-sm space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-amber-100">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-amber-100 text-amber-900 font-bold text-sm">🧾</span>
+          <div>
+            <h2 class="text-base font-black text-bakery-crust">{% trans "Hóa Đơn Bán Lẻ POS" %}</h2>
+            <span class="text-[11px] text-amber-700 font-semibold">{% trans "Máy in hóa đơn nhiệt giấy cuộn (Thermal K58 / K80)" %}</span>
+          </div>
+        </div>
+        
+        <!-- Toggle 58mm / 80mm -->
+        <div class="flex rounded-xl bg-amber-100/70 p-1 border border-amber-200">
+          <button type="button" onclick="setBillWidth(58)" id="btn-w58" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-800 text-white shadow-xs transition">58mm</button>
+          <button type="button" onclick="setBillWidth(80)" id="btn-w80" class="px-2.5 py-1 rounded-lg text-xs font-bold text-amber-900 hover:bg-amber-200 transition">80mm</button>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">{% trans "Mã Hóa Đơn:" %}</label>
+            <input type="text" id="bill-code" value="HD{{ now|date:'Ymd' }}999" oninput="updateBillPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200 font-mono">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">{% trans "Thu Ngân Phụ Trách:" %}</label>
+            <input type="text" id="bill-cashier" value="{{ user.get_full_name|default:user.username }}" oninput="updateBillPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">{% trans "Khách Hàng:" %}</label>
+            <input type="text" id="bill-customer" value="Nguyễn Văn An (0912345678)" oninput="updateBillPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">{% trans "Giảm Giá Điểm / Coupon:" %}</label>
+            <input type="number" id="bill-discount" value="10000" oninput="updateBillPreview()" class="w-full px-3 py-2 rounded-xl border border-amber-200">
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview Area -->
+      <div class="space-y-2">
+        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block">{% trans "Xem trước hóa đơn nhiệt:" %}</span>
+        <div class="p-6 bg-gray-100 rounded-2xl flex items-center justify-center max-h-[460px] overflow-y-auto">
+          
+          <!-- The Receipt Box -->
+          <div id="thermal-bill-box" class="w-[280px] bg-white border border-gray-300 rounded-xl p-4 shadow-md font-mono text-[11px] text-gray-900 space-y-2 transition-all">
+            <!-- Header -->
+            <div class="text-center pb-2 border-b border-dashed border-gray-400 space-y-0.5">
+              <h3 class="font-extrabold text-sm">{{ setting.store_name }}</h3>
+              <p class="text-[9px] text-gray-600">{{ setting.address }}</p>
+              <p class="text-[9px] text-gray-600">Hotline: {{ setting.phone }}</p>
+              <h4 class="font-black text-xs pt-1">HÓA ĐƠN THANH TOÁN</h4>
+              <p class="text-[10px]">Số HD: <strong id="bill-disp-code">HD...</strong></p>
+              <p class="text-[9px] text-gray-600">{{ now|date:"d/m/Y H:i:s" }} | TN: <span id="bill-disp-cashier">Admin</span></p>
+            </div>
+
+            <!-- Items -->
+            <table class="w-full text-[10px] my-2">
+              <thead>
+                <tr class="border-b border-gray-400">
+                  <th class="py-1 text-left">Món</th>
+                  <th class="py-1 text-center">SL</th>
+                  <th class="py-1 text-right">Đ.Giá</th>
+                  <th class="py-1 text-right">T.Tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="py-1">Croissant Bơ Pháp</td>
+                  <td class="py-1 text-center">2</td>
+                  <td class="py-1 text-right">28k</td>
+                  <td class="py-1 text-right font-bold">56.000</td>
+                </tr>
+                <tr>
+                  <td class="py-1">Bánh Mì Hoa Cúc</td>
+                  <td class="py-1 text-center">1</td>
+                  <td class="py-1 text-right">45k</td>
+                  <td class="py-1 text-right font-bold">45.000</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Summary -->
+            <div class="border-t border-dashed border-gray-400 pt-1.5 space-y-1 text-[10px]">
+              <div class="flex justify-between">
+                <span>Tổng tiền hàng:</span>
+                <span class="font-bold">101.000 đ</span>
+              </div>
+              <div class="flex justify-between text-emerald-800">
+                <span>Giảm giá / Ưu đãi:</span>
+                <span id="bill-disp-discount">-10.000 đ</span>
+              </div>
+              <div class="flex justify-between font-black text-xs border-t border-gray-400 pt-1">
+                <span>THANH TOÁN:</span>
+                <span id="bill-disp-final">91.000 đ</span>
+              </div>
+              <div class="flex justify-between text-[9px] text-gray-600">
+                <span>Phương thức:</span>
+                <span class="font-bold">Chuyển khoản VietQR</span>
+              </div>
+              <div class="flex justify-between text-[9px] text-emerald-800 font-bold border-t border-dashed border-gray-300 pt-1">
+                <span>Tích lũy (+10%):</span>
+                <span>+9 điểm</span>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center pt-2 border-t border-dashed border-gray-400 text-[9px] text-gray-500 space-y-0.5">
+              <p>Cảm ơn Quý Khách & Hẹn Gặp Lại!</p>
+              <p>Pass Wifi: artisanbakery2026</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button id="btn-print-pos-bill" onclick="printThermalBill()" class="w-full py-3.5 rounded-2xl bg-amber-800 hover:bg-amber-900 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-md transition btn-tactile">
+        <span>🖨️</span>
+        <span>{% trans "IN THỬ NGHIỆM HÓA ĐƠN POS" %}</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Hidden Print Containers -->
+<div id="print-label-container" class="print-target hidden"></div>
+<div id="print-bill-container" class="print-target hidden"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let currentBillWidth = 58;
+
+  function generateBarcodeSVG(text) {
+    let bars = '';
+    let x = 10;
+    for (let i = 0; i < text.length; i++) {
+      const code = text.charCodeAt(i);
+      const w = (code % 3) + 1.2;
+      bars += `<rect x="${x}" y="0" width="${w}" height="40" fill="black" />`;
+      x += w + 2;
+    }
+    return bars;
+  }
+
+  function updateLabelPreview() {
+    const sel = document.getElementById('label-prod-select');
+    const opt = sel.options[sel.selectedIndex];
+    const name = opt.getAttribute('data-name');
+    const sku = opt.getAttribute('data-sku');
+    const price = parseFloat(opt.getAttribute('data-price'));
+    const shelf = opt.getAttribute('data-shelf');
+    const batch = document.getElementById('label-batch-code').value.trim() || 'ME-01';
+    const bakeTime = document.getElementById('label-bake-time').value.trim();
+    const isDiscount = document.getElementById('label-discount-check').checked;
+
+    document.getElementById('lbl-prod-name').textContent = name;
+    document.getElementById('lbl-bake-disp').textContent = bakeTime;
+    document.getElementById('lbl-exp-disp').textContent = `${shelf} Giờ`;
+
+    const code = `${sku}-${batch}`;
+    document.getElementById('lbl-barcode-text').textContent = code;
+    document.getElementById('lbl-barcode-svg').innerHTML = generateBarcodeSVG(code);
+
+    if (isDiscount) {
+      document.getElementById('lbl-tag-discount').classList.remove('hidden');
+      document.getElementById('lbl-old-price').classList.remove('hidden');
+      document.getElementById('lbl-old-price').textContent = `${price.toLocaleString('vi-VN')}đ`;
+      const discPrice = Math.round(price * 0.6);
+      document.getElementById('lbl-cur-price').textContent = `${discPrice.toLocaleString('vi-VN')}đ`;
+    } else {
+      document.getElementById('lbl-tag-discount').classList.add('hidden');
+      document.getElementById('lbl-old-price').classList.add('hidden');
+      document.getElementById('lbl-cur-price').textContent = `${price.toLocaleString('vi-VN')}đ`;
+    }
+  }
+
+  function printThermalLabel() {
+    const labelBox = document.getElementById('thermal-label-box');
+    const container = document.getElementById('print-label-container');
+    container.innerHTML = labelBox.outerHTML;
+    container.classList.remove('hidden');
+    document.getElementById('print-bill-container').classList.add('hidden');
+
+    let styleEl = document.getElementById('dynamic-print-style');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'dynamic-print-style';
+      document.head.appendChild(styleEl);
+    }
+    styleEl.innerHTML = `@page { size: 50mm 30mm; margin: 0; }`;
+
+    window.print();
+    container.classList.add('hidden');
+  }
+
+  function setBillWidth(w) {
+    currentBillWidth = w;
+    const box = document.getElementById('thermal-bill-box');
+    if (w === 58) {
+      box.classList.remove('w-[360px]');
+      box.classList.add('w-[280px]');
+      document.getElementById('btn-w58').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-800 text-white shadow-xs transition';
+      document.getElementById('btn-w80').className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-amber-900 hover:bg-amber-200 transition';
+    } else {
+      box.classList.remove('w-[280px]');
+      box.classList.add('w-[360px]');
+      document.getElementById('btn-w80').className = 'px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-800 text-white shadow-xs transition';
+      document.getElementById('btn-w58').className = 'px-2.5 py-1 rounded-lg text-xs font-bold text-amber-900 hover:bg-amber-200 transition';
+    }
+  }
+
+  function updateBillPreview() {
+    const code = document.getElementById('bill-code').value.trim() || 'HD...';
+    const cashier = document.getElementById('bill-cashier').value.trim() || 'Admin';
+    const disc = parseFloat(document.getElementById('bill-discount').value) || 0;
+
+    document.getElementById('bill-disp-code').textContent = code;
+    document.getElementById('bill-disp-cashier').textContent = cashier;
+    document.getElementById('bill-disp-discount').textContent = `-${disc.toLocaleString('vi-VN')} đ`;
+    const finalAmount = Math.max(0, 101000 - disc);
+    document.getElementById('bill-disp-final').textContent = `${finalAmount.toLocaleString('vi-VN')} đ`;
+  }
+
+  function printThermalBill() {
+    const billBox = document.getElementById('thermal-bill-box');
+    const container = document.getElementById('print-bill-container');
+    container.innerHTML = billBox.outerHTML;
+    container.classList.remove('hidden');
+    document.getElementById('print-label-container').classList.add('hidden');
+
+    let styleEl = document.getElementById('dynamic-print-style');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'dynamic-print-style';
+      document.head.appendChild(styleEl);
+    }
+    styleEl.innerHTML = `@page { size: ${currentBillWidth}mm auto; margin: 0; }`;
+
+    window.print();
+    container.classList.add('hidden');
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    updateLabelPreview();
+    updateBillPreview();
+  });
+</script>
+{% endblock %}

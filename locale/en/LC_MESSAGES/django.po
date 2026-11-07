@@ -1,0 +1,2352 @@
+# English translations for Bakery Management System.
+msgid ""
+msgstr ""
+"Project-Id-Version: BakeryManagement 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-23 14:21+0700\n"
+"PO-Revision-Date: 2026-09-22 15:50+0700\n"
+"Last-Translator: Antigravity AI\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Tên đăng nhập hoặc Email"
+msgstr "Username or Email"
+
+msgid "admin@bakery.local hoặc 0912345678"
+msgstr "admin@bakery.local or 0912345678"
+
+msgid "Mật khẩu"
+msgstr "Password"
+
+msgid "Tên tài khoản"
+msgstr "Username"
+
+msgid "Họ và tên đệm"
+msgstr "First and Middle Name"
+
+msgid "Tên"
+msgstr "Last Name"
+
+msgid "Email liên hệ"
+msgstr "Contact Email"
+
+msgid "Số điện thoại"
+msgstr "Phone Number"
+
+msgid "Số điện thoại (09xx...)"
+msgstr "Phone Number (09xx...)"
+
+msgid "Ngày sinh"
+msgstr "Birthday"
+
+msgid "Tối thiểu 6 ký tự"
+msgstr "At least 6 characters"
+
+msgid "Xác nhận mật khẩu"
+msgstr "Confirm Password"
+
+msgid "Nhập lại mật khẩu"
+msgstr "Re-enter Password"
+
+msgid "Mật khẩu xác nhận không khớp."
+msgstr "Password confirmation does not match."
+
+msgid "Quản trị viên / Chủ tiệm"
+msgstr "Admin / Store Owner"
+
+msgid "Thu ngân quầy POS"
+msgstr "POS Cashier"
+
+msgid "Thợ làm bánh"
+msgstr "Pastry Chef / Baker"
+
+msgid "Khách hàng"
+msgstr "Customer"
+
+msgid "Đồng (Tiêu chuẩn)"
+msgstr "Bronze (Standard)"
+
+msgid "Bạc"
+msgstr "Silver"
+
+msgid "Vàng"
+msgstr "Gold"
+
+msgid "Kim Cương"
+msgstr "Diamond"
+
+msgid "Gói VIP 1 Tháng"
+msgstr "1-Month VIP Package"
+
+msgid "Gói VIP 1 Năm"
+msgstr "1-Year VIP Package"
+
+msgid "Nạp điểm ví"
+msgstr "Wallet points top-up"
+
+msgid "Tích điểm từ đơn hàng (10%)"
+msgstr "Earn points from order (10%)"
+
+msgid "Dùng điểm thanh toán"
+msgstr "Use points for payment"
+
+msgid "Điều chỉnh bởi Admin"
+msgstr "Adjusted by Admin"
+
+msgid "Cốt bánh Vani truyền thống"
+msgstr "Classic Vanilla Sponge"
+
+msgid "Cốt bánh Chocolate Bỉ đậm vị"
+msgstr "Rich Belgian Chocolate"
+
+msgid "Cốt bánh Red Velvet nhung đỏ quý phái"
+msgstr "Velvety Red Velvet"
+
+msgid "Cốt bánh Trà xanh Matcha Nhật Bản"
+msgstr "Japanese Matcha Green Tea"
+
+msgid "Kem bơ sữa tươi béo ngậy"
+msgstr "Rich Buttercream"
+
+msgid "Whipping cream thanh mát ít ngọt"
+msgstr "Light & Fresh Whipping Cream"
+
+msgid "Cream Cheese béo ngậy vị chua nhẹ"
+msgstr "Tangy & Rich Cream Cheese"
+
+msgid "Socola Ganache thượng hạng bóng bẩy"
+msgstr "Premium Glossy Chocolate Ganache"
+
+msgid "Size 16cm (4 - 6 người ăn) - 280.000 VNĐ"
+msgstr "Size 16cm (Serves 4 - 6) - 280,000 VND"
+
+msgid "Size 20cm (6 - 10 người ăn) - 380.000 VNĐ"
+msgstr "Size 20cm (Serves 6 - 10) - 380,000 VND"
+
+msgid "Size 25cm (10 - 15 người ăn) - 520.000 VNĐ"
+msgstr "Size 25cm (Serves 10 - 15) - 520,000 VND"
+
+msgid "Bánh 2 tầng Tiệc (15 - 25 người ăn) - 850.000 VNĐ"
+msgstr "2-Tier Party Cake (Serves 15 - 25) - 850,000 VND"
+
+msgid "Cốt bánh"
+msgstr "Cake Base"
+
+msgid "Vị kem"
+msgstr "Frosting Flavor"
+
+msgid "Kích thước"
+msgstr "Size"
+
+msgid "Họ và tên người nhận"
+msgstr "Recipient Full Name"
+
+msgid "VD: Chúc Mừng Sinh Nhật Bé Bắp 3 Tuổi"
+msgstr "e.g. Happy 3rd Birthday Sweetie"
+
+msgid "Ghi chú đặc biệt: giảm đường, hoa quả tươi, tông màu nơ trang trí..."
+msgstr "Special notes: less sugar, fresh fruits, ribbon color theme..."
+
+#, fuzzy, python-format
+#| msgid "Tối thiểu 30% giá bánh"
+msgid "Tối thiểu 30% giá bánh"
+msgstr "Minimum 30% of cake price"
+
+msgid "Thời gian hẹn lấy bánh không được ở trong quá khứ."
+msgstr "Pickup time cannot be in the past."
+
+msgid "Đã tiếp nhận đơn"
+msgstr "Order Received"
+
+msgid "Bếp đang làm bánh"
+msgstr "In the Kitchen"
+
+msgid "Bánh đã sẵn sàng nhận"
+msgstr "Ready for Pickup"
+
+msgid "Đã giao cho khách"
+msgstr "Delivered to Customer"
+
+msgid "Đã hủy đơn"
+msgstr "Cancelled"
+
+msgid "Thu ngân quầy POS (Cashier)"
+msgstr "POS Cashier"
+
+msgid "Thợ làm bánh (Baker)"
+msgstr "Baker"
+
+msgid "Quản trị viên bổ sung (Admin)"
+msgstr "Administrator (Admin)"
+
+msgid "Tên đăng nhập / Email"
+msgstr "Username / Email"
+
+msgid "Nguyễn Văn"
+msgstr "John"
+
+msgid "An"
+msgstr "Doe"
+
+msgid "Vị trí & Phân quyền"
+msgstr "Role & Permissions"
+
+msgid "Mật khẩu đăng nhập"
+msgstr "Login Password"
+
+msgid "Ghi chú mẻ bánh..."
+msgstr "Batch notes..."
+
+msgid "Chờ chuẩn bị"
+msgstr "Pending Preparation"
+
+msgid "Đang nướng bánh"
+msgstr "Baking in Progress"
+
+msgid "Đã nghiệm thu & Nhập kho"
+msgstr "Inspected & Stocked"
+
+msgid "Đã hủy mẻ"
+msgstr "Batch Cancelled"
+
+msgid ""
+"Nhân viên bán hàng (POS) không có quyền tạo lệnh nướng bánh. Chức năng này "
+"chỉ dành cho Thợ làm bánh (Baker)."
+msgstr ""
+
+msgid "Nhân viên bán hàng (POS) không có quyền nghiệm thu mẻ bánh."
+msgstr "Cashier (POS) is not authorized to accept baking batches."
+
+msgid "Bán lẻ tại quầy POS"
+msgstr "Retail POS"
+
+msgid "Khách đặt qua Web"
+msgstr "Online Order"
+
+msgid "Tiền mặt"
+msgstr "Cash"
+
+msgid "Chuyển khoản VietQR"
+msgstr "VietQR Transfer"
+
+msgid "Tách thanh toán (Tiền mặt + Chuyển khoản + Điểm)"
+msgstr "Split Payment (Cash + Transfer + Points)"
+
+msgid "Thanh toán khi nhận hàng (COD)"
+msgstr "Cash on Delivery (COD)"
+
+msgid "Nhận trực tiếp tại tiệm"
+msgstr "Store Pickup"
+
+msgid "Giao hàng tận nơi"
+msgstr "Home Delivery"
+
+msgid "Chờ xử lý"
+msgstr "Pending"
+
+msgid "Đang đóng gói"
+msgstr "Packaging"
+
+msgid "Đã hoàn tất"
+msgstr "Completed"
+
+msgid "Tên món bánh"
+msgstr "Pastry Name"
+
+msgid "Đơn giá (VNĐ)"
+msgstr "Unit Price (VND)"
+
+msgid "Tên chương trình ưu đãi"
+msgstr "Campaign Title"
+
+#, python-format
+msgid "% hoặc số tiền"
+msgstr "% or amount"
+
+msgid "0 = Không giới hạn"
+msgstr "0 = Unlimited"
+
+msgid "Đang kinh doanh"
+msgstr "Active"
+
+msgid "Tạm ngưng bán"
+msgstr "Inactive"
+
+msgid "Giảm theo phần trăm (%)"
+msgstr "Percentage Discount (%)"
+
+msgid "Giảm số tiền cố định (VNĐ)"
+msgstr "Fixed Amount Discount (VND)"
+
+msgid "Mọi khách hàng & Đơn hàng"
+msgstr "All Customers & Orders"
+
+msgid "Ưu đãi Sinh nhật khách hàng"
+msgstr "Customer Birthday Offer"
+
+msgid "Kỷ niệm sinh nhật Tiệm Bánh"
+msgstr "Bakery Anniversary Offer"
+
+msgid "Dịp Lễ, Tết & Sự kiện"
+msgstr "Holidays & Special Events"
+
+msgid "Đặc quyền Hội viên VIP"
+msgstr "VIP Member Exclusive"
+
+msgid "Tiếng Việt"
+msgstr "Vietnamese"
+
+msgid "English"
+msgstr "English"
+
+msgid "Khởi Tạo Quản Trị Viên Ban Đầu (Operator Setup)"
+msgstr "Initial Administrator Setup (Operator)"
+
+msgid "Cổng Quản Trị"
+msgstr "Admin Portal"
+
+msgid "Khởi Tạo Quản Trị Viên Ban Đầu"
+msgstr "Initial Administrator Setup"
+
+msgid ""
+"Đây là tài khoản Operator cao nhất của hệ thống tiệm bánh. Trang này chỉ "
+"được phép tạo 1 LẦN DUY NHẤT khi hệ thống mới thiết lập."
+msgstr ""
+"This is the supreme Operator account for the bakery system. This setup page "
+"can only be used ONCE during initial initialization."
+
+msgid "Lỗi đăng ký:"
+msgstr "Registration errors:"
+
+msgid "Xác Nhận & Kích Hoạt Quản Trị Viên Ban Đầu"
+msgstr "Confirm & Activate Master Administrator"
+
+msgid ""
+"Sau khi kích hoạt, mọi tài khoản Admin hoặc Nhân viên tiếp theo sẽ do bạn "
+"quản lý trong trang Nhân Sự."
+msgstr ""
+"Once activated, all subsequent Admin and Staff accounts will be managed by "
+"you in the Personnel page."
+
+msgid "Đăng Nhập"
+msgstr "Login"
+
+msgid "Đăng Nhập Hệ Thống"
+msgstr "System Sign In"
+
+msgid "Quản lý Tiệm Bánh & Điểm Bán Hàng POS"
+msgstr "Bakery Management & POS Point of Sale"
+
+msgid "Tên đăng nhập / Email / SĐT"
+msgstr "Username / Email / Phone"
+
+msgid "ĐĂNG NHẬP"
+msgstr "SIGN IN"
+
+msgid "Chưa có tài khoản?"
+msgstr "Don't have an account?"
+
+msgid "Đăng ký ngay"
+msgstr "Register now"
+
+msgid "Tài Khoản Mẫu Thử Nghiệm Nhanh"
+msgstr "Quick Demo Test Accounts"
+
+msgid "Admin / Chủ tiệm"
+msgstr "Admin / Store Owner"
+
+msgid "Thu ngân POS"
+msgstr "POS Cashier"
+
+msgid "Khách có điểm ví"
+msgstr "Customer with Wallet Points"
+
+msgid "Đã tự động điền:"
+msgstr "Auto-filled:"
+
+msgid "Hồ Sơ & Ví Điểm Hội Viên"
+msgstr "Profile & Member Points Wallet"
+
+msgid "SĐT:"
+msgstr "Phone:"
+
+msgid "Vai trò:"
+msgstr "Role:"
+
+msgid "Hạng:"
+msgstr "Tier:"
+
+msgid "Tổng chi tiêu:"
+msgstr "Total Spent:"
+
+msgid "Số Dư Điểm Ví (1đ = 1.000đ)"
+msgstr "Wallet Points Balance (1 pt = 1,000 VND)"
+
+msgid "điểm"
+msgstr "points"
+
+msgid "Tương đương"
+msgstr "Equivalent to"
+
+msgid "Nạp Thêm Điểm"
+msgstr "Top Up Points"
+
+msgid "Nâng Cấp VIP"
+msgstr "Upgrade to VIP"
+
+msgid "Đặc Quyền Hội Viên VIP"
+msgstr "VIP Member Privileges"
+
+#, python-format
+msgid ""
+"Tự động giảm <strong>%(percent)s%%</strong> cho mọi đơn hàng bánh, ưu tiên "
+"giao hàng và nhận mã voucher sinh nhật đặc biệt!"
+msgstr ""
+"Automatically get <strong>%(percent)s%%</strong> off all pastry orders, "
+"priority delivery, and special birthday vouchers!"
+
+msgid "Gói VIP đang kích hoạt (Hạn sử dụng đến ngày:"
+msgstr "VIP Package is active (Expires on:"
+
+msgid "GIA HẠN GÓI VIP"
+msgstr "RENEW VIP PACKAGE"
+
+msgid "ĐĂNG KÝ VIP NGAY"
+msgstr "JOIN VIP NOW"
+
+msgid "Lịch Sử Biến Động Điểm Ví"
+msgstr "Points Transaction History"
+
+msgid "Thời Gian"
+msgstr "Timestamp"
+
+msgid "Loại Giao Dịch"
+msgstr "Transaction Type"
+
+msgid "Số Điểm"
+msgstr "Points"
+
+msgid "Quy Đổi VNĐ"
+msgstr "VND Value"
+
+msgid "Ghi Chú"
+msgstr "Notes"
+
+msgid "Chưa có giao dịch điểm nào."
+msgstr "No point transactions found."
+
+msgid "Nạp Điểm Vào Ví Hội Viên"
+msgstr "Top Up Member Wallet"
+
+msgid "Tỷ lệ quy đổi: 1 điểm = 1.000 VNĐ"
+msgstr "Conversion rate: 1 point = 1,000 VND"
+
+msgid "Chọn số điểm muốn nạp:"
+msgstr "Choose top-up amount:"
+
+msgid "Hoặc nhập số điểm tùy ý:"
+msgstr "Or enter custom points:"
+
+msgid "TIẾP TỤC & QUÉT MÃ VIETQR"
+msgstr "CONTINUE & SCAN VIETQR"
+
+msgid "Số tiền chuyển:"
+msgstr "Transfer amount:"
+
+msgid "Nội dung CK:"
+msgstr "Transfer note:"
+
+msgid "TÔI ĐÃ CHUYỂN KHOẢN XONG"
+msgstr "I HAVE COMPLETED THE TRANSFER"
+
+msgid "Chọn Gói Hội Viên VIP"
+msgstr "Select VIP Membership Package"
+
+#, python-format
+msgid "Giảm %(percent)s%% tất cả các đơn bánh tại tiệm & online"
+msgstr "Save %(percent)s%% on all pastry orders in-store & online"
+
+msgid "ngày"
+msgstr "days"
+
+msgid "THANH TOÁN GÓI VIP BẰNG VIETQR"
+msgstr "PAY FOR VIP WITH VIETQR"
+
+msgid "Gói đăng ký:"
+msgstr "Subscribed Package:"
+
+msgid "XÁC NHẬN ĐÃ CHUYỂN KHOẢN"
+msgstr "CONFIRM TRANSFER COMPLETED"
+
+msgid "Vui lòng nhập số điểm lớn hơn 0."
+msgstr "Please enter points greater than 0."
+
+msgid "Lỗi sinh mã nạp điểm."
+msgstr "Error generating top-up code."
+
+msgid "Lỗi xác nhận nạp điểm."
+msgstr "Error confirming top-up."
+
+msgid "Đã chọn:"
+msgstr "Selected:"
+
+msgid "Lỗi tạo mã VIP."
+msgstr "Error creating VIP QR code."
+
+msgid "Lỗi xác nhận gói VIP."
+msgstr "Error confirming VIP subscription."
+
+msgid "Đăng Ký Tài Khoản"
+msgstr "Register Account"
+
+msgid "Tạo Tài Khoản Mới"
+msgstr "Create New Account"
+
+#, python-format
+msgid "Tham gia cộng đồng Artisan Bakery để tích điểm 10%% và nhận ưu đãi"
+msgstr "Join the Artisan Bakery community to earn 10%% points and get rewards"
+"Join Artisan Bakery community to earn 10%% points and receive special rewards"
+
+msgid "Quy Tắc Người Dùng Đầu Tiên (User #1)"
+msgstr "First User Rule (User #1)"
+
+msgid ""
+"Hệ thống phát hiện chưa có người dùng nào. Tài khoản bạn đăng ký ngay bây "
+"giờ sẽ <strong>TỰ ĐỘNG ĐƯỢC CẤP TOÀN QUYỀN ADMIN (Superuser / Quản trị viên "
+"cao nhất)</strong>!"
+msgstr ""
+"No users found in system. The account you register right now will "
+"<strong>AUTOMATICALLY BE GRANTED FULL ADMIN PRIVILEGES (Superuser / Highest "
+"Administrator)</strong>!"
+
+msgid "Tên đăng nhập"
+msgstr "Login"
+
+msgid "Ngày sinh nhật"
+msgstr "Birthday"
+
+msgid "HOÀN TẤT ĐĂNG KÝ"
+msgstr "COMPLETE REGISTRATION"
+
+msgid "Đã có tài khoản?"
+msgstr "Already have an account?"
+
+msgid "Đăng nhập ngay"
+msgstr "Sign in now"
+
+msgid "Tiệm Bánh Artisan Bakery"
+msgstr "Artisan Bakery Shop"
+
+msgid "Hệ Thống Quản Lý"
+msgstr "Management System"
+
+msgid "Quản Trị Hệ Thống"
+msgstr "System Administration"
+
+msgid "Vận Hành Nội Bộ"
+msgstr "Internal Operations"
+
+msgid "Tiệm Bánh Trực Tuyến"
+msgstr "Online Bakery Shop"
+
+msgid "Bảng Điều Khiển"
+msgstr "Dashboard"
+
+msgid "Quản Lý Nhân Viên"
+msgstr "Employee Management"
+
+msgid "Món & Menu"
+msgstr "Menu & Products"
+
+msgid "Danh Sách Món Bánh"
+msgstr "Pastry Menu List"
+
+msgid "Thêm Món Bánh Mới"
+msgstr "Add New Pastry"
+
+msgid "Quản Lý Mã Ưu Đãi"
+msgstr "Manage Promo Codes"
+
+msgid "Tạo Mã Ưu Đãi Mới"
+msgstr "Create New Coupon"
+
+msgid "Cài Đặt VietQR & Tiệm"
+msgstr "VietQR & Store Settings"
+
+msgid "Bán Lẻ POS"
+msgstr "Retail POS"
+
+msgid "Bánh Theo Hẹn"
+msgstr "Custom Cakes"
+
+msgid "Bếp & KDS"
+msgstr "Kitchen & KDS"
+
+msgid "Lịch Sử Đơn"
+msgstr "Order History"
+
+msgid "Thực Đơn Bánh"
+msgstr "Pastry Menu"
+
+msgid "Đặt Bánh Theo Yêu Cầu"
+msgstr "Custom Order Cakes"
+
+msgid "Giỏ Hàng"
+msgstr "Cart"
+
+msgid "Đơn Của Tôi"
+msgstr "My Orders"
+
+msgid "Ví điểm hội viên (1 điểm = 1.000 VNĐ)"
+msgstr "Member points wallet (1 pt = 1,000 VND)"
+
+msgid "Đăng xuất"
+msgstr "Logout"
+
+msgid "Đăng Ký"
+msgstr "Register"
+
+msgid "Đăng Nhập Nhân Viên"
+msgstr "Staff Login"
+
+msgid "Hẹn:"
+msgstr "Due:"
+
+msgid "Cốt:"
+msgstr "Base:"
+
+msgid "Vị:"
+msgstr "Flavor:"
+
+msgid "Kích cỡ:"
+msgstr "Size:"
+
+msgid "Ghi chú:"
+msgstr "Notes:"
+
+msgid "Đã cọc / Tổng"
+msgstr "Deposit / Total"
+
+msgid "Xem chi tiết & mã QR cọc"
+msgstr "View details & deposit QR code"
+
+msgid "Theo Dõi Bánh Kem Hẹn Trước - Kanban"
+msgstr "Custom Cakes Kanban Tracking"
+
+msgid "Theo Dõi Bánh Kem Theo Hẹn"
+msgstr "Custom Cakes"
+
+msgid ""
+"Quản lý tiến độ sản xuất bánh kem nghệ thuật từ khâu nhận đơn đến giao bánh"
+msgstr "Track custom artisan cake production from order intake to pickup"
+
+#, python-format
+msgid "Đặt Bánh Mới (Cọc >= 30%%)"
+msgstr "New Cake Order (Deposit >= 30%%)"
+
+msgid "Đã Tiếp Nhận"
+msgstr "Received"
+
+msgid "Bắt Đầu Nướng"
+msgstr "Start Baking"
+
+msgid "Không có đơn chờ"
+msgstr "No pending orders"
+
+msgid "Bếp Đang Làm"
+msgstr "In Baking"
+
+msgid "Bánh Đã Xong"
+msgstr "Cake Ready"
+
+msgid "Không có bánh đang làm"
+msgstr "No cakes currently in baking"
+
+msgid "Bánh Sẵn Sàng"
+msgstr "Ready for Pickup"
+
+msgid "Khách Đã Nhận"
+msgstr "Customer Picked Up"
+
+msgid "Chưa có bánh sẵn sàng"
+msgstr "No cakes ready for pickup"
+
+msgid "Đã Giao Xong"
+msgstr "Delivered"
+
+msgid "Chưa có đơn đã giao"
+msgstr "No delivered orders yet"
+
+msgid "Lỗi cập nhật trạng thái đơn."
+msgstr "Error updating order status."
+
+msgid "Phiếu Đặt Bánh"
+msgstr "Custom Cake Order Slip"
+
+msgid "Bảng Kanban tiến độ Bếp"
+msgstr "Kitchen Kanban Board"
+
+msgid "In Giấy Hẹn Lấy Bánh"
+msgstr "Print Pickup Slip"
+
+msgid "Phiếu Hẹn Bánh Kem Nghệ Thuật"
+msgstr "Artisan Cake Appointment Slip"
+
+msgid "Khách hàng:"
+msgstr "Customer:"
+
+msgid "Số điện thoại:"
+msgstr "Phone Number"
+
+msgid "Thời gian hẹn nhận:"
+msgstr "Pickup appointment time:"
+
+msgid "Cốt bánh:"
+msgstr "Cake base:"
+
+msgid "Vị kem:"
+msgstr "Frosting flavor:"
+
+msgid "Ngày đặt:"
+msgstr "Order date:"
+
+msgid "Chữ viết trên bánh:"
+msgstr "Inscription on cake:"
+
+msgid "Ghi chú đặc biệt:"
+msgstr "Special Notes:"
+
+msgid "Tổng giá trị đơn bánh:"
+msgstr "Total cake order amount:"
+
+#, python-format
+msgid "Tiền đặt cọc đã ghi nhận (>= 30%%):"
+msgstr "Recorded deposit amount (>= 30%%):"
+
+msgid "Còn lại phải thanh toán khi nhận:"
+msgstr "Remaining balance due upon pickup:"
+
+msgid ""
+"Quý khách vui lòng mang theo Giấy hẹn này hoặc đọc SĐT khi đến nhận bánh tại "
+"tiệm."
+msgstr ""
+"Please present this pickup slip or provide your phone number when collecting "
+"your cake."
+
+msgid "Mã VietQR Đặt Cọc"
+msgstr "Deposit VietQR Code"
+
+msgid "Quét để chuyển khoản tiền cọc"
+msgstr "Scan to transfer deposit"
+
+msgid "VietQR Đặt cọc"
+msgstr "Deposit VietQR"
+
+msgid "Số tiền cọc:"
+msgstr "Deposit amount:"
+
+msgid "Đã xác nhận tiền cọc thành công!"
+msgstr "Deposit confirmed successfully!"
+
+msgid "Đã Nhận Tiền Cọc"
+msgstr "Deposit Received"
+
+msgid "Đặt Bánh Kem Theo Yêu Cầu"
+msgstr "Custom Cake Order"
+
+msgid "Đặt Bánh Kem Nghệ Thuật Theo Hẹn"
+msgstr "Order Custom Artisan Cake"
+
+msgid ""
+"Tùy biến cốt bánh, vị kem, ghi chú viết chữ và thời gian lấy (tối thiểu 4 "
+"tiếng)"
+msgstr ""
+"Customize cake base, frosting, inscription, and pickup time (minimum 4 hours)"
+
+msgid "Thông Tin Người Đặt"
+msgstr "Customer Information"
+
+msgid "Họ và tên khách hàng"
+msgstr "Customer Portal"
+
+msgid "Số điện thoại liên hệ"
+msgstr "Phone Number"
+
+msgid "Cấu Hình Bánh Kem"
+msgstr "Cake Configuration"
+
+msgid "Vị kem phủ"
+msgstr "Frosting Flavor"
+
+msgid "Kích cỡ (Size)"
+msgstr "Size"
+
+msgid "Lời chúc viết lên mặt bánh (Nghệ thuật)"
+msgstr "Custom inscription on cake"
+
+msgid "Ghi chú đặc biệt (Notes)"
+msgstr "Special Notes"
+
+msgid "Ví dụ: Ít ngọt, màu kem theo yêu cầu, phụ kiện nến sinh nhật, v.v."
+msgstr "e.g. Less sweet, custom cream color, birthday candle accessories, etc."
+
+msgid "Link ảnh mẫu trang trí tham khảo (nếu có)"
+msgstr "Reference decor image link (if any)"
+
+#, python-format
+msgid "Hẹn Giờ Lấy Bánh & Đặt Cọc (Tối thiểu 30%%)"
+msgstr "Pickup Schedule & Deposit (Min 30%%)"
+
+msgid "Ngày & Giờ nhận bánh (Tối thiểu sau 4 tiếng)"
+msgstr "Pickup Date & Time (At least 4 hours ahead)"
+
+msgid "Tổng giá trị đơn bánh (VNĐ)"
+msgstr "Total Cake Price (VND)"
+
+msgid "Tiền đặt cọc"
+msgstr "Deposit Amount"
+
+#, python-format
+msgid "Tối thiểu 30%% ="
+msgstr "Minimum 30%% ="
+
+msgid "Gợi ý cọc:"
+msgstr "Suggested deposit:"
+
+msgid "Tối thiểu"
+msgstr "Minimum"
+
+msgid "Toàn bộ"
+msgstr "Full"
+
+msgid "Hủy & Quay lại"
+msgstr "Cancel & Go Back"
+
+msgid "TẠO PHIẾU ĐẶT BÁNH & SINH MÃ VIETQR CỌC"
+msgstr "CREATE ORDER & GENERATE DEPOSIT VIETQR"
+
+msgid "Giỏ Hàng & Đặt Hàng Online"
+msgstr "Online Cart & Checkout"
+
+msgid "Giỏ Hàng Đặt Bánh Trực Tuyến"
+msgstr "Online Bakery Shopping Cart"
+
+msgid ""
+"Hỗ trợ giao hàng COD tận nơi (phí ship 30.000đ) hoặc nhận trực tiếp tại quầy"
+msgstr "Supports doorstep COD delivery (30,000 VND flat fee) or counter pickup"
+
+msgid "Tiếp tục chọn bánh"
+msgstr "Continue browsing pastries"
+
+msgid "Các Món Trong Giỏ"
+msgstr "Items in Cart"
+
+msgid "Thông Tin Nhận Hàng"
+msgstr "Delivery Information"
+
+msgid "Giao hàng tận nơi (+30.000đ)"
+msgstr "Doorstep Delivery (+30,000 VND)"
+
+msgid "Nhận tại tiệm (Miễn phí ship)"
+msgstr "Pick up at Store (Free Shipping)"
+
+msgid "Số điện thoại nhận bánh"
+msgstr "Recipient Phone Number"
+
+msgid "Địa chỉ giao hàng chi tiết"
+msgstr "Detailed Delivery Address"
+
+msgid "Số nhà, tên đường, phường/xã, quận/huyện..."
+msgstr "House number, street, ward, district..."
+
+msgid "Ghi chú giao bánh"
+msgstr "Delivery Instructions"
+
+msgid "Lời dặn tài xế, thời gian muốn nhận..."
+msgstr "Instructions for driver, preferred delivery time..."
+
+msgid "Chi Tiết Thanh Toán"
+msgstr "Payment Summary"
+
+msgid "Ví Điểm Của Bạn"
+msgstr "Your Loyalty Wallet"
+
+msgid "Dùng điểm"
+msgstr "Redeem points"
+
+msgid "Mã giảm giá (Coupon)"
+msgstr "Discount Coupon Code"
+
+msgid "Áp Dụng"
+msgstr "Apply"
+
+msgid "Tiền hàng:"
+msgstr "Subtotal:"
+
+msgid "Phí vận chuyển:"
+msgstr "Shipping Fee:"
+
+msgid "Giảm giá Voucher:"
+msgstr "Coupon Discount:"
+
+msgid "Trừ điểm ví:"
+msgstr "Points Redeemed:"
+
+msgid "Tổng Thanh Toán:"
+msgstr "Total Amount:"
+
+msgid "Hình thức thanh toán:"
+msgstr "Payment Method:"
+
+msgid "Chuyển khoản VietQR tức thì"
+msgstr "Instant VietQR Bank Transfer"
+
+msgid "XÁC NHẬN ĐẶT HÀNG"
+msgstr "CONFIRM ORDER"
+
+msgid "Quét Mã VietQR Thanh Toán"
+msgstr "Scan VietQR Code to Pay"
+
+msgid "Đơn hàng của bạn đã được ghi nhận! Vui lòng quét mã để thanh toán."
+msgstr "Your order has been recorded! Please scan the code to complete payment."
+"Your order has been recorded! Please scan the QR code to complete payment."
+
+msgid "Số tiền:"
+msgstr "Amount:"
+
+msgid "HOÀN TẤT & VỀ TRANG ĐƠN HÀNG"
+msgstr "COMPLETE & GO TO ORDERS"
+
+msgid "Giỏ hàng của bạn đang trống"
+msgstr "Your cart is currently empty"
+
+msgid "Khám phá thực đơn"
+msgstr "Browse Menu"
+
+msgid "Kho chỉ còn"
+msgstr "Only left in stock:"
+
+msgid "cái."
+msgstr "items."
+
+msgid "Giảm"
+msgstr "Discount"
+
+msgid "Áp dụng mã khuyến mãi thành công!"
+msgstr "Promo code applied successfully!"
+
+msgid "Giỏ hàng trống!"
+msgstr "Cart is empty!"
+
+msgid "Vui lòng điền tên và số điện thoại người nhận."
+msgstr "Please enter recipient name and phone number."
+
+msgid "Vui lòng điền địa chỉ giao hàng tận nơi."
+msgstr "Please enter a detailed delivery address."
+
+msgid "Đang xử lý đơn..."
+msgstr "Processing order..."
+
+msgid "Lỗi khi gửi đơn hàng."
+msgstr "Error placing order."
+
+msgid "Thực Đơn Bánh Tươi Hôm Nay - Artisan Bakery"
+msgstr "Today's Fresh Pastry Menu - Artisan Bakery"
+
+msgid "Bánh nướng nóng hổi mỗi sáng"
+msgstr "Freshly baked every morning"
+
+msgid "Hương Vị Thủ Công Đích Thực Từ Lò Nướng"
+msgstr "Authentic Handcrafted Flavors From Our Ovens"
+
+msgid ""
+"Nguyên liệu bơ sữa hảo hạng nhập khẩu, men tự nhiên lên men chậm, giao hàng "
+"tận nơi nhanh chóng với phí ship chỉ 30.000đ!"
+msgstr ""
+"Imported premium butter & dairy, slow wild fermentation, fast delivery with "
+"flat 30,000 VND shipping fee!"
+
+msgid "Khám Phá Thực Đơn"
+msgstr "Explore Menu"
+
+msgid "Đặt Bánh Sinh Nhật Theo Hẹn"
+msgstr "Order Custom Birthday Cake"
+
+msgid "Mã Ưu Đãi Khả Dụng"
+msgstr "Available Promo Coupons"
+
+msgid "Sao chép"
+msgstr "Copy"
+
+msgid "Thực Đơn Món Bánh"
+msgstr "Pastry Menu"
+
+msgid "Giỏ Hàng Online"
+msgstr "Online Cart"
+
+msgid "Tất Cả Bánh"
+msgstr "All Pastries"
+
+msgid "GIỜ VÀNG"
+msgstr "GOLDEN HOUR"
+
+msgid "HẾT HÀNG"
+msgstr "OUT OF STOCK"
+
+msgid "Còn"
+msgstr "In stock:"
+
+#, python-format
+msgid "Giờ vàng bánh tươi -40%%"
+msgstr "Fresh Cake Golden Hour -40%%"
+
+msgid "Thêm Mua"
+msgstr "Add to Cart"
+
+msgid "Hết hàng"
+msgstr "Out of stock"
+
+msgid "Xem Giỏ Hàng"
+msgstr "View Cart"
+
+msgid "Đã thêm"
+msgstr "Added"
+
+msgid "vào giỏ hàng!"
+msgstr "to cart!"
+
+msgid "Đã sao chép mã"
+msgstr "Copied promo code"
+
+msgid "Hãy dán vào giỏ hàng."
+msgstr "Paste it into your cart."
+
+msgid "Đơn Hàng Của Tôi"
+msgstr "My Orders"
+
+msgid "Lịch Sử Đơn Hàng Của Tôi"
+msgstr "My Order History"
+
+msgid "Theo dõi trạng thái và chi tiết các đơn bánh đã đặt"
+msgstr "Track the status and details of your pastry orders"
+
+msgid "Đặt Thêm Bánh"
+msgstr "Order More Pastries"
+
+msgid "Phí ship:"
+msgstr "Shipping:"
+
+msgid "Giao đến:"
+msgstr "Deliver to:"
+
+msgid "Nhận tại tiệm"
+msgstr "Store Pickup"
+
+msgid "Tổng thanh toán:"
+msgstr "Total Paid:"
+
+msgid "Bạn chưa có đơn hàng nào."
+msgstr "You have no orders yet."
+
+msgid "Đặt bánh ngay"
+msgstr "Order pastries now"
+
+msgid "Tạo Tài Khoản Nhân Viên Mới"
+msgstr "Add New Employee"
+
+msgid "Thêm Nhân Viên / Quản Trị Mới"
+msgstr "Add New Staff / Administrator"
+
+msgid ""
+"Nhân sự được tạo sẽ sử dụng tài khoản này để đăng nhập vào cổng chuyên biệt."
+msgstr ""
+"Created personnel will use this account to log into their dedicated portal."
+
+msgid "Quay lại"
+msgstr "Back"
+
+msgid "Vui lòng kiểm tra lại thông tin:"
+msgstr "Please check your input:"
+
+msgid "Dùng để đăng nhập hệ thống (Ví dụ: cashier01 hoặc cashier@bakery.local)"
+msgstr "Used for system login (e.g., cashier01 or cashier@bakery.local)"
+
+msgid "Mật khẩu tối thiểu 6 ký tự"
+msgstr "Password must be at least 6 characters"
+
+msgid "Hủy Bỏ"
+msgstr "Cancel"
+
+msgid "Lưu & Cấp Tài Khoản"
+msgstr "Save & Issue Account"
+
+msgid "Quản Lý Nhân Viên & Phân Quyền"
+msgstr "Employee Management"
+
+msgid "Quản Trị Nhân Sự"
+msgstr "Staff Management"
+
+msgid "Danh Sách Nhân Viên & Quản Trị Viên"
+msgstr "Employees & Administrators List"
+
+msgid ""
+"Nhân viên chỉ đăng nhập qua Cổng Nhân Viên (Port 8009). Chỉ được xóa tài "
+"khoản chưa từng phát sinh đơn hàng/mẻ bánh."
+msgstr ""
+"Staff only log in through the Staff Portal (Port 8009). Accounts can only be "
+"deleted if they have never generated any sales orders or baking batches."
+
+msgid "Tạo Nhân Viên Mới"
+msgstr "Add New Employee"
+
+msgid "Nhân Viên"
+msgstr "Employee"
+
+msgid "Vai Trò"
+msgstr "Role"
+
+msgid "Số Điện Thoại"
+msgstr "Phone Number"
+
+msgid "Lịch Sử Giao Dịch"
+msgstr "History"
+
+msgid "Trạng Thái"
+msgstr "Status"
+
+msgid "Hành Động"
+msgstr "Actions"
+
+msgid "Bạn"
+msgstr "You"
+
+msgid "Quản Trị Viên (Admin)"
+msgstr "Administrator (Admin)"
+
+msgid "Thu Ngân POS"
+msgstr "POS Cashier"
+
+msgid "Thợ Bánh KDS"
+msgstr "Baker (KDS)"
+
+msgid "Đơn bán lẻ"
+msgstr "Retail Orders"
+
+msgid "Mẻ nướng"
+msgstr "Batches"
+
+msgid "Đang hoạt động"
+msgstr "Active"
+
+msgid "Đã vô hiệu hóa"
+msgstr "Deactivated"
+
+msgid "Khóa tài khoản"
+msgstr "Deactivate"
+
+msgid "Kích hoạt lại"
+msgstr "Activate"
+
+msgid "Xóa"
+msgstr "Delete"
+
+msgid ""
+"Nhân viên đã có lịch sử đơn hàng hoặc mẻ bánh. Chỉ được phép vô hiệu hóa để "
+"bảo vệ số liệu kế toán."
+msgstr ""
+"Staff member already has order or batch history. Only deactivation is "
+"permitted to preserve accounting data integrity."
+
+msgid "Đã có dữ liệu"
+msgstr "Has Data (Locked)"
+
+msgid "Tài khoản hiện tại"
+msgstr "Current Account"
+
+msgid "Chưa có nhân viên nào trong danh sách."
+msgstr "No employees found in list."
+
+# Dashboard Translations
+msgid "Bảng Điều Khiển Quản Lý Tiệm Bánh"
+msgstr "Bakery Management Dashboard"
+
+msgid "Xin chào"
+msgstr "Welcome"
+
+msgid "Cổng Quản Trị Hệ Thống (Port 8010/9010)"
+msgstr "System Administration Portal (Port 8010/9010)"
+
+msgid "Cổng Vận Hành Nội Bộ (Port 8009/9009)"
+msgstr "Internal Operations Portal (Port 8009/9009)"
+
+msgid "Cổng Khách Hàng Trực Tuyến (Port 8008/9008)"
+msgstr "Online Customer Portal (Port 8008/9008)"
+
+msgid "Thêm Món Bánh"
+msgstr "Add Pastry"
+
+msgid "Cài Đặt VietQR"
+msgstr "VietQR Settings"
+
+msgid "Vào Quầy POS Bán Lẻ"
+msgstr "Open Retail POS"
+
+msgid "Khám Phá Bánh Tươi"
+msgstr "Browse Fresh Pastries"
+
+msgid "DOANH THU HÔM NAY"
+msgstr "TODAY'S REVENUE"
+
+msgid "hóa đơn thành công"
+msgstr "successful orders"
+
+msgid "DOANH THU TUẦN NÀY"
+msgstr "THIS WEEK'S REVENUE"
+
+msgid "Từ đầu tuần đến hiện tại"
+msgstr "From start of week to present"
+
+msgid "BÁNH KEM ĐANG CHỜ"
+msgstr "PENDING CUSTOM CAKES"
+
+msgid "đơn"
+msgstr "orders"
+
+msgid "Xem Kanban tiến độ"
+msgstr "View Kanban Progress"
+
+msgid "Đơn đặt bánh kem hẹn trước"
+msgstr "Pre-booked custom cake orders"
+
+msgid "HỘI VIÊN TÍCH ĐIỂM"
+msgstr "LOYALTY MEMBERS"
+
+msgid "khách"
+msgstr "customers"
+
+#, python-format
+msgid "Tích 10%% điểm mỗi đơn"
+msgstr "Earn 10%% points per order"
+
+msgid "Cảnh Báo Cần Xử Lý Ngay"
+msgstr "Critical Alerts Requiring Action"
+
+msgid "Xem tất cả"
+msgstr "View all"
+
+msgid "Bánh tươi bảo quản < 24 giờ (Cần bán nhanh trong ca):"
+msgstr "Fresh pastries shelf life < 24h (Priority sale):"
+
+msgid "HSD:"
+msgstr "Exp:"
+
+msgid "Tồn:"
+msgstr "Stock:"
+
+msgid "Không có bánh cận hạn"
+msgstr "No expiring pastries"
+
+msgid "Nguyên vật liệu dưới ngưỡng tồn tối thiểu:"
+msgstr "Raw materials below safety stock threshold:"
+
+msgid "Ngưỡng"
+msgstr "Threshold"
+
+msgid "Đơn Đặt Bánh Kem Chờ Làm"
+msgstr "Custom Cakes Queue"
+
+msgid "Mở Kanban Bếp"
+msgstr "Open Kitchen Kanban"
+
+msgid "Đã cọc:"
+msgstr "Deposit:"
+
+msgid "Không có đơn đặt bánh kem đang chờ."
+msgstr "No custom cakes currently pending."
+
+msgid "Giao Dịch Hóa Đơn Gần Nhất"
+msgstr "Recent Invoices & Transactions"
+
+msgid "Xem tất cả hóa đơn"
+msgstr "View all invoices"
+
+msgid "Mã Hóa Đơn"
+msgstr "Order Code"
+
+msgid "Kênh Bán"
+msgstr "Channel"
+
+msgid "Khách Hàng / Thu Ngân"
+msgstr "Customer / Cashier"
+
+msgid "Tổng Tiền"
+msgstr "Total"
+
+msgid "Thanh Toán"
+msgstr "Payment"
+
+msgid "Thao Tác"
+msgstr "Actions"
+
+msgid "Khách vãng lai"
+msgstr "Walk-in Guest"
+
+msgid "Chi tiết"
+msgstr "Details"
+
+msgid "Chưa có giao dịch nào hôm nay."
+msgstr "No transactions recorded today."
+
+msgid "Cài Đặt Hệ Thống & Cấu Hình VietQR"
+msgstr "System Settings & VietQR Configuration"
+
+msgid ""
+"Thiết lập tài khoản nhận tiền ngân hàng, thông tin tiệm và chính sách hội "
+"viên"
+msgstr ""
+"Configure receiving bank account, bakery details, and membership policies"
+
+# New Navigation & Portal Separation Translations
+msgid "Thông Tin Tiệm Bánh"
+msgstr "Bakery Information"
+
+# New Navigation & Portal Separation Translations
+msgid "Tên Tiệm Bánh"
+msgstr "Bakery Name"
+
+msgid "Số điện thoại hotline"
+msgstr "Hotline Phone"
+
+# New Navigation & Portal Separation Translations
+msgid "Địa chỉ tiệm bánh"
+msgstr "Bakery Address"
+
+msgid "Cấu Hình Thanh Toán VietQR Tự Động"
+msgstr "Automatic VietQR Payment Configuration"
+
+msgid "Cấu trúc URL sinh mã QR:"
+msgstr "QR code generation URL template:"
+
+msgid "Mã Ngân Hàng (BANK_ID)"
+msgstr "Bank ID (BANK_ID)"
+
+msgid "VD: MB, VCB, ICB, ACB, TPB..."
+msgstr "e.g. MB, VCB, ICB, ACB, TPB..."
+
+msgid "Số Tài Khoản Nhận Tiền"
+msgstr "Receiving Bank Account Number"
+
+msgid "Tên Chủ Tài Khoản (In Hoa Không Dấu)"
+msgstr "Account Holder Name (Uppercase Unaccented)"
+
+msgid "Mẫu hiển thị VietQR (Template)"
+msgstr "VietQR Display Template"
+
+msgid "Hiện kèm logo ngân hàng & số tiền"
+msgstr "With bank logo & amount"
+
+msgid "Rút gọn thanh thoát"
+msgstr "Compact clean layout"
+
+msgid "Chỉ mã QR lớn thuần túy"
+msgstr "Pure large QR code only"
+
+msgid "Phí Vận Chuyển & Gói Hội Viên VIP"
+msgstr "Shipping Fee & VIP Membership Policy"
+
+msgid "Phí Giao Hàng Mặc Định (COD / Ship tận nơi) (VNĐ)"
+msgstr "Default Shipping Fee (COD / Doorstep) (VND)"
+
+msgid "Giá VIP 1 Tháng (VNĐ)"
+msgstr "1-Month VIP Price (VND)"
+
+msgid "Giá VIP 1 Năm (VNĐ)"
+msgstr "1-Year VIP Price (VND)"
+
+#, python-format
+msgid "%% Chiết Khấu VIP Mặc Định"
+msgstr "%% Default VIP Discount"
+
+msgid "Về trang chủ"
+msgstr "Back to Home"
+
+msgid "LƯU TOÀN BỘ CÀI ĐẶT"
+msgstr "SAVE ALL SETTINGS"
+
+msgid "Cảnh Báo Hạn Sử Dụng & Tồn Kho"
+msgstr "Expiry & Inventory Alerts"
+
+msgid "Bảng Cảnh Báo Đỏ: Hạn Sử Dụng & Tồn Kho"
+msgstr "Red Alert Board: Expiry & Low Stock"
+
+msgid ""
+"Giám sát các loại bánh tươi cận hạn bảo quản (<24h) và nguyên vật liệu dưới "
+"ngưỡng an toàn"
+msgstr ""
+"Monitor fresh pastries near expiry (<24h) and ingredients below safety stock"
+
+msgid "Bánh Tươi Cận Hạn Bảo Quản (< 24 Giờ)"
+msgstr "Fresh Pastries Near Expiry (< 24 Hours)"
+
+msgid "loại bánh"
+msgstr "pastry types"
+
+msgid ""
+"Các loại bánh này có hạn sử dụng ngắn, cần ưu tiên trưng bày phía trước quầy "
+"POS và đẩy mạnh bán trong ca."
+msgstr ""
+"These pastries have short shelf life; prioritize front-counter POS display "
+"and shift promotions."
+
+msgid "Hạn tối đa:"
+msgstr "Max shelf life:"
+
+msgid "giờ"
+msgstr "hours"
+
+msgid "Tồn hiện tại:"
+msgstr "Current stock:"
+
+msgid "chiếc"
+msgstr "pcs"
+
+msgid "Mở POS Bán"
+msgstr "Open POS to Sell"
+
+msgid "Không có cảnh báo bánh cận hạn."
+msgstr "No expiring pastries alert."
+
+msgid "Nguyên Liệu Thiếu (Dưới Định Mức)"
+msgstr "Shortage Materials (Below Threshold)"
+
+msgid "nguyên liệu"
+msgstr "ingredients"
+
+msgid ""
+"Nguyên liệu đã chạm hoặc dưới ngưỡng tối thiểu, cần nhập bổ sung để không "
+"gián đoạn mẻ bánh của Bếp."
+msgstr ""
+"Raw materials reached or dropped below safety threshold; restock to prevent "
+"baking disruptions."
+
+msgid "Tồn kho:"
+msgstr "Current stock:"
+
+msgid "Ngưỡng an toàn:"
+msgstr "Safety threshold:"
+
+msgid "Nhập Kho"
+msgstr "Import Stock"
+
+msgid "Tất cả nguyên liệu trong kho đang ở mức an toàn."
+msgstr "All raw materials in stock are at safe levels."
+
+msgid "Nhập Kho:"
+msgstr "Restock Material:"
+
+msgid "Nhập Kho Nguyên Liệu"
+msgstr "Restock Raw Material"
+
+msgid "Tồn kho hiện tại:"
+msgstr "Current Stock:"
+
+msgid "Ngưỡng tối thiểu:"
+msgstr "Minimum Threshold:"
+
+msgid "Số lượng nhập thêm"
+msgstr "Restock Quantity"
+
+msgid "Đơn giá nhập mới"
+msgstr "New Unit Cost"
+
+msgid "Hủy"
+msgstr "Cancel"
+
+msgid "XÁC NHẬN NHẬP KHO"
+msgstr "CONFIRM RESTOCK"
+
+msgid "Quản Lý Nguyên Vật Liệu Kho"
+msgstr "Raw Materials Management"
+
+msgid "Kho Nguyên Vật Liệu (Raw Materials)"
+msgstr "Raw Materials Warehouse"
+
+msgid "Quản lý bột, bơ, sữa, trứng và các nguyên liệu phục vụ định mức BOM"
+msgstr "Manage flour, butter, milk, eggs and recipe BOM ingredients"
+
+msgid "Tổng quan kho"
+msgstr "Inventory Overview"
+
+msgid "Mã NL"
+msgstr "Material Code"
+
+msgid "Tên Nguyên Vật Liệu"
+msgstr "Material Name"
+
+msgid "Đơn Vị"
+msgstr "Unit"
+
+msgid "Tồn Kho Hiện Tại"
+msgstr "Current Stock"
+
+msgid "Ngưỡng Tối Thiểu"
+msgstr "Min Threshold"
+
+msgid "Đơn Giá Nhập"
+msgstr "Unit Cost"
+
+msgid "Nhập Thêm"
+msgstr "Restock"
+
+msgid "Quản Lý Xuất Nhập Tồn Kho"
+msgstr "Warehouse Stock & Inventory Control"
+
+msgid "Giám sát tổng thể kho bánh thành phẩm và kho nguyên vật liệu"
+msgstr "Overall monitoring of finished bakery products and raw materials"
+
+msgid "Cảnh Báo Cận Hạn & Thiếu Kho"
+msgstr "Expiry & Shortage Alerts"
+
+msgid "Danh Sách Nguyên Vật Liệu"
+msgstr "Raw Materials List"
+
+msgid "Tổng Món Bánh Đang Bán"
+msgstr "Total Pastries on Sale"
+
+msgid "Tất cả danh mục bánh"
+msgstr "All pastry categories"
+
+msgid "Bánh Cận Hạn (< 24 Giờ)"
+msgstr "Pastries Near Expiry (< 24 Hours)"
+
+msgid "Cần đẩy bán trong ngày"
+msgstr "Urgent same-day sale needed"
+
+msgid "Nguyên Liệu Cần Nhập"
+msgstr "Materials to Restock"
+
+msgid "Dưới ngưỡng an toàn"
+msgstr "Below safety threshold"
+
+msgid "Tồn Kho Bánh Thành Phẩm Tại Quầy"
+msgstr "Finished Pastry Counter Inventory"
+
+msgid "Quản lý món bánh"
+msgstr "Manage pastries"
+
+msgid "SKU"
+msgstr "SKU"
+
+msgid "Tên Sản Phẩm Bánh"
+msgstr "Pastry Product Name"
+
+msgid "Danh Mục"
+msgstr "Category"
+
+msgid "Đơn Giá"
+msgstr "Unit Price"
+
+msgid "Hạn Dùng (Giờ)"
+msgstr "Shelf Life (Hours)"
+
+msgid "Số Lượng Tồn"
+msgstr "Stock Qty"
+
+msgid "Tình Trạng"
+msgstr "Status"
+
+msgid "SẮP HẾT"
+msgstr "LOW STOCK"
+
+msgid "DỒI DÀO"
+msgstr "ABUNDANT"
+
+msgid "Nghiệm Thu Mẻ Bánh"
+msgstr "Inspect & Receive Batch"
+
+msgid "Nghiệm Thu & Nhập Kho Thành Phẩm"
+msgstr "Quality Inspection & Finished Goods Stocking"
+
+msgid "Dự kiến:"
+msgstr "Planned:"
+
+#, python-format
+msgid "Nguyên Liệu Sẽ Bị Trừ Khỏi Kho (Định Mức BOM + 5%% Hao Hụt)"
+msgstr "Raw Materials to Deduct (BOM Norm + 5%% Standard Waste)"
+
+msgid "Nguyên Liệu"
+msgstr "Raw Material"
+
+msgid "Lượng Trừ Kho"
+msgstr "Deduction Amount"
+
+msgid "Tồn Hiện Tại"
+msgstr "In Stock"
+
+msgid "Sẵn sàng trừ"
+msgstr "Ready to deduct"
+
+msgid "Thiếu"
+msgstr "Short"
+
+msgid "Số lượng bánh thực tế đạt tiêu chuẩn KCS nhập kho:"
+msgstr "Actual quality-passed quantity to stock:"
+
+#, python-format
+msgid ""
+"Số lượng này sẽ được cộng trực tiếp vào tồn kho quầy bán lẻ của sản phẩm "
+"\"%(name)s\"."
+msgstr ""
+"This quantity will be directly added to the retail counter inventory for "
+"product \"%(name)s\"."
+
+msgid "Ghi chú kiểm tra chất lượng / Lý do hao hụt (nếu có):"
+msgstr "Quality check notes / Waste explanation (if any):"
+
+msgid "Mẻ bánh nướng vàng đều, thơm ngon, đạt chuẩn..."
+msgstr "Evenly baked golden brown, fragrant, meets quality standard..."
+
+msgid "XÁC NHẬN NGHIỆM THU & TRỪ KHO NGUYÊN LIỆU"
+msgstr "CONFIRM INSPECTION & DEDUCT RAW MATERIALS"
+
+msgid "Tạo Lệnh Sản Xuất Mẻ Bánh Mới"
+msgstr "Create New Baking Production Batch"
+
+msgid "Tạo Lệnh Sản Xuất Mẻ Bánh"
+msgstr "Create Baking Production Batch"
+
+#, python-format
+msgid "Hệ thống tự động tính toán nguyên vật liệu dựa trên BOM và hao hụt 5%%"
+msgstr "System automatically calculates materials based on BOM and 5%% waste margin"
+"System automatically calculates raw materials based on BOM and 5%% waste "
+"buffer"
+
+msgid "Loại Bánh Cần Nướng"
+msgstr "Pastry Type to Bake"
+
+msgid "Số lượng dự kiến nướng"
+msgstr "Planned Baking Quantity"
+
+#, python-format
+msgid "Tỷ lệ hao hụt áp dụng (%%)"
+msgstr "Applied Waste Rate (%%)"
+
+msgid "Ghi chú sản xuất"
+msgstr "Production Notes"
+
+#, python-format
+msgid "Dự Toán Nguyên Liệu Tiêu Hao (+5%% Hao Hụt)"
+msgstr "Estimated Material Consumption (+5%% Buffer)"
+
+msgid "Đang kiểm tra tồn kho..."
+msgstr "Checking warehouse inventory..."
+
+msgid "Lượng Cần Dùng"
+msgstr "Quantity Needed"
+
+msgid "Trạng Thái Kho"
+msgstr "Stock Availability"
+
+msgid "Chọn sản phẩm và số lượng để xem dự toán"
+msgstr "Select a product and quantity to see estimation"
+
+msgid "KHỞI TẠO LỆNH SẢN XUẤT"
+msgstr "INITIALIZE PRODUCTION ORDER"
+
+msgid "Sản phẩm này chưa được thiết lập công thức BOM"
+msgstr "This product has no BOM recipe configured yet"
+
+msgid "Chưa có BOM"
+msgstr "No BOM"
+
+msgid "Kho đủ nguyên liệu để nướng mẻ này"
+msgstr "Stock sufficient to bake this batch"
+
+msgid "CẢNH BÁO: Kho thiếu nguyên liệu!"
+msgstr "WARNING: Insufficient raw materials in stock!"
+
+msgid "Đủ"
+msgstr "Sufficient"
+
+msgid "In Tem Barcode Bánh"
+msgstr "Print Cake Barcode Labels"
+
+msgid "Quay lại Bếp"
+msgstr "Back to Kitchen"
+
+msgid "Tem Nhãn Barcode & Hạn Dùng Bánh Tươi"
+msgstr "Barcode Labels & Shelf Life for Fresh Cakes"
+
+#, fuzzy
+#| msgid "Thời gian:"
+msgid "Thời hạn:"
+msgstr "Time:"
+
+#, fuzzy
+#| msgid "Số tiền cần chuyển:"
+msgid "Số tem cần in:"
+msgstr "Amount to transfer:"
+
+msgid "Cập nhật"
+msgstr "Update"
+
+msgid "🖨️ In Tem Ngay (Print)"
+msgstr "🖨️ Print Labels Now"
+
+msgid "Hướng dẫn dán tem bánh tươi:"
+msgstr "Instructions for fresh cake labeling:"
+
+#, python-format
+msgid ""
+"Mỗi chiếc bánh nướng ra sẽ được dán 1 tem nhãn này. Khách hàng hoặc Thu ngân "
+"quét mã barcode này tại quầy POS để thanh toán nhanh. Khi bánh chỉ còn lại "
+"25%% thời hạn sử dụng, hệ thống tự động áp dụng mức giảm giá 40%% giờ vàng."
+msgstr ""
+
+msgid "NSX (Nướng):"
+msgstr "Baked Date:"
+
+msgid "HSD (Hạn):"
+msgstr "Expiry Date:"
+
+#, python-format
+msgid "⚡ Giảm 40%% khi còn 25%% thời hạn sử dụng"
+msgstr "⚡ 40%% off when 25%% shelf life remains"
+
+msgid "Công Thức BOM"
+msgstr "BOM Recipe"
+
+msgid "Danh sách công thức BOM"
+msgstr "BOM Recipes List"
+
+msgid "Công Thức Định Mức:"
+msgstr "Norm Formula:"
+
+#, python-format
+msgid ""
+"Định lượng nguyên liệu sản xuất cho 1 đơn vị bánh (chưa tính 5%% hao hụt khi "
+"nướng)"
+msgstr "Material norm to produce 1 pastry unit (before 5%% baking buffer)"
+
+msgid "Định Lượng / 1 Bánh"
+msgstr "Norm / 1 Pastry"
+
+msgid "Hao Hụt Chuẩn"
+msgstr "Standard Waste"
+
+msgid "Bạn có chắc muốn xóa nguyên liệu này khỏi công thức?"
+msgstr "Are you sure you want to remove this ingredient from the formula?"
+
+msgid "Chưa có nguyên liệu nào trong công thức."
+msgstr "No materials configured in recipe yet."
+
+msgid "Thêm Nguyên Liệu Vào Công Thức"
+msgstr "Add Material to BOM Formula"
+
+msgid "Chọn nguyên vật liệu"
+msgstr "Select raw material"
+
+msgid "Định lượng (cho 1 bánh)"
+msgstr "Norm (per 1 pastry)"
+
+msgid "Thêm Vào BOM"
+msgstr "Add to BOM"
+
+msgid "Bảng Định Mức Nguyên Vật Liệu (BOM)"
+msgstr "Bill of Materials (BOM) Norms Table"
+
+msgid "Công thức chuẩn để sản xuất 1 đơn vị sản phẩm bánh"
+msgstr "Standard recipe formula to manufacture 1 pastry item"
+
+msgid "Chưa thiết lập công thức BOM"
+msgstr "BOM recipe not established"
+
+msgid "Chỉnh Sửa Công Thức"
+msgstr "Edit Recipe"
+
+msgid "Điều Phối Khu Vực Bếp & Lò Nướng"
+msgstr "Kitchen & Oven Dispatching"
+
+msgid "Khu Vực Bếp & Lò Nướng Bánh"
+msgstr "Kitchen & Bakery Oven Section"
+
+#, python-format
+msgid ""
+"Quản lý lệnh sản xuất mẻ bánh, công thức định mức BOM và tự động trừ nguyên "
+"liệu (+5%% hao hụt)"
+msgstr ""
+"Manage baking batch orders, BOM recipes, and automatic stock deduction (+5%% "
+"buffer)"
+
+msgid "Bảng Định Mức BOM"
+msgstr "BOM Recipe Table"
+
+msgid "Lệnh Nướng Mẻ Mới"
+msgstr "New Baking Order"
+
+msgid "Các Mẻ Bánh Đang Thực Hiện"
+msgstr "Active Baking Batches"
+
+msgid "Kế hoạch:"
+msgstr "Planned:"
+
+msgid "Hao hụt tiêu chuẩn:"
+msgstr "Standard waste:"
+
+msgid "Nghiệm Thu & Nhập Kho"
+msgstr "Inspect & Receive"
+
+msgid "Chỉ Thợ Bánh nghiệm thu"
+msgstr "Only Bakers can accept batches"
+
+msgid "Hiện không có mẻ nướng nào đang chạy"
+msgstr "No baking batches currently in progress"
+
+msgid "Bấm nút \"+ Lệnh Nướng Mẻ Mới\" ở trên để khởi tạo"
+msgstr "Click \"+ New Baking Order\" above to initiate a batch"
+
+msgid "Lịch Sử Nghiệm Thu Mẻ Gần Đây"
+msgstr "Recent Completed Batch History"
+
+msgid "Mã Mẻ"
+msgstr "Batch Code"
+
+msgid "Tên Bánh"
+msgstr "Pastry Name"
+
+msgid "KH / Đạt"
+msgstr "Planned / Passed"
+
+msgid "Thợ Bánh"
+msgstr "Baker"
+
+msgid "Thời Gian Hoàn Tất"
+msgstr "Completion Time"
+
+msgid "In Tem"
+msgstr "Print Label"
+
+msgid "Thợ bếp"
+msgstr "Baker"
+
+msgid "Chưa có mẻ nào hoàn thành."
+msgstr "No completed batches yet."
+
+msgid "Bánh Kem Cần Nướng"
+msgstr "Custom Cakes to Bake"
+
+msgid "Xem Kanban"
+msgstr "View Kanban"
+
+msgid "Không có đơn bánh kem hẹn trước cần làm ngay."
+msgstr "No pre-booked custom cakes due immediately."
+
+msgid "Bán Lẻ POS - Màn Hình Cảm Ứng"
+msgstr "Retail POS - Touchscreen Terminal"
+
+msgid "Tìm tên bánh hoặc quét mã SKU / Barcode..."
+msgstr "Search pastry name or scan SKU / Barcode..."
+
+#, fuzzy
+#| msgid "Đặt bánh ngay"
+msgid "Đặt Bánh Hẹn"
+msgstr "Order pastries now"
+
+msgid "Sẵn sàng quét mã"
+msgstr "Scanner Ready"
+
+msgid "Tất Cả Món"
+msgstr "All Items"
+
+msgid "cái"
+msgstr "items"
+
+msgid "Tồn"
+msgstr "Stock"
+
+#, python-format
+msgid "Giờ vàng -40%%"
+msgstr "Golden hour -40%%"
+
+msgid "Hóa Đơn Bán Hàng"
+msgstr "Sales Invoice"
+
+msgid "món trong giỏ"
+msgstr "items in cart"
+
+msgid "Xóa giỏ"
+msgstr "Clear Cart"
+
+msgid "Nhập SĐT hội viên..."
+msgstr "Enter member phone..."
+
+msgid "Tra cứu"
+msgstr "Lookup"
+
+msgid "Ví điểm:"
+msgstr "Points wallet:"
+
+msgid "Mã giảm giá (VD: SINHNHATTIEM)"
+msgstr "Promo code (e.g. SINHNHATTIEM)"
+
+msgid "Áp dụng"
+msgstr "Apply"
+
+msgid "Chưa có sản phẩm nào"
+msgstr "Cart is currently empty"
+
+msgid "Chạm vào bánh ở bên trái để thêm"
+msgstr "Touch pastry cards on the left to add items"
+
+msgid "Trừ điểm ví (1đ = 1.000đ):"
+msgstr "Wallet points discount (1 pt = 1,000 VND):"
+
+msgid "Khách Cần Trả:"
+msgstr "Amount Due:"
+
+msgid "Tiền Mặt"
+msgstr "Cash"
+
+msgid "VietQR"
+msgstr "VietQR"
+
+msgid "Tách Tiền"
+msgstr "Split"
+
+msgid "Tiền mặt:"
+msgstr "Cash:"
+
+msgid "VietQR:"
+msgstr "VietQR:"
+
+msgid "Còn thiếu / Thừa:"
+msgstr "Shortage / Change:"
+
+msgid "THANH TOÁN HÓA ĐƠN"
+msgstr "PROCESS PAYMENT"
+
+msgid "Mở app Ngân hàng hoặc Ví điện tử bất kỳ để quét"
+msgstr "Open any Banking or e-Wallet app to scan"
+
+msgid "Mã VietQR"
+msgstr "VietQR Code"
+
+msgid "Đang sinh mã QR..."
+msgstr "Generating QR code..."
+
+msgid "Số tiền cần chuyển:"
+msgstr "Amount to transfer:"
+
+msgid "Nội dung chuyển khoản:"
+msgstr "Transfer remarks:"
+
+msgid "Chủ tài khoản:"
+msgstr "Account holder:"
+
+msgid "Số tài khoản / Ngân hàng:"
+msgstr "Account number / Bank:"
+
+msgid "Mã hết hạn trong:"
+msgstr "QR expires in:"
+
+msgid "XÁC NHẬN ĐÃ NHẬN TIỀN THÀNH CÔNG"
+msgstr "CONFIRM PAYMENT RECEIVED SUCCESSFULLY"
+
+msgid "Hóa Đơn Thanh Toán"
+msgstr "Payment"
+
+msgid "Hotline:"
+msgstr "Hotline:"
+
+msgid "HÓA ĐƠN BÁN HÀNG"
+msgstr "RETAIL SALES RECEIPT"
+
+msgid "Mã HD:"
+msgstr "Receipt #:"
+
+msgid "Thời gian:"
+msgstr "Time:"
+
+msgid "Thu ngân:"
+msgstr "Cashier:"
+
+msgid "Món"
+msgstr "Item"
+
+msgid "SL"
+msgstr "Qty"
+
+msgid "Đ.Giá"
+msgstr "Unit Price"
+
+msgid "T.Tiền"
+msgstr "Subtotal"
+
+msgid "Tổng tiền hàng:"
+msgstr "Subtotal:"
+
+msgid "Giảm giá:"
+msgstr "Discount:"
+
+msgid "THANH TOÁN:"
+msgstr "TOTAL PAID:"
+
+msgid "Phương thức:"
+msgstr "Method:"
+
+#, python-format
+msgid "Điểm tích lũy (+10%%):"
+msgstr "Points earned (+10%%):"
+
+msgid "Cảm ơn Quý khách & Hẹn gặp lại!"
+msgstr "Thank you & see you again!"
+
+msgid "Chúc Quý khách ngon miệng!"
+msgstr "Enjoy your delicious pastries!"
+
+msgid "IN HÓA ĐƠN"
+msgstr "PRINT RECEIPT"
+
+msgid "ĐƠN TIẾP THEO"
+msgstr "NEXT ORDER"
+
+msgid "Sản phẩm"
+msgstr "Product"
+
+msgid "đã hết hàng trong ca!"
+msgstr "is out of stock for this shift!"
+
+msgid "Không thể thêm! Kho chỉ còn"
+msgstr "Cannot add! Warehouse only has"
+
+msgid "Số lượng vượt quá tồn kho hiện có"
+msgstr "Quantity exceeds current available stock"
+
+msgid "Vui lòng nhập số điện thoại khách hàng."
+msgstr "Please enter customer phone number."
+
+msgid "Tìm thấy hội viên:"
+msgstr "Found member:"
+
+msgid "Không tìm thấy khách hàng."
+msgstr "Customer not found."
+
+msgid "Lỗi khi tra cứu khách hàng."
+msgstr "Error looking up customer."
+
+msgid "Vui lòng nhập mã khuyến mãi."
+msgstr "Please enter promo coupon code."
+
+msgid "Áp dụng mã"
+msgstr "Applied coupon"
+
+msgid "thành công!"
+msgstr "successfully!"
+
+msgid "Mã không hợp lệ."
+msgstr "Invalid promo code."
+
+msgid "Lỗi áp dụng voucher."
+msgstr "Error applying voucher."
+
+msgid "Thừa"
+msgstr "Change"
+
+msgid "Trả lại"
+msgstr "Refund"
+
+msgid "Khớp đúng số tiền"
+msgstr "Exact amount matched"
+
+msgid "Giỏ hàng đang trống! Vui lòng chọn món bánh."
+msgstr "Cart is empty! Please pick pastries first."
+
+msgid "Tổng tiền chia chưa đủ thanh toán đơn hàng."
+msgstr "Split payment total is insufficient for order total."
+
+msgid "Hết hạn"
+msgstr "Expired"
+
+msgid "Lỗi thanh toán."
+msgstr "Payment"
+
+msgid "Lỗi hệ thống khi thanh toán."
+msgstr "System error during checkout."
+
+msgid "Tách thanh toán"
+msgstr "Split Payment"
+
+msgid "Hóa Đơn"
+msgstr "Invoice ID"
+
+msgid "Quay lại danh sách"
+msgstr "Back to list"
+
+msgid "In Hóa Đơn Nhiệt"
+msgstr "Print Thermal Receipt"
+
+msgid "Mã:"
+msgstr "Code:"
+
+msgid "Online"
+msgstr "Online Order"
+
+msgid "Món Bánh"
+msgstr "Pastry Item"
+
+msgid "Tiền hàng ban đầu:"
+msgstr "Original subtotal:"
+
+msgid "Giảm giá (Coupon/VIP):"
+msgstr "Discount (Coupon/VIP):"
+
+msgid "Trừ điểm ví"
+msgstr "Redeemed wallet points"
+
+msgid "TỔNG THANH TOÁN:"
+msgstr "TOTAL AMOUNT:"
+
+msgid "Tiền mặt trả:"
+msgstr "Cash paid:"
+
+msgid "Chuyển khoản VietQR:"
+msgstr "VietQR transfer paid:"
+
+msgid "Tiền thừa thối lại:"
+msgstr "Change returned:"
+
+#, python-format
+msgid "Điểm tích lũy hóa đơn này (+10%%):"
+msgstr "Points earned for this invoice (+10%%):"
+
+msgid "Hân hạnh phục vụ Quý khách!"
+msgstr "A pleasure to serve you!"
+
+msgid "Lịch Sử Hóa Đơn Bán Hàng"
+msgstr "Sales Order & Invoice History"
+
+msgid "Xem lại và in lại các giao dịch tại quầy POS & Đơn Online"
+msgstr "Review and reprint counter POS receipts & online orders"
+
+msgid "Vào Quầy Bán Lẻ POS"
+msgstr "Go to Retail POS"
+
+msgid "Mã hóa đơn (HD...) hoặc SĐT khách..."
+msgstr "Receipt # (HD...) or customer phone..."
+
+msgid "Tất cả hình thức TT"
+msgstr "All Payment Methods"
+
+msgid "COD"
+msgstr "COD"
+
+msgid "Lọc Hóa Đơn"
+msgstr "Filter Orders"
+
+msgid "Thu Ngân / Khách Hàng"
+msgstr "Customer Portal"
+
+msgid "Xem & In Bill"
+msgstr "View & Print Bill"
+
+msgid "Không tìm thấy hóa đơn nào phù hợp."
+msgstr "No matching invoices found."
+
+msgid "Xóa Coupon:"
+msgstr "Delete Coupon:"
+
+msgid "Xác Nhận Xóa Coupon"
+msgstr "Confirm Coupon Deletion"
+
+#, python-format
+msgid ""
+"Bạn có chắc chắn muốn xóa mã ưu đãi <strong>%(code)s</strong> (%(title)s)?"
+msgstr ""
+"Are you sure you want to delete promo code <strong>%(code)s</strong> "
+"(%(title)s)?"
+
+msgid "Hủy bỏ"
+msgstr "Cancel"
+
+msgid "Xác nhận Xóa"
+msgstr "Confirm Delete"
+
+msgid "Cấu hình điều kiện áp dụng, thời hạn và số lượng mã"
+msgstr "Configure coupon conditions, duration, and usage limits"
+
+msgid "Mã Khuyến Mãi (In Hoa)"
+msgstr "Coupon Code (Uppercase)"
+
+msgid "Loại giảm giá"
+msgstr "Discount Type"
+
+#, python-format
+msgid "Giá trị giảm (% hoặc VNĐ)"
+msgstr "Discount Value (% or VND)"
+
+msgid "Mức giảm tối đa (0 = Không giới hạn)"
+msgstr "Max Discount Cap (0 = Unlimited)"
+
+msgid "Điều kiện áp dụng đặc biệt"
+msgstr "Special Condition Rule"
+
+msgid "Đơn hàng tối thiểu (VNĐ)"
+msgstr "Minimum Order Amount (VND)"
+
+msgid "Hiệu lực từ ngày"
+msgstr "Valid From Date"
+
+msgid "Hiệu lực đến ngày"
+msgstr "Valid To Date"
+
+msgid "Số lượt sử dụng tối đa"
+msgstr "Maximum Total Usage Limit"
+
+msgid "Đang kích hoạt cho phép dùng"
+msgstr "Active for use"
+
+msgid "LƯU MÃ KHUYẾN MÃI"
+msgstr "SAVE PROMO COUPON"
+
+msgid "Quản Lý Mã Khuyến Mãi (Coupons)"
+msgstr "Promotional Coupons Management"
+
+msgid "Quản Lý Mã Giảm Giá & Coupon"
+msgstr "Discounts & Promo Codes Management"
+
+msgid ""
+"Thiết lập các điều kiện ưu đãi linh hoạt: Sinh nhật khách, Kỷ niệm tiệm "
+"bánh, Dịp Lễ Tết, VIP Only"
+msgstr ""
+"Configure flexible discount conditions: Customer Birthday, Bakery "
+"Anniversary, Holidays, VIP Only"
+
+msgid "Tạo Mã Coupon Mới"
+msgstr "Create New Coupon"
+
+msgid "Mã Coupon"
+msgstr "Coupon Code"
+
+msgid "Tên Chương Trình"
+msgstr "Campaign Title"
+
+msgid "Loại & Mức Giảm"
+msgstr "Type & Discount"
+
+msgid "Điều Kiện Áp Dụng"
+msgstr "Eligibility Condition"
+
+msgid "Đơn Tối Thiểu"
+msgstr "Min Order"
+
+msgid "Hiệu Lực Đến"
+msgstr "Valid Until"
+
+msgid "Đã Dùng / Tối Đa"
+msgstr "Used / Max Limit"
+
+msgid "Hiệu Lực"
+msgstr "Active"
+
+msgid "Hết Hạn/Khóa"
+msgstr "Expired / Inactive"
+
+msgid "Sửa"
+msgstr "Edit"
+
+msgid "Chưa có mã khuyến mãi nào."
+msgstr "No promo coupons created yet."
+
+msgid "Xóa Sản Phẩm:"
+msgstr "Delete Product:"
+
+msgid "Xác Nhận Xóa Bánh"
+msgstr "Confirm Pastry Deletion"
+
+#, python-format
+msgid ""
+"Bạn có chắc chắn muốn xóa sản phẩm <strong>%(name)s</strong> (Mã SKU: "
+"%(sku)s)?"
+msgstr ""
+"Are you sure you want to delete product <strong>%(name)s</strong> (SKU: "
+"%(sku)s)?"
+
+msgid "Cấu hình thông tin chi tiết sản phẩm bánh"
+msgstr "Configure detailed pastry information"
+
+msgid "Mã SKU / Barcode"
+msgstr "SKU / Barcode"
+
+msgid "Danh mục bánh"
+msgstr "Pastry Category"
+
+msgid "Tên sản phẩm bánh"
+msgstr "Pastry Product Name"
+
+msgid "Đơn giá niêm yết (VNĐ)"
+msgstr "Listed Price (VND)"
+
+msgid "Số lượng tồn quầy"
+msgstr "Counter Stock Quantity"
+
+msgid "Hạn bảo quản tối đa (Giờ)"
+msgstr "Max Shelf Life (Hours)"
+
+msgid "Trạng thái"
+msgstr "Status"
+
+msgid "URL Hình ảnh minh họa"
+msgstr "Sample Image URL"
+
+msgid "Đánh dấu là Bánh kem đặt theo hẹn (Custom Cake)"
+msgstr "Mark as Pre-ordered Custom Cake"
+
+msgid "LƯU SẢN PHẨM BÁNH"
+msgstr "SAVE PASTRY PRODUCT"
+
+msgid "Quản Lý Món Bánh - Admin"
+msgstr "Pastry Catalog Management - Admin"
+
+msgid "Quản Lý Danh Mục & Món Bánh"
+msgstr "Pastry Categories & Products Management"
+
+msgid ""
+"Thêm mới, sửa đổi đơn giá, cấu hình hạn dùng và dừng bán các sản phẩm bánh"
+msgstr "Add new, update prices, configure shelf life, and manage pastry sales"
+
+msgid "Tìm tên bánh hoặc mã SKU..."
+msgstr "Search pastry name or SKU code..."
+
+msgid "Tất cả danh mục"
+msgstr "All Categories"
+
+msgid "Tìm Kiếm"
+msgstr "Search"
+
+msgid "Ảnh"
+msgstr "Image"
+
+msgid "Mã SKU"
+msgstr "SKU Code"
+
+msgid "Tồn Kho"
+msgstr "Inventory Stock"
+
+msgid "Hạn (h)"
+msgstr "Shelf Life (h)"
+
+#~ msgid "Kho Hàng"
+#~ msgstr "Inventory"
+
+#~ msgid "Quản Trị"
+#~ msgstr "Admin"
+
+#~ msgid "Bếp & BOM"
+#~ msgstr "Kitchen & BOM"
+
+#~ msgid "Cài Đặt"
+#~ msgstr "Settings"

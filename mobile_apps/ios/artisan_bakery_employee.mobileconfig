@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadDisplayName</key>
+    <string>Artisan Bakery - Cổng Nhân Viên & POS</string>
+    <key>PayloadDescription</key>
+    <string>Hồ sơ cấu hình cài đặt phím tắt ứng dụng nội bộ Artisan Bakery lên màn hình chính thiết bị iOS (iPhone/iPad).</string>
+    <key>PayloadOrganization</key>
+    <string>Artisan Bakery System</string>
+    <key>PayloadIdentifier</key>
+    <string>vn.haku.bakery.employee.webclip</string>
+    <key>PayloadUUID</key>
+    <string>9F8A7B6C-5D4E-3F2A-1B0C-9E8D7C6B5A4F</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadContent</key>
+    <array>
+        <!-- 
+            LƯU Ý KỸ THUẬT QUAN TRỌNG TỪ APPLE:
+            Apple Configuration Profile (.mobileconfig) CHỈ hỗ trợ WebClip, Wi-Fi, VPN, Mail, Passcode.
+            Apple TUYỆT ĐỐI KHÔNG CUNG CẤP bất kỳ Payload nào để kết nối/ghép đôi thiết bị Bluetooth/BLE.
+            Mọi kết nối Bluetooth trên iOS bắt buộc phải thông qua ứng dụng cấp quyền runtime (CoreBluetooth)
+            hoặc qua trình duyệt hỗ trợ Web Bluetooth như Bluefy.
+        -->
+        <dict>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>vn.haku.bakery.employee.webclip.entry</string>
+            <key>PayloadUUID</key>
+            <string>1A2B3C4D-5E6F-7A8B-9C0D-1E2F3A4B5C6D</string>
+            <key>PayloadDisplayName</key>
+            <string>Web Clip Artisan POS</string>
+            <key>Label</key>
+            <string>Artisan NV</string>
+            <key>URL</key>
+            <string>http://employee.example-trusted-bakery.org:8009/pos/</string>
+            <key>IsRemovable</key>
+            <true/>
+            <key>FullScreen</key>
+            <true/>
+            <key>Precomposed</key>
+            <true/>
+        </dict>
+    </array>
+</dict>
+</plist>

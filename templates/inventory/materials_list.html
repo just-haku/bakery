@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Quản Lý Nguyên Vật Liệu Kho" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Kho Nguyên Vật Liệu (Raw Materials)" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Quản lý mã SKU, phân loại nguyên liệu, khối lượng và đơn giá theo định mức BOM" %}</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="document.getElementById('qr-stock-in-modal').classList.remove('hidden')" class="px-4 py-2.5 rounded-2xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-xs shadow-sm flex items-center gap-1.5 transition btn-tactile">
+        <span>📷</span>
+        <span>{% trans "Quét Mã Nhập Kho" %}</span>
+      </button>
+      <a href="/inventory/materials/create/" class="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md shadow-amber-600/30 flex items-center gap-1.5 transition btn-tactile">
+        <span>+</span>
+        <span>{% trans "Khai Báo Nguyên Liệu Mới" %}</span>
+      </a>
+      <a href="/inventory/" class="text-xs text-amber-800 font-bold hover:underline ml-2">
+        &larr; {% trans "Tổng quan kho" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <table class="w-full text-left text-xs">
+      <thead class="bg-amber-50/70 text-amber-900 font-bold border-b border-amber-100">
+        <tr>
+          <th class="py-3.5 px-4">{% trans "Mã SKU" %}</th>
+          <th class="py-3.5 px-4">{% trans "Tên Nguyên Vật Liệu" %}</th>
+          <th class="py-3.5 px-4">{% trans "Phân Loại" %}</th>
+          <th class="py-3.5 px-4 text-center">{% trans "Đơn Vị" %}</th>
+          <th class="py-3.5 px-4 text-right">{% trans "Tồn Kho Hiện Tại" %}</th>
+          <th class="py-3.5 px-4 text-right">{% trans "Ngưỡng Cảnh Báo" %}</th>
+          <th class="py-3.5 px-4 text-right">{% trans "Đơn Giá Nhập" %}</th>
+          <th class="py-3.5 px-4 text-center">{% trans "Thao Tác" %}</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-amber-50">
+        {% for m in materials %}
+          <tr class="hover:bg-amber-50/20 transition {% if m.is_low_stock %}bg-rose-50/30{% endif %}">
+            <td class="py-3 px-4 font-mono font-bold text-amber-900">
+              <span class="bg-amber-100/80 px-2 py-0.5 rounded text-[11px]">{{ m.code }}</span>
+            </td>
+            <td class="py-3 px-4 font-bold text-gray-900">{{ m.name }}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                {{ m.get_material_type_display }}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-center font-medium">{{ m.unit }}</td>
+            <td class="py-3 px-4 text-right font-black text-sm {% if m.is_low_stock %}text-rose-600{% else %}text-emerald-700{% endif %}">
+              {{ m.stock_quantity }}
+            </td>
+            <td class="py-3 px-4 text-right text-gray-500">{{ m.min_threshold }}</td>
+            <td class="py-3 px-4 text-right font-medium text-gray-700">{{ m.unit_cost|floatformat:0 }}đ</td>
+            <td class="py-3 px-4 text-center">
+              <a href="/inventory/materials/{{ m.id }}/import/" class="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold transition">
+                + {% trans "Nhập Thêm" %}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- QR / Barcode Stock-in Modal -->
+<div id="qr-stock-in-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-amber-100 space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-amber-100">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">📷</span>
+        <h3 class="font-black text-base text-amber-950">{% trans "Quét Mã Nhập Kho Nguyên Liệu / Bánh" %}</h3>
+      </div>
+      <button onclick="document.getElementById('qr-stock-in-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 text-lg font-bold">&times;</button>
+    </div>
+
+    <div class="space-y-3">
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Nhập hoặc quét mã SKU / Barcode:" %}</label>
+        <div class="flex gap-2">
+          <input type="text" id="scan-code-input" placeholder="VD: NL_BOT_MI, BM01, BM03..." 
+                 class="flex-1 px-4 py-2.5 rounded-xl border border-amber-200 font-mono text-sm focus:ring-2 focus:ring-amber-500">
+          <button onclick="lookupItemForStockIn()" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl">
+            {% trans "Tìm Mặt Hàng" %}
+          </button>
+        </div>
+      </div>
+
+      <div id="scan-result-card" class="hidden p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-2 text-xs">
+        <div class="font-bold text-amber-950 text-sm" id="item-found-name">---</div>
+        <div class="text-gray-600 flex justify-between">
+          <span>{% trans "Mã SKU:" %} <strong id="item-found-code"></strong></span>
+          <span>{% trans "Tồn hiện tại:" %} <strong id="item-found-stock"></strong></span>
+        </div>
+        <div class="pt-2 border-t border-amber-200 flex items-center gap-2">
+          <label class="font-bold text-gray-700">{% trans "Số lượng nhập:" %}</label>
+          <input type="number" id="stock-in-qty" step="0.001" min="0.001" value="10" 
+                 class="w-24 px-3 py-1.5 rounded-lg border border-amber-300 font-bold text-sm text-center">
+          <span id="item-found-unit" class="text-gray-600 font-bold"></span>
+          <button onclick="confirmStockIn()" class="ml-auto px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-sm">
+            ✓ {% trans "Xác Nhận Nhập" %}
+          </button>
+        </div>
+      </div>
+
+      <div id="scan-message" class="text-xs font-bold text-center py-1"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentLookupItem = null;
+
+  async function lookupItemForStockIn() {
+    const code = document.getElementById('scan-code-input').value.trim();
+    const msg = document.getElementById('scan-message');
+    const card = document.getElementById('scan-result-card');
+    if (!code) return;
+
+    msg.textContent = "{% trans 'Đang tra cứu...' %}";
+    msg.className = "text-xs font-bold text-center py-1 text-amber-600";
+
+    try {
+      const res = await fetch(`/inventory/api/qr-stock-in/?code=${encodeURIComponent(code)}`);
+      const data = await res.json();
+      if (data.success && data.found) {
+        currentLookupItem = data;
+        document.getElementById('item-found-name').textContent = data.name;
+        document.getElementById('item-found-code').textContent = data.code;
+        document.getElementById('item-found-stock').textContent = `${data.current_stock} ${data.unit}`;
+        document.getElementById('item-found-unit').textContent = data.unit;
+        card.classList.remove('hidden');
+        msg.textContent = "";
+      } else {
+        card.classList.add('hidden');
+        msg.textContent = data.message || "{% trans 'Không tìm thấy mặt hàng!' %}";
+        msg.className = "text-xs font-bold text-center py-1 text-rose-600";
+      }
+    } catch (e) {
+      msg.textContent = "{% trans 'Lỗi kết nối máy chủ' %}";
+      msg.className = "text-xs font-bold text-center py-1 text-rose-600";
+    }
+  }
+
+  async function confirmStockIn() {
+    if (!currentLookupItem) return;
+    const qty = parseFloat(document.getElementById('stock-in-qty').value);
+    const msg = document.getElementById('scan-message');
+    if (!qty || qty <= 0) {
+      alert("{% trans 'Vui lòng nhập số lượng hợp lệ' %}");
+      return;
+    }
+
+    try {
+      const res = await fetch('/inventory/api/qr-stock-in/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+          code: currentLookupItem.code,
+          item_type: currentLookupItem.item_type,
+          id: currentLookupItem.id,
+          quantity: qty
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        msg.textContent = data.message;
+        msg.className = "text-xs font-bold text-center py-1 text-emerald-600";
+        setTimeout(() => location.reload(), 1200);
+      } else {
+        msg.textContent = data.message;
+        msg.className = "text-xs font-bold text-center py-1 text-rose-600";
+      }
+    } catch (e) {
+      msg.textContent = "{% trans 'Lỗi thực thi nhập kho' %}";
+      msg.className = "text-xs font-bold text-center py-1 text-rose-600";
+    }
+  }
+</script>
+{% endblock %}
+

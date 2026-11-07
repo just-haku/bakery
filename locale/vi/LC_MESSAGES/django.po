@@ -1,0 +1,2298 @@
+# Vietnamese translations for Bakery Management System.
+msgid ""
+msgstr ""
+"Project-Id-Version: BakeryManagement 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-23 14:21+0700\n"
+"PO-Revision-Date: 2026-09-22 15:50+0700\n"
+"Last-Translator: Antigravity AI\n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Tên đăng nhập hoặc Email"
+msgstr "Tên đăng nhập hoặc Email"
+
+msgid "admin@bakery.local hoặc 0912345678"
+msgstr "admin@bakery.local hoặc 0912345678"
+
+msgid "Mật khẩu"
+msgstr "Mật khẩu"
+
+msgid "Tên tài khoản"
+msgstr "Khóa tài khoản"
+
+msgid "Họ và tên đệm"
+msgstr "Họ và tên đệm"
+
+msgid "Tên"
+msgstr "Tên"
+
+msgid "Email liên hệ"
+msgstr "Email liên hệ"
+
+msgid "Số điện thoại"
+msgstr "Số Điện Thoại"
+
+msgid "Số điện thoại (09xx...)"
+msgstr "Số Điện Thoại"
+
+msgid "Ngày sinh"
+msgstr "Ngày sinh"
+
+msgid "Tối thiểu 6 ký tự"
+msgstr "Tối thiểu 6 ký tự"
+
+msgid "Xác nhận mật khẩu"
+msgstr "Xác nhận mật khẩu"
+
+msgid "Nhập lại mật khẩu"
+msgstr "Nhập lại mật khẩu"
+
+msgid "Mật khẩu xác nhận không khớp."
+msgstr "Mật khẩu xác nhận không khớp."
+
+msgid "Quản trị viên / Chủ tiệm"
+msgstr "Quản Trị Viên (Admin)"
+
+msgid "Thu ngân quầy POS"
+msgstr "Thu Ngân POS"
+
+msgid "Thợ làm bánh"
+msgstr "Thợ làm bánh"
+
+msgid "Khách hàng"
+msgstr "Khách hàng"
+
+msgid "Đồng (Tiêu chuẩn)"
+msgstr "Đồng (Tiêu chuẩn)"
+
+msgid "Bạc"
+msgstr "Bạn"
+
+msgid "Vàng"
+msgstr "Vàng"
+
+msgid "Kim Cương"
+msgstr "Kim Cương"
+
+msgid "Gói VIP 1 Tháng"
+msgstr "Gói VIP 1 Tháng"
+
+msgid "Gói VIP 1 Năm"
+msgstr "Gói VIP 1 Năm"
+
+msgid "Nạp điểm ví"
+msgstr "Nạp điểm ví"
+
+msgid "Tích điểm từ đơn hàng (10%)"
+msgstr "Tích điểm từ đơn hàng (10%)"
+
+msgid "Dùng điểm thanh toán"
+msgstr "Dùng điểm thanh toán"
+
+msgid "Điều chỉnh bởi Admin"
+msgstr "Điều chỉnh bởi Admin"
+
+msgid "Cốt bánh Vani truyền thống"
+msgstr "Cốt bánh Vani truyền thống"
+
+msgid "Cốt bánh Chocolate Bỉ đậm vị"
+msgstr "Cốt bánh Chocolate Bỉ đậm vị"
+
+msgid "Cốt bánh Red Velvet nhung đỏ quý phái"
+msgstr "Cốt bánh Red Velvet nhung đỏ quý phái"
+
+msgid "Cốt bánh Trà xanh Matcha Nhật Bản"
+msgstr "Cốt bánh Trà xanh Matcha Nhật Bản"
+
+msgid "Kem bơ sữa tươi béo ngậy"
+msgstr "Kem bơ sữa tươi béo ngậy"
+
+msgid "Whipping cream thanh mát ít ngọt"
+msgstr "Whipping cream thanh mát ít ngọt"
+
+msgid "Cream Cheese béo ngậy vị chua nhẹ"
+msgstr "Cream Cheese béo ngậy vị chua nhẹ"
+
+msgid "Socola Ganache thượng hạng bóng bẩy"
+msgstr "Socola Ganache thượng hạng bóng bẩy"
+
+msgid "Size 16cm (4 - 6 người ăn) - 280.000 VNĐ"
+msgstr "Size 16cm (4 - 6 người ăn) - 280.000 VNĐ"
+
+msgid "Size 20cm (6 - 10 người ăn) - 380.000 VNĐ"
+msgstr "Size 20cm (6 - 10 người ăn) - 380.000 VNĐ"
+
+msgid "Size 25cm (10 - 15 người ăn) - 520.000 VNĐ"
+msgstr "Size 25cm (10 - 15 người ăn) - 520.000 VNĐ"
+
+msgid "Bánh 2 tầng Tiệc (15 - 25 người ăn) - 850.000 VNĐ"
+msgstr "Bánh 2 tầng Tiệc (15 - 25 người ăn) - 850.000 VNĐ"
+
+msgid "Cốt bánh"
+msgstr "Cốt bánh"
+
+msgid "Vị kem"
+msgstr "Vị kem"
+
+msgid "Kích thước"
+msgstr "Kích thước"
+
+msgid "Họ và tên người nhận"
+msgstr "Họ và tên người nhận"
+
+msgid "VD: Chúc Mừng Sinh Nhật Bé Bắp 3 Tuổi"
+msgstr "VD: Chúc Mừng Sinh Nhật Bé Bắp 3 Tuổi"
+
+msgid "Ghi chú đặc biệt: giảm đường, hoa quả tươi, tông màu nơ trang trí..."
+msgstr "Ghi chú đặc biệt: giảm đường, hoa quả tươi, tông màu nơ trang trí..."
+
+#, python-format
+msgid "Tối thiểu 30% giá bánh"
+msgstr "Tối thiểu 30% giá bánh"
+
+msgid "Thời gian hẹn lấy bánh không được ở trong quá khứ."
+msgstr "Thời gian hẹn lấy bánh không được ở trong quá khứ."
+
+msgid "Đã tiếp nhận đơn"
+msgstr "Đã tiếp nhận đơn"
+
+msgid "Bếp đang làm bánh"
+msgstr "Bếp đang làm bánh"
+
+msgid "Bánh đã sẵn sàng nhận"
+msgstr "Bánh đã sẵn sàng nhận"
+
+msgid "Đã giao cho khách"
+msgstr "Đã giao cho khách"
+
+msgid "Đã hủy đơn"
+msgstr "Đã hủy đơn"
+
+msgid "Thu ngân quầy POS (Cashier)"
+msgstr "Thu ngân quầy POS (Cashier)"
+
+msgid "Thợ làm bánh (Baker)"
+msgstr "Thợ làm bánh (Baker)"
+
+msgid "Quản trị viên bổ sung (Admin)"
+msgstr "Quản Trị Viên (Admin)"
+
+msgid "Tên đăng nhập / Email"
+msgstr "Tên đăng nhập / Email"
+
+msgid "Nguyễn Văn"
+msgstr "Nguyễn Văn"
+
+msgid "An"
+msgstr "An"
+
+msgid "Vị trí & Phân quyền"
+msgstr "Vị trí & Phân quyền"
+
+msgid "Mật khẩu đăng nhập"
+msgstr "Mật khẩu đăng nhập"
+
+msgid "Ghi chú mẻ bánh..."
+msgstr "Ghi chú mẻ bánh..."
+
+msgid "Chờ chuẩn bị"
+msgstr "Chờ chuẩn bị"
+
+msgid "Đang nướng bánh"
+msgstr "Đang nướng bánh"
+
+msgid "Đã nghiệm thu & Nhập kho"
+msgstr "Đã nghiệm thu & Nhập kho"
+
+msgid "Đã hủy mẻ"
+msgstr "Đã hủy mẻ"
+
+msgid ""
+"Nhân viên bán hàng (POS) không có quyền tạo lệnh nướng bánh. Chức năng này "
+"chỉ dành cho Thợ làm bánh (Baker)."
+msgstr ""
+
+msgid "Nhân viên bán hàng (POS) không có quyền nghiệm thu mẻ bánh."
+msgstr "Nhân viên bán hàng (POS) không có quyền nghiệm thu mẻ bánh."
+
+msgid "Bán lẻ tại quầy POS"
+msgstr "Bán Lẻ POS"
+
+msgid "Khách đặt qua Web"
+msgstr "Khách đặt qua Web"
+
+msgid "Tiền mặt"
+msgstr "Tiền mặt"
+
+msgid "Chuyển khoản VietQR"
+msgstr "Chuyển khoản VietQR"
+
+msgid "Tách thanh toán (Tiền mặt + Chuyển khoản + Điểm)"
+msgstr "Tách thanh toán (Tiền mặt + Chuyển khoản + Điểm)"
+
+msgid "Thanh toán khi nhận hàng (COD)"
+msgstr "Thanh toán khi nhận hàng (COD)"
+
+msgid "Nhận trực tiếp tại tiệm"
+msgstr "Nhận trực tiếp tại tiệm"
+
+msgid "Giao hàng tận nơi"
+msgstr "Giao hàng tận nơi"
+
+msgid "Chờ xử lý"
+msgstr "Chờ xử lý"
+
+msgid "Đang đóng gói"
+msgstr "Đang đóng gói"
+
+msgid "Đã hoàn tất"
+msgstr "Đã hoàn tất"
+
+msgid "Tên món bánh"
+msgstr "Tên món bánh"
+
+msgid "Đơn giá (VNĐ)"
+msgstr "Đơn giá (VNĐ)"
+
+msgid "Tên chương trình ưu đãi"
+msgstr "Tên chương trình ưu đãi"
+
+#, python-format
+msgid "% hoặc số tiền"
+msgstr "% hoặc số tiền"
+
+msgid "0 = Không giới hạn"
+msgstr "0 = Không giới hạn"
+
+msgid "Đang kinh doanh"
+msgstr "Đang kinh doanh"
+
+msgid "Tạm ngưng bán"
+msgstr "Tạm ngưng bán"
+
+msgid "Giảm theo phần trăm (%)"
+msgstr "Giảm theo phần trăm (%)"
+
+msgid "Giảm số tiền cố định (VNĐ)"
+msgstr "Giảm số tiền cố định (VNĐ)"
+
+msgid "Mọi khách hàng & Đơn hàng"
+msgstr "Mọi khách hàng & Đơn hàng"
+
+msgid "Ưu đãi Sinh nhật khách hàng"
+msgstr "Ưu đãi Sinh nhật khách hàng"
+
+msgid "Kỷ niệm sinh nhật Tiệm Bánh"
+msgstr "Kỷ niệm sinh nhật Tiệm Bánh"
+
+msgid "Dịp Lễ, Tết & Sự kiện"
+msgstr "Dịp Lễ, Tết & Sự kiện"
+
+msgid "Đặc quyền Hội viên VIP"
+msgstr "Đặc quyền Hội viên VIP"
+
+msgid "Tiếng Việt"
+msgstr "Tiếng Việt"
+
+msgid "English"
+msgstr "English"
+
+msgid "Khởi Tạo Quản Trị Viên Ban Đầu (Operator Setup)"
+msgstr "Khởi Tạo Quản Trị Viên Ban Đầu (Operator Setup)"
+
+msgid "Cổng Quản Trị"
+msgstr "Cổng Quản Trị"
+
+msgid "Khởi Tạo Quản Trị Viên Ban Đầu"
+msgstr "Khởi Tạo Quản Trị Viên Ban Đầu"
+
+msgid ""
+"Đây là tài khoản Operator cao nhất của hệ thống tiệm bánh. Trang này chỉ "
+"được phép tạo 1 LẦN DUY NHẤT khi hệ thống mới thiết lập."
+msgstr ""
+
+msgid "Lỗi đăng ký:"
+msgstr "Lỗi đăng ký:"
+
+msgid "Xác Nhận & Kích Hoạt Quản Trị Viên Ban Đầu"
+msgstr "Xác Nhận & Kích Hoạt Quản Trị Viên Ban Đầu"
+
+msgid ""
+"Sau khi kích hoạt, mọi tài khoản Admin hoặc Nhân viên tiếp theo sẽ do bạn "
+"quản lý trong trang Nhân Sự."
+msgstr ""
+
+msgid "Đăng Nhập"
+msgstr "Đăng Nhập"
+
+msgid "Đăng Nhập Hệ Thống"
+msgstr "Đăng Nhập"
+
+msgid "Quản lý Tiệm Bánh & Điểm Bán Hàng POS"
+msgstr "Quản lý Tiệm Bánh & Điểm Bán Hàng POS"
+
+msgid "Tên đăng nhập / Email / SĐT"
+msgstr "Tên đăng nhập / Email / SĐT"
+
+msgid "ĐĂNG NHẬP"
+msgstr "ĐĂNG NHẬP"
+
+msgid "Chưa có tài khoản?"
+msgstr "Khóa tài khoản"
+
+msgid "Đăng ký ngay"
+msgstr "Đăng Ký"
+
+msgid "Tài Khoản Mẫu Thử Nghiệm Nhanh"
+msgstr "Tài Khoản Mẫu Thử Nghiệm Nhanh"
+
+msgid "Admin / Chủ tiệm"
+msgstr "Admin / Chủ tiệm"
+
+msgid "Thu ngân POS"
+msgstr "Thu Ngân POS"
+
+msgid "Khách có điểm ví"
+msgstr "Khách có điểm ví"
+
+msgid "Đã tự động điền:"
+msgstr "Đã tự động điền:"
+
+msgid "Hồ Sơ & Ví Điểm Hội Viên"
+msgstr "Hồ Sơ & Ví Điểm Hội Viên"
+
+msgid "SĐT:"
+msgstr "SĐT:"
+
+msgid "Vai trò:"
+msgstr "Vai Trò"
+
+msgid "Hạng:"
+msgstr "Hạng:"
+
+msgid "Tổng chi tiêu:"
+msgstr "Cổng Nhân Viên"
+
+msgid "Số Dư Điểm Ví (1đ = 1.000đ)"
+msgstr "Số Dư Điểm Ví (1đ = 1.000đ)"
+
+msgid "điểm"
+msgstr "điểm"
+
+msgid "Tương đương"
+msgstr "Tương đương"
+
+msgid "Nạp Thêm Điểm"
+msgstr "Nạp Thêm Điểm"
+
+msgid "Nâng Cấp VIP"
+msgstr "Nâng Cấp VIP"
+
+msgid "Đặc Quyền Hội Viên VIP"
+msgstr "Đặc Quyền Hội Viên VIP"
+
+#, python-format
+msgid ""
+"Tự động giảm <strong>%(percent)s%%</strong> cho mọi đơn hàng bánh, ưu tiên "
+"giao hàng và nhận mã voucher sinh nhật đặc biệt!"
+msgstr ""
+
+msgid "Gói VIP đang kích hoạt (Hạn sử dụng đến ngày:"
+msgstr "Gói VIP đang kích hoạt (Hạn sử dụng đến ngày:"
+
+msgid "GIA HẠN GÓI VIP"
+msgstr "GIA HẠN GÓI VIP"
+
+msgid "ĐĂNG KÝ VIP NGAY"
+msgstr "ĐĂNG KÝ VIP NGAY"
+
+msgid "Lịch Sử Biến Động Điểm Ví"
+msgstr "Lịch Sử Biến Động Điểm Ví"
+
+msgid "Thời Gian"
+msgstr "Thời Gian"
+
+msgid "Loại Giao Dịch"
+msgstr "Lịch Sử Giao Dịch"
+
+msgid "Số Điểm"
+msgstr "Số Điện Thoại"
+
+msgid "Quy Đổi VNĐ"
+msgstr "Quy Đổi VNĐ"
+
+msgid "Ghi Chú"
+msgstr "Ghi Chú"
+
+msgid "Chưa có giao dịch điểm nào."
+msgstr "Chưa có giao dịch điểm nào."
+
+msgid "Nạp Điểm Vào Ví Hội Viên"
+msgstr "Nạp Điểm Vào Ví Hội Viên"
+
+msgid "Tỷ lệ quy đổi: 1 điểm = 1.000 VNĐ"
+msgstr "Tỷ lệ quy đổi: 1 điểm = 1.000 VNĐ"
+
+msgid "Chọn số điểm muốn nạp:"
+msgstr "Chọn số điểm muốn nạp:"
+
+msgid "Hoặc nhập số điểm tùy ý:"
+msgstr "Hoặc nhập số điểm tùy ý:"
+
+msgid "TIẾP TỤC & QUÉT MÃ VIETQR"
+msgstr "TIẾP TỤC & QUÉT MÃ VIETQR"
+
+msgid "Số tiền chuyển:"
+msgstr "Số tiền chuyển:"
+
+msgid "Nội dung CK:"
+msgstr "Nội dung CK:"
+
+msgid "TÔI ĐÃ CHUYỂN KHOẢN XONG"
+msgstr "TÔI ĐÃ CHUYỂN KHOẢN XONG"
+
+msgid "Chọn Gói Hội Viên VIP"
+msgstr "Chọn Gói Hội Viên VIP"
+
+#, python-format
+msgid "Giảm %(percent)s%% tất cả các đơn bánh tại tiệm & online"
+msgstr "Giảm %(percent)s%% tất cả các đơn bánh tại tiệm & online"
+
+msgid "ngày"
+msgstr "ngày"
+
+msgid "THANH TOÁN GÓI VIP BẰNG VIETQR"
+msgstr "THANH TOÁN GÓI VIP BẰNG VIETQR"
+
+msgid "Gói đăng ký:"
+msgstr "Đăng Ký"
+
+msgid "XÁC NHẬN ĐÃ CHUYỂN KHOẢN"
+msgstr "XÁC NHẬN ĐÃ CHUYỂN KHOẢN"
+
+msgid "Vui lòng nhập số điểm lớn hơn 0."
+msgstr "Vui lòng nhập số điểm lớn hơn 0."
+
+msgid "Lỗi sinh mã nạp điểm."
+msgstr "Lỗi sinh mã nạp điểm."
+
+msgid "Lỗi xác nhận nạp điểm."
+msgstr "Lỗi xác nhận nạp điểm."
+
+msgid "Đã chọn:"
+msgstr "Đã chọn:"
+
+msgid "Lỗi tạo mã VIP."
+msgstr "Lỗi tạo mã VIP."
+
+msgid "Lỗi xác nhận gói VIP."
+msgstr "Lỗi xác nhận gói VIP."
+
+msgid "Đăng Ký Tài Khoản"
+msgstr "Khóa tài khoản"
+
+msgid "Tạo Tài Khoản Mới"
+msgstr "Tạo Nhân Viên Mới"
+
+#, python-format
+msgid "Tham gia cộng đồng Artisan Bakery để tích điểm 10%% và nhận ưu đãi"
+msgstr "Tham gia cộng đồng Artisan Bakery để tích điểm 10%% và nhận ưu đãi"
+
+msgid "Quy Tắc Người Dùng Đầu Tiên (User #1)"
+msgstr "Quy Tắc Người Dùng Đầu Tiên (User #1)"
+
+msgid ""
+"Hệ thống phát hiện chưa có người dùng nào. Tài khoản bạn đăng ký ngay bây "
+"giờ sẽ <strong>TỰ ĐỘNG ĐƯỢC CẤP TOÀN QUYỀN ADMIN (Superuser / Quản trị viên "
+"cao nhất)</strong>!"
+msgstr ""
+
+msgid "Tên đăng nhập"
+msgstr "Đăng Nhập"
+
+msgid "Ngày sinh nhật"
+msgstr "Ngày sinh nhật"
+
+msgid "HOÀN TẤT ĐĂNG KÝ"
+msgstr "HOÀN TẤT ĐĂNG KÝ"
+
+msgid "Đã có tài khoản?"
+msgstr "Khóa tài khoản"
+
+msgid "Đăng nhập ngay"
+msgstr "Đăng Nhập"
+
+msgid "Tiệm Bánh Artisan Bakery"
+msgstr "Tiệm Bánh Artisan Bakery"
+
+msgid "Hệ Thống Quản Lý"
+msgstr "Hệ Thống Quản Lý"
+
+msgid "Quản Trị Hệ Thống"
+msgstr "Quản Trị Nhân Sự"
+
+msgid "Vận Hành Nội Bộ"
+msgstr "Vận Hành Nội Bộ"
+
+msgid "Tiệm Bánh Trực Tuyến"
+msgstr "Tiệm Bánh Trực Tuyến"
+
+msgid "Bảng Điều Khiển"
+msgstr "Bảng Điều Khiển"
+
+msgid "Quản Lý Nhân Viên"
+msgstr "Quản Lý Nhân Viên"
+
+msgid "Món & Menu"
+msgstr "Món & Menu"
+
+msgid "Danh Sách Món Bánh"
+msgstr "Danh Sách Bánh"
+
+msgid "Thêm Món Bánh Mới"
+msgstr "Thêm Món Bánh Mới"
+
+msgid "Quản Lý Mã Ưu Đãi"
+msgstr "Tạo Mã Ưu Đãi Mới"
+
+msgid "Tạo Mã Ưu Đãi Mới"
+msgstr "Tạo Mã Ưu Đãi Mới"
+
+msgid "Cài Đặt VietQR & Tiệm"
+msgstr "Cài Đặt VietQR & Tiệm"
+
+msgid "Bán Lẻ POS"
+msgstr "Bán Lẻ POS"
+
+msgid "Bánh Theo Hẹn"
+msgstr "Bánh Theo Hẹn"
+
+msgid "Bếp & KDS"
+msgstr "Bếp & BOM"
+
+msgid "Lịch Sử Đơn"
+msgstr "Lịch Sử Giao Dịch"
+
+msgid "Thực Đơn Bánh"
+msgstr "Thực Đơn Bánh"
+
+msgid "Đặt Bánh Theo Yêu Cầu"
+msgstr "Đặt Bánh Theo Yêu Cầu"
+
+msgid "Giỏ Hàng"
+msgstr "Giỏ Hàng"
+
+msgid "Đơn Của Tôi"
+msgstr "Đơn Của Tôi"
+
+msgid "Ví điểm hội viên (1 điểm = 1.000 VNĐ)"
+msgstr "Ví điểm hội viên (1 điểm = 1.000 VNĐ)"
+
+msgid "Đăng xuất"
+msgstr "Đăng xuất"
+
+msgid "Đăng Ký"
+msgstr "Đăng Ký"
+
+msgid "Đăng Nhập Nhân Viên"
+msgstr "Đăng Nhập Nhân Viên"
+
+msgid "Hẹn:"
+msgstr "Hẹn:"
+
+msgid "Cốt:"
+msgstr "Cốt:"
+
+msgid "Vị:"
+msgstr "Vị:"
+
+msgid "Kích cỡ:"
+msgstr "Kích cỡ:"
+
+msgid "Ghi chú:"
+msgstr "Ghi chú:"
+
+msgid "Đã cọc / Tổng"
+msgstr "Đã cọc / Tổng"
+
+msgid "Xem chi tiết & mã QR cọc"
+msgstr "Xem chi tiết & mã QR cọc"
+
+msgid "Theo Dõi Bánh Kem Hẹn Trước - Kanban"
+msgstr "Theo Dõi Bánh Kem Hẹn Trước - Kanban"
+
+msgid "Theo Dõi Bánh Kem Theo Hẹn"
+msgstr "Bánh Theo Hẹn"
+
+msgid ""
+"Quản lý tiến độ sản xuất bánh kem nghệ thuật từ khâu nhận đơn đến giao bánh"
+msgstr ""
+
+#, python-format
+msgid "Đặt Bánh Mới (Cọc >= 30%%)"
+msgstr "Đặt Bánh Mới (Cọc >= 30%%)"
+
+msgid "Đã Tiếp Nhận"
+msgstr "Đã Tiếp Nhận"
+
+msgid "Bắt Đầu Nướng"
+msgstr "Bắt Đầu Nướng"
+
+msgid "Không có đơn chờ"
+msgstr "Không có đơn chờ"
+
+msgid "Bếp Đang Làm"
+msgstr "Bếp Đang Làm"
+
+msgid "Bánh Đã Xong"
+msgstr "Bánh Đã Xong"
+
+msgid "Không có bánh đang làm"
+msgstr "Không có bánh đang làm"
+
+msgid "Bánh Sẵn Sàng"
+msgstr "Bánh Sẵn Sàng"
+
+msgid "Khách Đã Nhận"
+msgstr "Khách Đã Nhận"
+
+msgid "Chưa có bánh sẵn sàng"
+msgstr "Chưa có bánh sẵn sàng"
+
+msgid "Đã Giao Xong"
+msgstr "Đã Giao Xong"
+
+msgid "Chưa có đơn đã giao"
+msgstr "Chưa có đơn đã giao"
+
+msgid "Lỗi cập nhật trạng thái đơn."
+msgstr "Lỗi cập nhật trạng thái đơn."
+
+msgid "Phiếu Đặt Bánh"
+msgstr "Phiếu Đặt Bánh"
+
+msgid "Bảng Kanban tiến độ Bếp"
+msgstr "Bảng Kanban tiến độ Bếp"
+
+msgid "In Giấy Hẹn Lấy Bánh"
+msgstr "In Giấy Hẹn Lấy Bánh"
+
+msgid "Phiếu Hẹn Bánh Kem Nghệ Thuật"
+msgstr "Phiếu Hẹn Bánh Kem Nghệ Thuật"
+
+msgid "Khách hàng:"
+msgstr "Cổng Khách Hàng"
+
+msgid "Số điện thoại:"
+msgstr "Số Điện Thoại"
+
+msgid "Thời gian hẹn nhận:"
+msgstr "Thời gian hẹn nhận:"
+
+msgid "Cốt bánh:"
+msgstr "Cốt bánh:"
+
+msgid "Vị kem:"
+msgstr "Vị kem:"
+
+msgid "Ngày đặt:"
+msgstr "Ngày đặt:"
+
+msgid "Chữ viết trên bánh:"
+msgstr "Chữ viết trên bánh:"
+
+msgid "Ghi chú đặc biệt:"
+msgstr "Ghi chú đặc biệt:"
+
+msgid "Tổng giá trị đơn bánh:"
+msgstr "Tổng giá trị đơn bánh:"
+
+#, python-format
+msgid "Tiền đặt cọc đã ghi nhận (>= 30%%):"
+msgstr "Tiền đặt cọc đã ghi nhận (>= 30%%):"
+
+msgid "Còn lại phải thanh toán khi nhận:"
+msgstr "Còn lại phải thanh toán khi nhận:"
+
+msgid ""
+"Quý khách vui lòng mang theo Giấy hẹn này hoặc đọc SĐT khi đến nhận bánh tại "
+"tiệm."
+msgstr ""
+
+msgid "Mã VietQR Đặt Cọc"
+msgstr "Mã VietQR Đặt Cọc"
+
+msgid "Quét để chuyển khoản tiền cọc"
+msgstr "Quét để chuyển khoản tiền cọc"
+
+msgid "VietQR Đặt cọc"
+msgstr "VietQR Đặt cọc"
+
+msgid "Số tiền cọc:"
+msgstr "Số tiền cọc:"
+
+msgid "Đã xác nhận tiền cọc thành công!"
+msgstr "Đã xác nhận tiền cọc thành công!"
+
+msgid "Đã Nhận Tiền Cọc"
+msgstr "Đã Nhận Tiền Cọc"
+
+msgid "Đặt Bánh Kem Theo Yêu Cầu"
+msgstr "Đặt Bánh Kem Theo Yêu Cầu"
+
+msgid "Đặt Bánh Kem Nghệ Thuật Theo Hẹn"
+msgstr "Đặt Bánh Kem Nghệ Thuật Theo Hẹn"
+
+msgid ""
+"Tùy biến cốt bánh, vị kem, ghi chú viết chữ và thời gian lấy (tối thiểu 4 "
+"tiếng)"
+msgstr ""
+
+msgid "Thông Tin Người Đặt"
+msgstr "Thông Tin Người Đặt"
+
+msgid "Họ và tên khách hàng"
+msgstr "Cổng Khách Hàng"
+
+msgid "Số điện thoại liên hệ"
+msgstr "Số Điện Thoại"
+
+msgid "Cấu Hình Bánh Kem"
+msgstr "Cấu Hình Bánh Kem"
+
+msgid "Vị kem phủ"
+msgstr "Vị kem phủ"
+
+msgid "Kích cỡ (Size)"
+msgstr "Kích cỡ (Size)"
+
+msgid "Lời chúc viết lên mặt bánh (Nghệ thuật)"
+msgstr "Lời chúc viết lên mặt bánh (Nghệ thuật)"
+
+msgid "Ghi chú đặc biệt (Notes)"
+msgstr "Ghi chú đặc biệt (Notes)"
+
+msgid "Ví dụ: Ít ngọt, màu kem theo yêu cầu, phụ kiện nến sinh nhật, v.v."
+msgstr "Ví dụ: Ít ngọt, màu kem theo yêu cầu, phụ kiện nến sinh nhật, v.v."
+
+msgid "Link ảnh mẫu trang trí tham khảo (nếu có)"
+msgstr "Link ảnh mẫu trang trí tham khảo (nếu có)"
+
+#, python-format
+msgid "Hẹn Giờ Lấy Bánh & Đặt Cọc (Tối thiểu 30%%)"
+msgstr "Hẹn Giờ Lấy Bánh & Đặt Cọc (Tối thiểu 30%%)"
+
+msgid "Ngày & Giờ nhận bánh (Tối thiểu sau 4 tiếng)"
+msgstr "Ngày & Giờ nhận bánh (Tối thiểu sau 4 tiếng)"
+
+msgid "Tổng giá trị đơn bánh (VNĐ)"
+msgstr "Tổng giá trị đơn bánh (VNĐ)"
+
+msgid "Tiền đặt cọc"
+msgstr "Tiền đặt cọc"
+
+#, python-format
+msgid "Tối thiểu 30%% ="
+msgstr "Tối thiểu 30%% ="
+
+msgid "Gợi ý cọc:"
+msgstr "Gợi ý cọc:"
+
+msgid "Tối thiểu"
+msgstr "Tối thiểu"
+
+msgid "Toàn bộ"
+msgstr "Toàn bộ"
+
+msgid "Hủy & Quay lại"
+msgstr "Hủy & Quay lại"
+
+msgid "TẠO PHIẾU ĐẶT BÁNH & SINH MÃ VIETQR CỌC"
+msgstr "TẠO PHIẾU ĐẶT BÁNH & SINH MÃ VIETQR CỌC"
+
+msgid "Giỏ Hàng & Đặt Hàng Online"
+msgstr "Giỏ Hàng & Đặt Hàng Online"
+
+msgid "Giỏ Hàng Đặt Bánh Trực Tuyến"
+msgstr "Giỏ Hàng Đặt Bánh Trực Tuyến"
+
+msgid ""
+"Hỗ trợ giao hàng COD tận nơi (phí ship 30.000đ) hoặc nhận trực tiếp tại quầy"
+msgstr ""
+
+msgid "Tiếp tục chọn bánh"
+msgstr "Tiếp tục chọn bánh"
+
+msgid "Các Món Trong Giỏ"
+msgstr "Các Món Trong Giỏ"
+
+msgid "Thông Tin Nhận Hàng"
+msgstr "Thông Tin Nhận Hàng"
+
+msgid "Giao hàng tận nơi (+30.000đ)"
+msgstr "Giao hàng tận nơi (+30.000đ)"
+
+msgid "Nhận tại tiệm (Miễn phí ship)"
+msgstr "Nhận tại tiệm (Miễn phí ship)"
+
+msgid "Số điện thoại nhận bánh"
+msgstr "Số Điện Thoại"
+
+msgid "Địa chỉ giao hàng chi tiết"
+msgstr "Địa chỉ giao hàng chi tiết"
+
+msgid "Số nhà, tên đường, phường/xã, quận/huyện..."
+msgstr "Số nhà, tên đường, phường/xã, quận/huyện..."
+
+msgid "Ghi chú giao bánh"
+msgstr "Ghi chú giao bánh"
+
+msgid "Lời dặn tài xế, thời gian muốn nhận..."
+msgstr "Lời dặn tài xế, thời gian muốn nhận..."
+
+msgid "Chi Tiết Thanh Toán"
+msgstr "Chi Tiết Thanh Toán"
+
+msgid "Ví Điểm Của Bạn"
+msgstr "Ví Điểm Của Bạn"
+
+msgid "Dùng điểm"
+msgstr "điểm"
+
+msgid "Mã giảm giá (Coupon)"
+msgstr "Mã giảm giá (Coupon)"
+
+msgid "Áp Dụng"
+msgstr "Áp Dụng"
+
+msgid "Tiền hàng:"
+msgstr "Tiền hàng:"
+
+msgid "Phí vận chuyển:"
+msgstr "Phí vận chuyển:"
+
+msgid "Giảm giá Voucher:"
+msgstr "Giảm giá Voucher:"
+
+msgid "Trừ điểm ví:"
+msgstr "Trừ điểm ví:"
+
+msgid "Tổng Thanh Toán:"
+msgstr "Tổng Thanh Toán:"
+
+msgid "Hình thức thanh toán:"
+msgstr "Hình thức thanh toán:"
+
+msgid "Chuyển khoản VietQR tức thì"
+msgstr "Chuyển khoản VietQR tức thì"
+
+msgid "XÁC NHẬN ĐẶT HÀNG"
+msgstr "XÁC NHẬN ĐẶT HÀNG"
+
+msgid "Quét Mã VietQR Thanh Toán"
+msgstr "Quét Mã VietQR Thanh Toán"
+
+msgid "Đơn hàng của bạn đã được ghi nhận! Vui lòng quét mã để thanh toán."
+msgstr "Đơn hàng của bạn đã được ghi nhận! Vui lòng quét mã để thanh toán."
+
+msgid "Số tiền:"
+msgstr "Số tiền:"
+
+msgid "HOÀN TẤT & VỀ TRANG ĐƠN HÀNG"
+msgstr "HOÀN TẤT & VỀ TRANG ĐƠN HÀNG"
+
+msgid "Giỏ hàng của bạn đang trống"
+msgstr "Giỏ hàng của bạn đang trống"
+
+msgid "Khám phá thực đơn"
+msgstr "Khám phá thực đơn"
+
+msgid "Kho chỉ còn"
+msgstr "Kho chỉ còn"
+
+msgid "cái."
+msgstr "cái."
+
+msgid "Giảm"
+msgstr "Giảm"
+
+msgid "Áp dụng mã khuyến mãi thành công!"
+msgstr "Áp dụng mã khuyến mãi thành công!"
+
+msgid "Giỏ hàng trống!"
+msgstr "Giỏ hàng trống!"
+
+msgid "Vui lòng điền tên và số điện thoại người nhận."
+msgstr "Vui lòng điền tên và số điện thoại người nhận."
+
+msgid "Vui lòng điền địa chỉ giao hàng tận nơi."
+msgstr "Vui lòng điền địa chỉ giao hàng tận nơi."
+
+msgid "Đang xử lý đơn..."
+msgstr "Đang xử lý đơn..."
+
+msgid "Lỗi khi gửi đơn hàng."
+msgstr "Lỗi khi gửi đơn hàng."
+
+msgid "Thực Đơn Bánh Tươi Hôm Nay - Artisan Bakery"
+msgstr "Thực Đơn Bánh Tươi Hôm Nay - Artisan Bakery"
+
+msgid "Bánh nướng nóng hổi mỗi sáng"
+msgstr "Bánh nướng nóng hổi mỗi sáng"
+
+msgid "Hương Vị Thủ Công Đích Thực Từ Lò Nướng"
+msgstr "Hương Vị Thủ Công Đích Thực Từ Lò Nướng"
+
+msgid ""
+"Nguyên liệu bơ sữa hảo hạng nhập khẩu, men tự nhiên lên men chậm, giao hàng "
+"tận nơi nhanh chóng với phí ship chỉ 30.000đ!"
+msgstr ""
+
+msgid "Khám Phá Thực Đơn"
+msgstr "Khám Phá Thực Đơn"
+
+msgid "Đặt Bánh Sinh Nhật Theo Hẹn"
+msgstr "Bánh Theo Hẹn"
+
+msgid "Mã Ưu Đãi Khả Dụng"
+msgstr "Tạo Mã Ưu Đãi Mới"
+
+msgid "Sao chép"
+msgstr "Sao chép"
+
+msgid "Thực Đơn Món Bánh"
+msgstr "Thực Đơn Món Bánh"
+
+msgid "Giỏ Hàng Online"
+msgstr "Giỏ Hàng Online"
+
+msgid "Tất Cả Bánh"
+msgstr "Tất Cả Bánh"
+
+msgid "GIỜ VÀNG"
+msgstr "GIỜ VÀNG"
+
+msgid "HẾT HÀNG"
+msgstr "HẾT HÀNG"
+
+msgid "Còn"
+msgstr "Còn"
+
+#, python-format
+msgid "Giờ vàng bánh tươi -40%%"
+msgstr "Giờ vàng bánh tươi -40%%"
+
+msgid "Thêm Mua"
+msgstr "Thêm Mua"
+
+msgid "Hết hàng"
+msgstr "Hết hàng"
+
+msgid "Xem Giỏ Hàng"
+msgstr "Xem Giỏ Hàng"
+
+msgid "Đã thêm"
+msgstr "Đã thêm"
+
+msgid "vào giỏ hàng!"
+msgstr "vào giỏ hàng!"
+
+msgid "Đã sao chép mã"
+msgstr "Đã sao chép mã"
+
+msgid "Hãy dán vào giỏ hàng."
+msgstr "Hãy dán vào giỏ hàng."
+
+msgid "Đơn Hàng Của Tôi"
+msgstr "Đơn Hàng Của Tôi"
+
+msgid "Lịch Sử Đơn Hàng Của Tôi"
+msgstr "Lịch Sử Đơn Hàng Của Tôi"
+
+msgid "Theo dõi trạng thái và chi tiết các đơn bánh đã đặt"
+msgstr "Theo dõi trạng thái và chi tiết các đơn bánh đã đặt"
+
+msgid "Đặt Thêm Bánh"
+msgstr "Đặt Thêm Bánh"
+
+msgid "Phí ship:"
+msgstr "Phí ship:"
+
+msgid "Giao đến:"
+msgstr "Giao đến:"
+
+msgid "Nhận tại tiệm"
+msgstr "Nhận tại tiệm"
+
+msgid "Tổng thanh toán:"
+msgstr "Tổng thanh toán:"
+
+msgid "Bạn chưa có đơn hàng nào."
+msgstr "Bạn chưa có đơn hàng nào."
+
+msgid "Đặt bánh ngay"
+msgstr "Đặt Online"
+
+msgid "Tạo Tài Khoản Nhân Viên Mới"
+msgstr "Tạo Nhân Viên Mới"
+
+msgid "Thêm Nhân Viên / Quản Trị Mới"
+msgstr "Thêm Nhân Viên / Quản Trị Mới"
+
+msgid ""
+"Nhân sự được tạo sẽ sử dụng tài khoản này để đăng nhập vào cổng chuyên biệt."
+msgstr ""
+
+msgid "Quay lại"
+msgstr "Quay lại"
+
+msgid "Vui lòng kiểm tra lại thông tin:"
+msgstr "Vui lòng kiểm tra lại thông tin:"
+
+msgid "Dùng để đăng nhập hệ thống (Ví dụ: cashier01 hoặc cashier@bakery.local)"
+msgstr "Dùng để đăng nhập hệ thống (Ví dụ: cashier01 hoặc cashier@bakery.local)"
+
+msgid "Mật khẩu tối thiểu 6 ký tự"
+msgstr "Mật khẩu tối thiểu 6 ký tự"
+
+msgid "Hủy Bỏ"
+msgstr "Hủy Bỏ"
+
+msgid "Lưu & Cấp Tài Khoản"
+msgstr "Lưu & Cấp Tài Khoản"
+
+msgid "Quản Lý Nhân Viên & Phân Quyền"
+msgstr "Quản Lý Nhân Viên"
+
+msgid "Quản Trị Nhân Sự"
+msgstr "Quản Trị Nhân Sự"
+
+msgid "Danh Sách Nhân Viên & Quản Trị Viên"
+msgstr "Danh Sách Nhân Viên & Quản Trị Viên"
+
+msgid ""
+"Nhân viên chỉ đăng nhập qua Cổng Nhân Viên (Port 8009). Chỉ được xóa tài "
+"khoản chưa từng phát sinh đơn hàng/mẻ bánh."
+msgstr ""
+
+msgid "Tạo Nhân Viên Mới"
+msgstr "Tạo Nhân Viên Mới"
+
+msgid "Nhân Viên"
+msgstr "Nhân Viên"
+
+msgid "Vai Trò"
+msgstr "Vai Trò"
+
+msgid "Số Điện Thoại"
+msgstr "Số Điện Thoại"
+
+msgid "Lịch Sử Giao Dịch"
+msgstr "Lịch Sử Giao Dịch"
+
+msgid "Trạng Thái"
+msgstr "Trạng Thái"
+
+msgid "Hành Động"
+msgstr "Hành Động"
+
+msgid "Bạn"
+msgstr "Bạn"
+
+msgid "Quản Trị Viên (Admin)"
+msgstr "Quản Trị Viên (Admin)"
+
+msgid "Thu Ngân POS"
+msgstr "Thu Ngân POS"
+
+msgid "Thợ Bánh KDS"
+msgstr "Thợ Bánh KDS"
+
+msgid "Đơn bán lẻ"
+msgstr "Đơn bán lẻ"
+
+msgid "Mẻ nướng"
+msgstr "Mẻ nướng"
+
+msgid "Đang hoạt động"
+msgstr "Đang hoạt động"
+
+msgid "Đã vô hiệu hóa"
+msgstr "Đã vô hiệu hóa"
+
+msgid "Khóa tài khoản"
+msgstr "Khóa tài khoản"
+
+msgid "Kích hoạt lại"
+msgstr "Kích hoạt lại"
+
+msgid "Xóa"
+msgstr "Xóa"
+
+msgid ""
+"Nhân viên đã có lịch sử đơn hàng hoặc mẻ bánh. Chỉ được phép vô hiệu hóa để "
+"bảo vệ số liệu kế toán."
+msgstr ""
+
+msgid "Đã có dữ liệu"
+msgstr "Đã có dữ liệu"
+
+msgid "Tài khoản hiện tại"
+msgstr "Tài khoản hiện tại"
+
+msgid "Chưa có nhân viên nào trong danh sách."
+msgstr "Chưa có nhân viên nào trong danh sách."
+
+msgid "Bảng Điều Khiển Quản Lý Tiệm Bánh"
+msgstr "Bảng Điều Khiển Quản Lý Tiệm Bánh"
+
+msgid "Xin chào"
+msgstr "Xin chào"
+
+msgid "Cổng Quản Trị Hệ Thống (Port 8010/9010)"
+msgstr "Cổng Quản Trị Hệ Thống (Port 8010/9010)"
+
+msgid "Cổng Vận Hành Nội Bộ (Port 8009/9009)"
+msgstr "Cổng Vận Hành Nội Bộ (Port 8009/9009)"
+
+msgid "Cổng Khách Hàng Trực Tuyến (Port 8008/9008)"
+msgstr "Cổng Khách Hàng Trực Tuyến (Port 8008/9008)"
+
+msgid "Thêm Món Bánh"
+msgstr "Thêm Món Bánh Mới"
+
+msgid "Cài Đặt VietQR"
+msgstr "Cài Đặt VietQR & Tiệm"
+
+msgid "Vào Quầy POS Bán Lẻ"
+msgstr "Vào Quầy POS Bán Lẻ"
+
+msgid "Khám Phá Bánh Tươi"
+msgstr "Khám Phá Bánh Tươi"
+
+msgid "DOANH THU HÔM NAY"
+msgstr "DOANH THU HÔM NAY"
+
+msgid "hóa đơn thành công"
+msgstr "hóa đơn thành công"
+
+msgid "DOANH THU TUẦN NÀY"
+msgstr "DOANH THU TUẦN NÀY"
+
+msgid "Từ đầu tuần đến hiện tại"
+msgstr "Từ đầu tuần đến hiện tại"
+
+msgid "BÁNH KEM ĐANG CHỜ"
+msgstr "BÁNH KEM ĐANG CHỜ"
+
+msgid "đơn"
+msgstr "đơn"
+
+msgid "Xem Kanban tiến độ"
+msgstr "Xem Kanban tiến độ"
+
+msgid "Đơn đặt bánh kem hẹn trước"
+msgstr "Đơn đặt bánh kem hẹn trước"
+
+msgid "HỘI VIÊN TÍCH ĐIỂM"
+msgstr "HỘI VIÊN TÍCH ĐIỂM"
+
+msgid "khách"
+msgstr "khách"
+
+#, python-format
+msgid "Tích 10%% điểm mỗi đơn"
+msgstr "Tích 10%% điểm mỗi đơn"
+
+msgid "Cảnh Báo Cần Xử Lý Ngay"
+msgstr "Cảnh Báo Cần Xử Lý Ngay"
+
+msgid "Xem tất cả"
+msgstr "Xem tất cả"
+
+msgid "Bánh tươi bảo quản < 24 giờ (Cần bán nhanh trong ca):"
+msgstr "Bánh tươi bảo quản < 24 giờ (Cần bán nhanh trong ca):"
+
+msgid "HSD:"
+msgstr "HSD:"
+
+msgid "Tồn:"
+msgstr "Tồn:"
+
+msgid "Không có bánh cận hạn"
+msgstr "Không có bánh cận hạn"
+
+msgid "Nguyên vật liệu dưới ngưỡng tồn tối thiểu:"
+msgstr "Nguyên vật liệu dưới ngưỡng tồn tối thiểu:"
+
+msgid "Ngưỡng"
+msgstr "Ngưỡng"
+
+msgid "Đơn Đặt Bánh Kem Chờ Làm"
+msgstr "Đơn Đặt Bánh Kem Chờ Làm"
+
+msgid "Mở Kanban Bếp"
+msgstr "Mở Kanban Bếp"
+
+msgid "Đã cọc:"
+msgstr "Đã cọc:"
+
+msgid "Không có đơn đặt bánh kem đang chờ."
+msgstr "Không có đơn đặt bánh kem đang chờ."
+
+msgid "Giao Dịch Hóa Đơn Gần Nhất"
+msgstr "Giao Dịch Hóa Đơn Gần Nhất"
+
+msgid "Xem tất cả hóa đơn"
+msgstr "Xem tất cả hóa đơn"
+
+msgid "Mã Hóa Đơn"
+msgstr "Mã Hóa Đơn"
+
+msgid "Kênh Bán"
+msgstr "Kênh Bán"
+
+msgid "Khách Hàng / Thu Ngân"
+msgstr "Khách Hàng / Thu Ngân"
+
+msgid "Tổng Tiền"
+msgstr "Tổng Tiền"
+
+msgid "Thanh Toán"
+msgstr "Thanh Toán"
+
+msgid "Thao Tác"
+msgstr "Thao Tác"
+
+msgid "Khách vãng lai"
+msgstr "Khách vãng lai"
+
+msgid "Chi tiết"
+msgstr "Chi tiết"
+
+msgid "Chưa có giao dịch nào hôm nay."
+msgstr "Chưa có giao dịch nào hôm nay."
+
+msgid "Cài Đặt Hệ Thống & Cấu Hình VietQR"
+msgstr "Cài Đặt Hệ Thống & Cấu Hình VietQR"
+
+msgid ""
+"Thiết lập tài khoản nhận tiền ngân hàng, thông tin tiệm và chính sách hội "
+"viên"
+msgstr ""
+
+msgid "Thông Tin Tiệm Bánh"
+msgstr "Thông Tin Tiệm Bánh"
+
+msgid "Tên Tiệm Bánh"
+msgstr "Tên Tiệm Bánh"
+
+msgid "Số điện thoại hotline"
+msgstr "Số Điện Thoại"
+
+msgid "Địa chỉ tiệm bánh"
+msgstr "Địa chỉ tiệm bánh"
+
+msgid "Cấu Hình Thanh Toán VietQR Tự Động"
+msgstr "Cấu Hình Thanh Toán VietQR Tự Động"
+
+msgid "Cấu trúc URL sinh mã QR:"
+msgstr "Cấu trúc URL sinh mã QR:"
+
+msgid "Mã Ngân Hàng (BANK_ID)"
+msgstr "Mã Ngân Hàng (BANK_ID)"
+
+msgid "VD: MB, VCB, ICB, ACB, TPB..."
+msgstr "VD: MB, VCB, ICB, ACB, TPB..."
+
+msgid "Số Tài Khoản Nhận Tiền"
+msgstr "Tài khoản hiện tại"
+
+msgid "Tên Chủ Tài Khoản (In Hoa Không Dấu)"
+msgstr "Tên Chủ Tài Khoản (In Hoa Không Dấu)"
+
+msgid "Mẫu hiển thị VietQR (Template)"
+msgstr "Mẫu hiển thị VietQR (Template)"
+
+msgid "Hiện kèm logo ngân hàng & số tiền"
+msgstr "Hiện kèm logo ngân hàng & số tiền"
+
+msgid "Rút gọn thanh thoát"
+msgstr "Rút gọn thanh thoát"
+
+msgid "Chỉ mã QR lớn thuần túy"
+msgstr "Chỉ mã QR lớn thuần túy"
+
+msgid "Phí Vận Chuyển & Gói Hội Viên VIP"
+msgstr "Phí Vận Chuyển & Gói Hội Viên VIP"
+
+msgid "Phí Giao Hàng Mặc Định (COD / Ship tận nơi) (VNĐ)"
+msgstr "Phí Giao Hàng Mặc Định (COD / Ship tận nơi) (VNĐ)"
+
+msgid "Giá VIP 1 Tháng (VNĐ)"
+msgstr "Giá VIP 1 Tháng (VNĐ)"
+
+msgid "Giá VIP 1 Năm (VNĐ)"
+msgstr "Giá VIP 1 Năm (VNĐ)"
+
+#, python-format
+msgid "%% Chiết Khấu VIP Mặc Định"
+msgstr "%% Chiết Khấu VIP Mặc Định"
+
+msgid "Về trang chủ"
+msgstr "Về trang chủ"
+
+msgid "LƯU TOÀN BỘ CÀI ĐẶT"
+msgstr "LƯU TOÀN BỘ CÀI ĐẶT"
+
+msgid "Cảnh Báo Hạn Sử Dụng & Tồn Kho"
+msgstr "Cảnh Báo Hạn Sử Dụng & Tồn Kho"
+
+msgid "Bảng Cảnh Báo Đỏ: Hạn Sử Dụng & Tồn Kho"
+msgstr "Bảng Cảnh Báo Đỏ: Hạn Sử Dụng & Tồn Kho"
+
+msgid ""
+"Giám sát các loại bánh tươi cận hạn bảo quản (<24h) và nguyên vật liệu dưới "
+"ngưỡng an toàn"
+msgstr ""
+
+msgid "Bánh Tươi Cận Hạn Bảo Quản (< 24 Giờ)"
+msgstr "Bánh Tươi Cận Hạn Bảo Quản (< 24 Giờ)"
+
+msgid "loại bánh"
+msgstr "loại bánh"
+
+msgid ""
+"Các loại bánh này có hạn sử dụng ngắn, cần ưu tiên trưng bày phía trước quầy "
+"POS và đẩy mạnh bán trong ca."
+msgstr ""
+
+msgid "Hạn tối đa:"
+msgstr "Hạn tối đa:"
+
+msgid "giờ"
+msgstr "giờ"
+
+msgid "Tồn hiện tại:"
+msgstr "Tài khoản hiện tại"
+
+msgid "chiếc"
+msgstr "chiếc"
+
+msgid "Mở POS Bán"
+msgstr "Mở POS Bán"
+
+msgid "Không có cảnh báo bánh cận hạn."
+msgstr "Không có cảnh báo bánh cận hạn."
+
+msgid "Nguyên Liệu Thiếu (Dưới Định Mức)"
+msgstr "Nguyên Liệu Thiếu (Dưới Định Mức)"
+
+msgid "nguyên liệu"
+msgstr "nguyên liệu"
+
+msgid ""
+"Nguyên liệu đã chạm hoặc dưới ngưỡng tối thiểu, cần nhập bổ sung để không "
+"gián đoạn mẻ bánh của Bếp."
+msgstr ""
+
+msgid "Tồn kho:"
+msgstr "Tồn kho:"
+
+msgid "Ngưỡng an toàn:"
+msgstr "Ngưỡng an toàn:"
+
+msgid "Nhập Kho"
+msgstr "Nhập Kho"
+
+msgid "Tất cả nguyên liệu trong kho đang ở mức an toàn."
+msgstr "Tất cả nguyên liệu trong kho đang ở mức an toàn."
+
+msgid "Nhập Kho:"
+msgstr "Nhập Kho:"
+
+msgid "Nhập Kho Nguyên Liệu"
+msgstr "Nhập Kho Nguyên Liệu"
+
+msgid "Tồn kho hiện tại:"
+msgstr "Tài khoản hiện tại"
+
+msgid "Ngưỡng tối thiểu:"
+msgstr "Ngưỡng tối thiểu:"
+
+msgid "Số lượng nhập thêm"
+msgstr "Số lượng nhập thêm"
+
+msgid "Đơn giá nhập mới"
+msgstr "Đơn bán lẻ"
+
+msgid "Hủy"
+msgstr "Hủy"
+
+msgid "XÁC NHẬN NHẬP KHO"
+msgstr "XÁC NHẬN NHẬP KHO"
+
+msgid "Quản Lý Nguyên Vật Liệu Kho"
+msgstr "Quản Lý Nguyên Vật Liệu Kho"
+
+msgid "Kho Nguyên Vật Liệu (Raw Materials)"
+msgstr "Kho Nguyên Vật Liệu (Raw Materials)"
+
+msgid "Quản lý bột, bơ, sữa, trứng và các nguyên liệu phục vụ định mức BOM"
+msgstr "Quản lý bột, bơ, sữa, trứng và các nguyên liệu phục vụ định mức BOM"
+
+msgid "Tổng quan kho"
+msgstr "Tổng quan kho"
+
+msgid "Mã NL"
+msgstr "Mã NL"
+
+msgid "Tên Nguyên Vật Liệu"
+msgstr "Tên Nguyên Vật Liệu"
+
+msgid "Đơn Vị"
+msgstr "Đơn bán lẻ"
+
+msgid "Tồn Kho Hiện Tại"
+msgstr "Số Điện Thoại"
+
+msgid "Ngưỡng Tối Thiểu"
+msgstr "Ngưỡng Tối Thiểu"
+
+msgid "Đơn Giá Nhập"
+msgstr "Đơn bán lẻ"
+
+msgid "Nhập Thêm"
+msgstr "Nhập Thêm"
+
+msgid "Quản Lý Xuất Nhập Tồn Kho"
+msgstr "Quản Lý Xuất Nhập Tồn Kho"
+
+msgid "Giám sát tổng thể kho bánh thành phẩm và kho nguyên vật liệu"
+msgstr "Giám sát tổng thể kho bánh thành phẩm và kho nguyên vật liệu"
+
+msgid "Cảnh Báo Cận Hạn & Thiếu Kho"
+msgstr "Cảnh Báo Cận Hạn & Thiếu Kho"
+
+msgid "Danh Sách Nguyên Vật Liệu"
+msgstr "Danh Sách Nguyên Vật Liệu"
+
+msgid "Tổng Món Bánh Đang Bán"
+msgstr "Tổng Món Bánh Đang Bán"
+
+msgid "Tất cả danh mục bánh"
+msgstr "Tất cả danh mục bánh"
+
+msgid "Bánh Cận Hạn (< 24 Giờ)"
+msgstr "Bánh Cận Hạn (< 24 Giờ)"
+
+msgid "Cần đẩy bán trong ngày"
+msgstr "Cần đẩy bán trong ngày"
+
+msgid "Nguyên Liệu Cần Nhập"
+msgstr "Nguyên Liệu Cần Nhập"
+
+msgid "Dưới ngưỡng an toàn"
+msgstr "Dưới ngưỡng an toàn"
+
+msgid "Tồn Kho Bánh Thành Phẩm Tại Quầy"
+msgstr "Tồn Kho Bánh Thành Phẩm Tại Quầy"
+
+msgid "Quản lý món bánh"
+msgstr "Quản lý món bánh"
+
+msgid "SKU"
+msgstr "SKU"
+
+msgid "Tên Sản Phẩm Bánh"
+msgstr "Tên Sản Phẩm Bánh"
+
+msgid "Danh Mục"
+msgstr "Danh Mục"
+
+msgid "Đơn Giá"
+msgstr "Đơn bán lẻ"
+
+msgid "Hạn Dùng (Giờ)"
+msgstr "Hạn Dùng (Giờ)"
+
+msgid "Số Lượng Tồn"
+msgstr "Số Lượng Tồn"
+
+msgid "Tình Trạng"
+msgstr "Tình Trạng"
+
+msgid "SẮP HẾT"
+msgstr "SẮP HẾT"
+
+msgid "DỒI DÀO"
+msgstr "DỒI DÀO"
+
+msgid "Nghiệm Thu Mẻ Bánh"
+msgstr "Nghiệm Thu Mẻ Bánh"
+
+msgid "Nghiệm Thu & Nhập Kho Thành Phẩm"
+msgstr "Nghiệm Thu & Nhập Kho Thành Phẩm"
+
+msgid "Dự kiến:"
+msgstr "Dự kiến:"
+
+#, python-format
+msgid "Nguyên Liệu Sẽ Bị Trừ Khỏi Kho (Định Mức BOM + 5%% Hao Hụt)"
+msgstr "Nguyên Liệu Sẽ Bị Trừ Khỏi Kho (Định Mức BOM + 5%% Hao Hụt)"
+
+msgid "Nguyên Liệu"
+msgstr "Nguyên Liệu"
+
+msgid "Lượng Trừ Kho"
+msgstr "Lượng Trừ Kho"
+
+msgid "Tồn Hiện Tại"
+msgstr "Số Điện Thoại"
+
+msgid "Sẵn sàng trừ"
+msgstr "Sẵn sàng trừ"
+
+msgid "Thiếu"
+msgstr "Thiếu"
+
+msgid "Số lượng bánh thực tế đạt tiêu chuẩn KCS nhập kho:"
+msgstr "Số lượng bánh thực tế đạt tiêu chuẩn KCS nhập kho:"
+
+#, python-format
+msgid ""
+"Số lượng này sẽ được cộng trực tiếp vào tồn kho quầy bán lẻ của sản phẩm "
+"\"%(name)s\"."
+msgstr ""
+
+msgid "Ghi chú kiểm tra chất lượng / Lý do hao hụt (nếu có):"
+msgstr "Ghi chú kiểm tra chất lượng / Lý do hao hụt (nếu có):"
+
+msgid "Mẻ bánh nướng vàng đều, thơm ngon, đạt chuẩn..."
+msgstr "Mẻ bánh nướng vàng đều, thơm ngon, đạt chuẩn..."
+
+msgid "XÁC NHẬN NGHIỆM THU & TRỪ KHO NGUYÊN LIỆU"
+msgstr "XÁC NHẬN NGHIỆM THU & TRỪ KHO NGUYÊN LIỆU"
+
+msgid "Tạo Lệnh Sản Xuất Mẻ Bánh Mới"
+msgstr "Tạo Lệnh Sản Xuất Mẻ Bánh Mới"
+
+msgid "Tạo Lệnh Sản Xuất Mẻ Bánh"
+msgstr "Tạo Lệnh Sản Xuất Mẻ Bánh"
+
+#, python-format
+msgid "Hệ thống tự động tính toán nguyên vật liệu dựa trên BOM và hao hụt 5%%"
+msgstr "Hệ thống tự động tính toán nguyên vật liệu dựa trên BOM và hao hụt 5%%"
+
+msgid "Loại Bánh Cần Nướng"
+msgstr "Loại Bánh Cần Nướng"
+
+msgid "Số lượng dự kiến nướng"
+msgstr "Số lượng dự kiến nướng"
+
+#, python-format
+msgid "Tỷ lệ hao hụt áp dụng (%%)"
+msgstr "Tỷ lệ hao hụt áp dụng (%%)"
+
+msgid "Ghi chú sản xuất"
+msgstr "Ghi chú sản xuất"
+
+#, python-format
+msgid "Dự Toán Nguyên Liệu Tiêu Hao (+5%% Hao Hụt)"
+msgstr "Dự Toán Nguyên Liệu Tiêu Hao (+5%% Hao Hụt)"
+
+msgid "Đang kiểm tra tồn kho..."
+msgstr "Đang kiểm tra tồn kho..."
+
+msgid "Lượng Cần Dùng"
+msgstr "Lượng Cần Dùng"
+
+msgid "Trạng Thái Kho"
+msgstr "Trạng Thái"
+
+msgid "Chọn sản phẩm và số lượng để xem dự toán"
+msgstr "Chọn sản phẩm và số lượng để xem dự toán"
+
+msgid "KHỞI TẠO LỆNH SẢN XUẤT"
+msgstr "KHỞI TẠO LỆNH SẢN XUẤT"
+
+msgid "Sản phẩm này chưa được thiết lập công thức BOM"
+msgstr "Sản phẩm này chưa được thiết lập công thức BOM"
+
+msgid "Chưa có BOM"
+msgstr "Chưa có BOM"
+
+msgid "Kho đủ nguyên liệu để nướng mẻ này"
+msgstr "Kho đủ nguyên liệu để nướng mẻ này"
+
+msgid "CẢNH BÁO: Kho thiếu nguyên liệu!"
+msgstr "CẢNH BÁO: Kho thiếu nguyên liệu!"
+
+msgid "Đủ"
+msgstr "Đủ"
+
+msgid "In Tem Barcode Bánh"
+msgstr "In Tem Barcode Bánh"
+
+msgid "Quay lại Bếp"
+msgstr "Quay lại Bếp"
+
+msgid "Tem Nhãn Barcode & Hạn Dùng Bánh Tươi"
+msgstr "Tem Nhãn Barcode & Hạn Dùng Bánh Tươi"
+
+msgid "Thời hạn:"
+msgstr "Thời hạn:"
+
+msgid "Số tem cần in:"
+msgstr "Số tem cần in:"
+
+msgid "Cập nhật"
+msgstr "Cập nhật"
+
+msgid "🖨️ In Tem Ngay (Print)"
+msgstr "🖨️ In Tem Ngay (Print)"
+
+msgid "Hướng dẫn dán tem bánh tươi:"
+msgstr "Hướng dẫn dán tem bánh tươi:"
+
+#, python-format
+msgid ""
+"Mỗi chiếc bánh nướng ra sẽ được dán 1 tem nhãn này. Khách hàng hoặc Thu ngân "
+"quét mã barcode này tại quầy POS để thanh toán nhanh. Khi bánh chỉ còn lại "
+"25%% thời hạn sử dụng, hệ thống tự động áp dụng mức giảm giá 40%% giờ vàng."
+msgstr ""
+
+msgid "NSX (Nướng):"
+msgstr "NSX (Nướng):"
+
+msgid "HSD (Hạn):"
+msgstr "HSD (Hạn):"
+
+#, python-format
+msgid "⚡ Giảm 40%% khi còn 25%% thời hạn sử dụng"
+msgstr "⚡ Giảm 40%% khi còn 25%% thời hạn sử dụng"
+
+msgid "Công Thức BOM"
+msgstr "Công Thức BOM"
+
+msgid "Danh sách công thức BOM"
+msgstr "Danh Sách Bánh"
+
+msgid "Công Thức Định Mức:"
+msgstr "Công Thức Định Mức:"
+
+#, python-format
+msgid ""
+"Định lượng nguyên liệu sản xuất cho 1 đơn vị bánh (chưa tính 5%% hao hụt khi "
+"nướng)"
+msgstr ""
+
+msgid "Định Lượng / 1 Bánh"
+msgstr "Định Lượng / 1 Bánh"
+
+msgid "Hao Hụt Chuẩn"
+msgstr "Hao Hụt Chuẩn"
+
+msgid "Bạn có chắc muốn xóa nguyên liệu này khỏi công thức?"
+msgstr "Bạn có chắc muốn xóa nguyên liệu này khỏi công thức?"
+
+msgid "Chưa có nguyên liệu nào trong công thức."
+msgstr "Chưa có nguyên liệu nào trong công thức."
+
+msgid "Thêm Nguyên Liệu Vào Công Thức"
+msgstr "Thêm Nguyên Liệu Vào Công Thức"
+
+msgid "Chọn nguyên vật liệu"
+msgstr "Chọn nguyên vật liệu"
+
+msgid "Định lượng (cho 1 bánh)"
+msgstr "Định lượng (cho 1 bánh)"
+
+msgid "Thêm Vào BOM"
+msgstr "Thêm Vào BOM"
+
+msgid "Bảng Định Mức Nguyên Vật Liệu (BOM)"
+msgstr "Bảng Định Mức Nguyên Vật Liệu (BOM)"
+
+msgid "Công thức chuẩn để sản xuất 1 đơn vị sản phẩm bánh"
+msgstr "Công thức chuẩn để sản xuất 1 đơn vị sản phẩm bánh"
+
+msgid "Chưa thiết lập công thức BOM"
+msgstr "Chưa thiết lập công thức BOM"
+
+msgid "Chỉnh Sửa Công Thức"
+msgstr "Chỉnh Sửa Công Thức"
+
+msgid "Điều Phối Khu Vực Bếp & Lò Nướng"
+msgstr "Điều Phối Khu Vực Bếp & Lò Nướng"
+
+msgid "Khu Vực Bếp & Lò Nướng Bánh"
+msgstr "Khu Vực Bếp & Lò Nướng Bánh"
+
+#, python-format
+msgid ""
+"Quản lý lệnh sản xuất mẻ bánh, công thức định mức BOM và tự động trừ nguyên "
+"liệu (+5%% hao hụt)"
+msgstr ""
+
+msgid "Bảng Định Mức BOM"
+msgstr "Bảng Định Mức BOM"
+
+msgid "Lệnh Nướng Mẻ Mới"
+msgstr "Lệnh Nướng Mẻ Mới"
+
+msgid "Các Mẻ Bánh Đang Thực Hiện"
+msgstr "Các Mẻ Bánh Đang Thực Hiện"
+
+msgid "Kế hoạch:"
+msgstr "Kế hoạch:"
+
+msgid "Hao hụt tiêu chuẩn:"
+msgstr "Hao hụt tiêu chuẩn:"
+
+msgid "Nghiệm Thu & Nhập Kho"
+msgstr "Nghiệm Thu & Nhập Kho"
+
+msgid "Chỉ Thợ Bánh nghiệm thu"
+msgstr "Chỉ Thợ Bánh nghiệm thu"
+
+msgid "Hiện không có mẻ nướng nào đang chạy"
+msgstr "Hiện không có mẻ nướng nào đang chạy"
+
+msgid "Bấm nút \"+ Lệnh Nướng Mẻ Mới\" ở trên để khởi tạo"
+msgstr ""
+
+msgid "Lịch Sử Nghiệm Thu Mẻ Gần Đây"
+msgstr "Lịch Sử Nghiệm Thu Mẻ Gần Đây"
+
+msgid "Mã Mẻ"
+msgstr "Mã Mẻ"
+
+msgid "Tên Bánh"
+msgstr "Thêm Món Bánh Mới"
+
+msgid "KH / Đạt"
+msgstr "KH / Đạt"
+
+msgid "Thợ Bánh"
+msgstr "Thợ Bánh KDS"
+
+msgid "Thời Gian Hoàn Tất"
+msgstr "Thời Gian Hoàn Tất"
+
+msgid "In Tem"
+msgstr "In Tem"
+
+msgid "Thợ bếp"
+msgstr "Thợ bếp"
+
+msgid "Chưa có mẻ nào hoàn thành."
+msgstr "Chưa có mẻ nào hoàn thành."
+
+msgid "Bánh Kem Cần Nướng"
+msgstr "Bánh Kem Cần Nướng"
+
+msgid "Xem Kanban"
+msgstr "Xem Kanban"
+
+msgid "Không có đơn bánh kem hẹn trước cần làm ngay."
+msgstr "Không có đơn bánh kem hẹn trước cần làm ngay."
+
+msgid "Bán Lẻ POS - Màn Hình Cảm Ứng"
+msgstr "Bán Lẻ POS - Màn Hình Cảm Ứng"
+
+msgid "Tìm tên bánh hoặc quét mã SKU / Barcode..."
+msgstr "Tìm tên bánh hoặc quét mã SKU / Barcode..."
+
+#, fuzzy
+#| msgid "Đặt bánh ngay"
+msgid "Đặt Bánh Hẹn"
+msgstr "Đặt Online"
+
+msgid "Sẵn sàng quét mã"
+msgstr "Sẵn sàng quét mã"
+
+msgid "Tất Cả Món"
+msgstr "Tất Cả Món"
+
+msgid "cái"
+msgstr "cái"
+
+msgid "Tồn"
+msgstr "Tồn"
+
+#, python-format
+msgid "Giờ vàng -40%%"
+msgstr "Giờ vàng -40%%"
+
+msgid "Hóa Đơn Bán Hàng"
+msgstr "Hóa Đơn Bán Hàng"
+
+msgid "món trong giỏ"
+msgstr "món trong giỏ"
+
+msgid "Xóa giỏ"
+msgstr "Xóa giỏ"
+
+msgid "Nhập SĐT hội viên..."
+msgstr "Nhập SĐT hội viên..."
+
+msgid "Tra cứu"
+msgstr "Tra cứu"
+
+msgid "Ví điểm:"
+msgstr "điểm"
+
+msgid "Mã giảm giá (VD: SINHNHATTIEM)"
+msgstr "Mã giảm giá (VD: SINHNHATTIEM)"
+
+msgid "Áp dụng"
+msgstr "Áp dụng"
+
+msgid "Chưa có sản phẩm nào"
+msgstr "Chưa có sản phẩm nào"
+
+msgid "Chạm vào bánh ở bên trái để thêm"
+msgstr "Chạm vào bánh ở bên trái để thêm"
+
+msgid "Trừ điểm ví (1đ = 1.000đ):"
+msgstr "Trừ điểm ví (1đ = 1.000đ):"
+
+msgid "Khách Cần Trả:"
+msgstr "Khách Cần Trả:"
+
+msgid "Tiền Mặt"
+msgstr "Tiền Mặt"
+
+msgid "VietQR"
+msgstr "VietQR"
+
+msgid "Tách Tiền"
+msgstr "Tách Tiền"
+
+msgid "Tiền mặt:"
+msgstr "Tiền mặt:"
+
+msgid "VietQR:"
+msgstr "VietQR:"
+
+msgid "Còn thiếu / Thừa:"
+msgstr "Còn thiếu / Thừa:"
+
+msgid "THANH TOÁN HÓA ĐƠN"
+msgstr "THANH TOÁN HÓA ĐƠN"
+
+msgid "Mở app Ngân hàng hoặc Ví điện tử bất kỳ để quét"
+msgstr "Mở app Ngân hàng hoặc Ví điện tử bất kỳ để quét"
+
+msgid "Mã VietQR"
+msgstr "Mã VietQR"
+
+msgid "Đang sinh mã QR..."
+msgstr "Đang sinh mã QR..."
+
+msgid "Số tiền cần chuyển:"
+msgstr "Số tiền cần chuyển:"
+
+msgid "Nội dung chuyển khoản:"
+msgstr "Nội dung chuyển khoản:"
+
+msgid "Chủ tài khoản:"
+msgstr "Khóa tài khoản"
+
+msgid "Số tài khoản / Ngân hàng:"
+msgstr "Số tài khoản / Ngân hàng:"
+
+msgid "Mã hết hạn trong:"
+msgstr "Mã hết hạn trong:"
+
+msgid "XÁC NHẬN ĐÃ NHẬN TIỀN THÀNH CÔNG"
+msgstr "XÁC NHẬN ĐÃ NHẬN TIỀN THÀNH CÔNG"
+
+msgid "Hóa Đơn Thanh Toán"
+msgstr "Hóa Đơn Thanh Toán"
+
+msgid "Hotline:"
+msgstr "Hotline:"
+
+msgid "HÓA ĐƠN BÁN HÀNG"
+msgstr "HÓA ĐƠN BÁN HÀNG"
+
+msgid "Mã HD:"
+msgstr "Mã HD:"
+
+msgid "Thời gian:"
+msgstr "Thời gian:"
+
+msgid "Thu ngân:"
+msgstr "Thu Ngân POS"
+
+msgid "Món"
+msgstr "Món"
+
+msgid "SL"
+msgstr "SL"
+
+msgid "Đ.Giá"
+msgstr "Đ.Giá"
+
+msgid "T.Tiền"
+msgstr "T.Tiền"
+
+msgid "Tổng tiền hàng:"
+msgstr "Tổng tiền hàng:"
+
+msgid "Giảm giá:"
+msgstr "Giảm giá:"
+
+msgid "THANH TOÁN:"
+msgstr "THANH TOÁN:"
+
+msgid "Phương thức:"
+msgstr "Phương thức:"
+
+#, python-format
+msgid "Điểm tích lũy (+10%%):"
+msgstr "Điểm tích lũy (+10%%):"
+
+msgid "Cảm ơn Quý khách & Hẹn gặp lại!"
+msgstr "Cảm ơn Quý khách & Hẹn gặp lại!"
+
+msgid "Chúc Quý khách ngon miệng!"
+msgstr "Chúc Quý khách ngon miệng!"
+
+msgid "IN HÓA ĐƠN"
+msgstr "IN HÓA ĐƠN"
+
+msgid "ĐƠN TIẾP THEO"
+msgstr "ĐƠN TIẾP THEO"
+
+msgid "Sản phẩm"
+msgstr "Sản phẩm"
+
+msgid "đã hết hàng trong ca!"
+msgstr "đã hết hàng trong ca!"
+
+msgid "Không thể thêm! Kho chỉ còn"
+msgstr "Không thể thêm! Kho chỉ còn"
+
+msgid "Số lượng vượt quá tồn kho hiện có"
+msgstr "Số lượng vượt quá tồn kho hiện có"
+
+msgid "Vui lòng nhập số điện thoại khách hàng."
+msgstr "Vui lòng nhập số điện thoại khách hàng."
+
+msgid "Tìm thấy hội viên:"
+msgstr "Tìm thấy hội viên:"
+
+msgid "Không tìm thấy khách hàng."
+msgstr "Không tìm thấy khách hàng."
+
+msgid "Lỗi khi tra cứu khách hàng."
+msgstr "Lỗi khi tra cứu khách hàng."
+
+msgid "Vui lòng nhập mã khuyến mãi."
+msgstr "Vui lòng nhập mã khuyến mãi."
+
+msgid "Áp dụng mã"
+msgstr "Áp dụng mã"
+
+msgid "thành công!"
+msgstr "thành công!"
+
+msgid "Mã không hợp lệ."
+msgstr "Mã không hợp lệ."
+
+msgid "Lỗi áp dụng voucher."
+msgstr "Lỗi áp dụng voucher."
+
+msgid "Thừa"
+msgstr "Thừa"
+
+msgid "Trả lại"
+msgstr "Trả lại"
+
+msgid "Khớp đúng số tiền"
+msgstr "Khớp đúng số tiền"
+
+msgid "Giỏ hàng đang trống! Vui lòng chọn món bánh."
+msgstr "Giỏ hàng đang trống! Vui lòng chọn món bánh."
+
+msgid "Tổng tiền chia chưa đủ thanh toán đơn hàng."
+msgstr "Tổng tiền chia chưa đủ thanh toán đơn hàng."
+
+msgid "Hết hạn"
+msgstr "Hết hạn"
+
+msgid "Lỗi thanh toán."
+msgstr "Lỗi thanh toán."
+
+msgid "Lỗi hệ thống khi thanh toán."
+msgstr "Lỗi hệ thống khi thanh toán."
+
+msgid "Tách thanh toán"
+msgstr "Tách thanh toán"
+
+msgid "Hóa Đơn"
+msgstr "Hóa Đơn"
+
+msgid "Quay lại danh sách"
+msgstr "Quay lại danh sách"
+
+msgid "In Hóa Đơn Nhiệt"
+msgstr "In Hóa Đơn Nhiệt"
+
+msgid "Mã:"
+msgstr "Mã:"
+
+msgid "Online"
+msgstr "Đặt Online"
+
+msgid "Món Bánh"
+msgstr "Thêm Món Bánh Mới"
+
+msgid "Tiền hàng ban đầu:"
+msgstr "Tiền hàng ban đầu:"
+
+msgid "Giảm giá (Coupon/VIP):"
+msgstr "Giảm giá (Coupon/VIP):"
+
+msgid "Trừ điểm ví"
+msgstr "Trừ điểm ví"
+
+msgid "TỔNG THANH TOÁN:"
+msgstr "TỔNG THANH TOÁN:"
+
+msgid "Tiền mặt trả:"
+msgstr "Tiền mặt trả:"
+
+msgid "Chuyển khoản VietQR:"
+msgstr "Chuyển khoản VietQR:"
+
+msgid "Tiền thừa thối lại:"
+msgstr "Tiền thừa thối lại:"
+
+#, python-format
+msgid "Điểm tích lũy hóa đơn này (+10%%):"
+msgstr "Điểm tích lũy hóa đơn này (+10%%):"
+
+msgid "Hân hạnh phục vụ Quý khách!"
+msgstr "Hân hạnh phục vụ Quý khách!"
+
+msgid "Lịch Sử Hóa Đơn Bán Hàng"
+msgstr "Lịch Sử Hóa Đơn Bán Hàng"
+
+msgid "Xem lại và in lại các giao dịch tại quầy POS & Đơn Online"
+msgstr "Xem lại và in lại các giao dịch tại quầy POS & Đơn Online"
+
+msgid "Vào Quầy Bán Lẻ POS"
+msgstr "Bán Lẻ POS"
+
+msgid "Mã hóa đơn (HD...) hoặc SĐT khách..."
+msgstr "Mã hóa đơn (HD...) hoặc SĐT khách..."
+
+msgid "Tất cả hình thức TT"
+msgstr "Tất cả hình thức TT"
+
+msgid "COD"
+msgstr "COD"
+
+msgid "Lọc Hóa Đơn"
+msgstr "Lọc Hóa Đơn"
+
+msgid "Thu Ngân / Khách Hàng"
+msgstr "Cổng Khách Hàng"
+
+msgid "Xem & In Bill"
+msgstr "Xem & In Bill"
+
+msgid "Không tìm thấy hóa đơn nào phù hợp."
+msgstr "Không tìm thấy hóa đơn nào phù hợp."
+
+msgid "Xóa Coupon:"
+msgstr "Xóa Coupon:"
+
+msgid "Xác Nhận Xóa Coupon"
+msgstr "Quản Lý Coupon"
+
+#, python-format
+msgid ""
+"Bạn có chắc chắn muốn xóa mã ưu đãi <strong>%(code)s</strong> (%(title)s)?"
+msgstr ""
+
+msgid "Hủy bỏ"
+msgstr "Hủy bỏ"
+
+msgid "Xác nhận Xóa"
+msgstr "Xác nhận Xóa"
+
+msgid "Cấu hình điều kiện áp dụng, thời hạn và số lượng mã"
+msgstr "Cấu hình điều kiện áp dụng, thời hạn và số lượng mã"
+
+msgid "Mã Khuyến Mãi (In Hoa)"
+msgstr "Mã Khuyến Mãi (In Hoa)"
+
+msgid "Loại giảm giá"
+msgstr "Loại giảm giá"
+
+#, python-format
+msgid "Giá trị giảm (% hoặc VNĐ)"
+msgstr "Giá trị giảm (% hoặc VNĐ)"
+
+msgid "Mức giảm tối đa (0 = Không giới hạn)"
+msgstr "Mức giảm tối đa (0 = Không giới hạn)"
+
+msgid "Điều kiện áp dụng đặc biệt"
+msgstr "Điều kiện áp dụng đặc biệt"
+
+msgid "Đơn hàng tối thiểu (VNĐ)"
+msgstr "Đơn hàng tối thiểu (VNĐ)"
+
+msgid "Hiệu lực từ ngày"
+msgstr "Hiệu lực từ ngày"
+
+msgid "Hiệu lực đến ngày"
+msgstr "Hiệu lực đến ngày"
+
+msgid "Số lượt sử dụng tối đa"
+msgstr "Số lượt sử dụng tối đa"
+
+msgid "Đang kích hoạt cho phép dùng"
+msgstr "Đang kích hoạt cho phép dùng"
+
+msgid "LƯU MÃ KHUYẾN MÃI"
+msgstr "LƯU MÃ KHUYẾN MÃI"
+
+msgid "Quản Lý Mã Khuyến Mãi (Coupons)"
+msgstr "Quản Lý Coupon"
+
+msgid "Quản Lý Mã Giảm Giá & Coupon"
+msgstr "Quản Lý Coupon"
+
+msgid ""
+"Thiết lập các điều kiện ưu đãi linh hoạt: Sinh nhật khách, Kỷ niệm tiệm "
+"bánh, Dịp Lễ Tết, VIP Only"
+msgstr ""
+
+msgid "Tạo Mã Coupon Mới"
+msgstr "Tạo Mã Ưu Đãi Mới"
+
+msgid "Mã Coupon"
+msgstr "Mã Coupon"
+
+msgid "Tên Chương Trình"
+msgstr "Tên Chương Trình"
+
+msgid "Loại & Mức Giảm"
+msgstr "Loại & Mức Giảm"
+
+msgid "Điều Kiện Áp Dụng"
+msgstr "Điều Kiện Áp Dụng"
+
+msgid "Đơn Tối Thiểu"
+msgstr "Đơn Tối Thiểu"
+
+msgid "Hiệu Lực Đến"
+msgstr "Hiệu Lực Đến"
+
+msgid "Đã Dùng / Tối Đa"
+msgstr "Đã Dùng / Tối Đa"
+
+msgid "Hiệu Lực"
+msgstr "Hiệu Lực"
+
+msgid "Hết Hạn/Khóa"
+msgstr "Hết Hạn/Khóa"
+
+msgid "Sửa"
+msgstr "Sửa"
+
+msgid "Chưa có mã khuyến mãi nào."
+msgstr "Chưa có mã khuyến mãi nào."
+
+msgid "Xóa Sản Phẩm:"
+msgstr "Xóa Sản Phẩm:"
+
+msgid "Xác Nhận Xóa Bánh"
+msgstr "Xác Nhận Xóa Bánh"
+
+#, python-format
+msgid ""
+"Bạn có chắc chắn muốn xóa sản phẩm <strong>%(name)s</strong> (Mã SKU: "
+"%(sku)s)?"
+msgstr ""
+
+msgid "Cấu hình thông tin chi tiết sản phẩm bánh"
+msgstr "Cấu hình thông tin chi tiết sản phẩm bánh"
+
+msgid "Mã SKU / Barcode"
+msgstr "Mã SKU / Barcode"
+
+msgid "Danh mục bánh"
+msgstr "Danh Sách Bánh"
+
+msgid "Tên sản phẩm bánh"
+msgstr "Tên sản phẩm bánh"
+
+msgid "Đơn giá niêm yết (VNĐ)"
+msgstr "Đơn giá niêm yết (VNĐ)"
+
+msgid "Số lượng tồn quầy"
+msgstr "Số lượng tồn quầy"
+
+msgid "Hạn bảo quản tối đa (Giờ)"
+msgstr "Hạn bảo quản tối đa (Giờ)"
+
+msgid "Trạng thái"
+msgstr "Trạng Thái"
+
+msgid "URL Hình ảnh minh họa"
+msgstr "URL Hình ảnh minh họa"
+
+msgid "Đánh dấu là Bánh kem đặt theo hẹn (Custom Cake)"
+msgstr "Đánh dấu là Bánh kem đặt theo hẹn (Custom Cake)"
+
+msgid "LƯU SẢN PHẨM BÁNH"
+msgstr "LƯU SẢN PHẨM BÁNH"
+
+msgid "Quản Lý Món Bánh - Admin"
+msgstr "Quản Lý Món Bánh - Admin"
+
+msgid "Quản Lý Danh Mục & Món Bánh"
+msgstr "Quản Lý Danh Mục & Món Bánh"
+
+msgid ""
+"Thêm mới, sửa đổi đơn giá, cấu hình hạn dùng và dừng bán các sản phẩm bánh"
+msgstr "Thêm mới, sửa đổi đơn giá, cấu hình hạn dùng và dừng bán các sản phẩm bánh"
+
+msgid "Tìm tên bánh hoặc mã SKU..."
+msgstr "Tìm tên bánh hoặc mã SKU..."
+
+msgid "Tất cả danh mục"
+msgstr "Tất cả danh mục"
+
+msgid "Tìm Kiếm"
+msgstr "Tìm Kiếm"
+
+msgid "Ảnh"
+msgstr "Hình Ảnh"
+
+msgid "Mã SKU"
+msgstr "Mã SKU"
+
+msgid "Tồn Kho"
+msgstr "Tồn Kho"
+
+msgid "Hạn (h)"
+msgstr "Hạn (h)"
+
+#~ msgid "Kho Hàng"
+#~ msgstr "Kho Hàng"
+
+#~ msgid "Quản Trị"
+#~ msgstr "Quản Trị"

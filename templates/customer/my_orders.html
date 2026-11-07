@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Đơn Hàng Của Tôi" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Lịch Sử Đơn Hàng Của Tôi" %}</h1>
+      <p class="text-xs text-gray-500">{% trans "Theo dõi trạng thái và chi tiết các đơn bánh đã đặt" %}</p>
+    </div>
+    <a href="/online/" class="px-4 py-2 bg-amber-600 text-white text-xs font-bold rounded-xl hover:bg-amber-700 transition">
+      + {% trans "Đặt Thêm Bánh" %}
+    </a>
+  </div>
+
+  <!-- Member Loyalty Card with Barcode for In-Store POS Redemption -->
+  {% if customer_profile %}
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-white p-6 sm:p-8 shadow-xl border border-amber-600/30">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        
+        <!-- Left: Info -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">💳</span>
+            <span class="text-xs uppercase tracking-widest font-black text-amber-300">{% trans "THẺ HỘI VIÊN ARTISAN BAKERY" %}</span>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-amber-950 shadow-xs">
+              {{ customer_profile.get_tier_display }}{% if customer_profile.check_vip_active %} [VIP]{% endif %}
+            </span>
+          </div>
+
+          <div>
+            <h2 class="text-2xl font-black tracking-tight text-white">{{ customer_profile.full_name }}</h2>
+            <p class="text-xs text-amber-200 font-mono mt-0.5">SĐT: {{ customer_profile.phone }}</p>
+          </div>
+
+          <div class="flex items-center gap-4 pt-1">
+            <div class="bg-amber-800/80 px-3.5 py-2 rounded-2xl border border-amber-500/30">
+              <span class="text-[10px] text-amber-200 block uppercase font-bold">{% trans "Ví Điểm Tích Lũy" %}</span>
+              <span class="text-lg font-black text-amber-300">{{ customer_profile.points_balance }} {% trans "điểm" %}</span>
+              <span class="text-[10px] text-amber-100/80 block">(= {{ customer_profile.points_in_vnd|floatformat:0 }} VNĐ)</span>
+            </div>
+            <div class="bg-amber-800/80 px-3.5 py-2 rounded-2xl border border-amber-500/30">
+              <span class="text-[10px] text-amber-200 block uppercase font-bold">{% trans "Tổng Chi Tiêu" %}</span>
+              <span class="text-lg font-black text-white">{{ customer_profile.total_spent|floatformat:0 }}đ</span>
+              <span class="text-[10px] text-emerald-300 font-bold block">+10% {% trans "tích lũy mỗi đơn" %}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Crisp Barcode Box -->
+        <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col items-center justify-center max-w-[280px] w-full text-center text-black space-y-1.5 self-center">
+          <span class="text-[10px] font-black tracking-wider text-gray-500 uppercase">{% trans "MÃ VẠCH THẺ HỘI VIÊN" %}</span>
+          
+          <div class="w-full flex justify-center py-1">
+            {{ customer_profile.barcode_svg|safe }}
+          </div>
+
+          <span class="font-mono text-xs font-black tracking-widest text-amber-950 bg-amber-100 px-3 py-1 rounded-lg">
+            {{ customer_profile.member_card_code }}
+          </span>
+
+          <p class="text-[9px] text-gray-600 leading-tight pt-1">
+            💡 {% trans "Xuất trình mã này tại quầy thu ngân (hoặc chụp màn hình) để DÙNG ĐIỂM thanh toán và TÍCH ĐIỂM!" %}
+          </p>
+        </div>
+
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="space-y-4">
+    {% for order in orders %}
+      <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-amber-100 gap-2">
+          <div>
+            <span class="font-mono text-xs font-black text-amber-900 bg-amber-50 px-2 py-0.5 rounded">{{ order.order_code }}</span>
+            <span class="text-xs text-gray-400 font-mono ml-2">{{ order.created_at|date:"d/m/Y H:i" }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold 
+              {% if order.status == 'COMPLETED' %}bg-emerald-100 text-emerald-800
+              {% elif order.status == 'PENDING' %}bg-amber-100 text-amber-900
+              {% else %}bg-gray-100 text-gray-800{% endif %}">
+              {{ order.get_status_display }}
+            </span>
+            <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-lg">
+              {{ order.get_payment_method_display }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Items -->
+        <div class="space-y-1.5 text-xs">
+          {% for it in order.items.all %}
+            <div class="flex justify-between text-gray-700">
+              <span>{{ it.product.name }} &times; {{ it.quantity }}</span>
+              <span class="font-bold text-gray-900">{{ it.subtotal|floatformat:0 }}đ</span>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="pt-3 border-t border-amber-50 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+          <div class="text-gray-500">
+            {% if order.shipping_fee > 0 %}{% trans "Phí ship:" %} {{ order.shipping_fee|floatformat:0 }}đ | {% endif %}
+            {% trans "Giao đến:" %} {{ order.shipping_address|default:_("Nhận tại tiệm") }}
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-gray-500">{% trans "Tổng thanh toán:" %} </span>
+            <span class="text-base font-black text-amber-800">{{ order.final_amount|floatformat:0 }} VNĐ</span>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="bg-white rounded-3xl p-12 text-center text-gray-400 border border-amber-100 space-y-2">
+        <span class="text-4xl block">📦</span>
+        <p class="font-bold text-sm">{% trans "Bạn chưa có đơn hàng nào." %}</p>
+        <a href="/online/" class="inline-block px-5 py-2.5 rounded-xl bg-amber-600 text-white font-bold text-xs">{% trans "Đặt bánh ngay" %}</a>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

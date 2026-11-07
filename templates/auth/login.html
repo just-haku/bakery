@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Đăng Nhập" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-[85vh] flex items-center justify-center px-4 py-12">
+  <div class="max-w-md w-full bg-white rounded-3xl p-8 border border-amber-100 shadow-xl relative overflow-hidden">
+    
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-100/50 rounded-full blur-2xl"></div>
+
+    <div class="text-center mb-8 relative">
+      <div class="w-16 h-16 rounded-3xl bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg shadow-amber-500/20">
+        🥐
+      </div>
+      <h1 class="text-2xl font-black text-bakery-crust">{% trans "Đăng Nhập Hệ Thống" %}</h1>
+      <p class="text-xs text-amber-800 font-medium mt-1">{% trans "Quản lý Tiệm Bánh & Điểm Bán Hàng POS" %}</p>
+    </div>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.username.label|default:_("Tên đăng nhập / Email / SĐT") }}</label>
+        {{ form.username }}
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{{ form.password.label|default:_("Mật khẩu") }}</label>
+        {{ form.password }}
+      </div>
+
+      <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-extrabold text-sm shadow-md shadow-amber-600/30 transition btn-tactile">
+        {% trans "ĐĂNG NHẬP" %}
+      </button>
+    </form>
+
+    <div class="mt-6 text-center text-xs text-gray-500">
+      {% trans "Chưa có tài khoản?" %} 
+      <a href="/auth/register/" class="text-amber-700 font-bold hover:underline">{% trans "Đăng ký ngay" %}</a>
+    </div>
+
+    <!-- Quick Fill Credentials for Testing / Reviewer -->
+    <div class="mt-8 pt-6 border-t border-amber-100">
+      <span class="text-[11px] font-extrabold text-amber-900 block mb-2 text-center uppercase tracking-wider">
+        ⚡ {% trans "Tài Khoản Mẫu Thử Nghiệm Nhanh" %}
+      </span>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <button onclick="fillAuth('admin@bakery.local', 'admin123')" class="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-bold text-left transition">
+          👑 {% trans "Admin / Chủ tiệm" %}<br><span class="text-[10px] font-normal text-gray-600">admin@bakery.local</span>
+        </button>
+        <button onclick="fillAuth('cashier@bakery.local', 'cashier123')" class="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-bold text-left transition">
+          🛒 {% trans "Thu ngân POS" %}<br><span class="text-[10px] font-normal text-gray-600">cashier@bakery.local</span>
+        </button>
+        <button onclick="fillAuth('baker@bakery.local', 'baker123')" class="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-bold text-left transition">
+          👨‍🍳 {% trans "Thợ làm bánh" %}<br><span class="text-[10px] font-normal text-gray-600">baker@bakery.local</span>
+        </button>
+        <button onclick="fillAuth('khachhang1@gmail.com', 'customer123')" class="p-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-900 font-bold text-left transition">
+          ⭐ {% trans "Khách có điểm ví" %}<br><span class="text-[10px] font-normal text-gray-600">0912345678</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function fillAuth(username, password) {
+    document.querySelector('input[name="username"]').value = username;
+    document.querySelector('input[name="password"]').value = password;
+    showToast(`{% trans "Đã tự động điền:" %} ${username}`, 'info');
+  }
+</script>
+{% endblock %}

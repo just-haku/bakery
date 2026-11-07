@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Nghiệm Thu Mẻ Bánh" %} {{ batch.batch_code }}{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-3xl p-8 border border-amber-100 shadow-xl space-y-6">
+    
+    <div class="flex items-center gap-3 pb-6 border-b border-amber-100">
+      <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-3xl shadow-sm">
+        ✓
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">{{ batch.batch_code }}</span>
+          <span class="text-xs text-gray-500 font-mono">{{ batch.created_at|date:"d/m H:i" }}</span>
+        </div>
+        <h1 class="text-2xl font-black text-bakery-crust mt-1">{% trans "Nghiệm Thu & Nhập Kho Thành Phẩm" %}</h1>
+        <p class="text-xs text-gray-500">{{ batch.product.name }} ({% trans "Dự kiến:" %} {{ batch.planned_quantity }} {% trans "chiếc" %})</p>
+      </div>
+    </div>
+
+    <!-- Materials Deduction Checklist -->
+    <div class="rounded-2xl bg-amber-50/50 p-4 border border-amber-200/80 space-y-3">
+      <h3 class="font-extrabold text-xs text-amber-900 uppercase tracking-wider">
+        {% trans "Nguyên Liệu Sẽ Bị Trừ Khỏi Kho (Định Mức BOM + 5% Hao Hụt)" %}
+      </h3>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="text-gray-500 border-b border-amber-200">
+            <tr>
+              <th class="py-2">{% trans "Nguyên Liệu" %}</th>
+              <th class="py-2 text-right">{% trans "Lượng Trừ Kho" %}</th>
+              <th class="py-2 text-right">{% trans "Tồn Hiện Tại" %}</th>
+              <th class="py-2 text-right">{% trans "Tình Trạng" %}</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-amber-100/60 font-medium">
+            {% for m in materials_needed %}
+              <tr class="{% if not m.has_enough %}bg-rose-50 text-rose-900{% endif %}">
+                <td class="py-2 font-bold">{{ m.material.name }}</td>
+                <td class="py-2 text-right text-amber-900 font-bold">-{{ m.needed }} {{ m.material.unit }}</td>
+                <td class="py-2 text-right">{{ m.in_stock }} {{ m.material.unit }}</td>
+                <td class="py-2 text-right font-bold {% if m.has_enough %}text-emerald-700{% else %}text-rose-600{% endif %}">
+                  {% if m.has_enough %}✓ {% trans "Sẵn sàng trừ" %}{% else %}{% trans "Thiếu" %} {{ m.shortage }} {{ m.material.unit }}{% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Complete Form -->
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">
+          {% trans "Số lượng bánh thực tế đạt tiêu chuẩn KCS nhập kho:" %}
+        </label>
+        <div class="flex items-center gap-3">
+          <input type="number" id="actual_qty_input" name="actual_quantity" value="{{ batch.planned_quantity }}" min="1" max="999" 
+                 class="w-full px-4 py-3 rounded-xl border border-amber-200 font-black text-xl focus:ring-2 focus:ring-emerald-500 bg-emerald-50/20 text-emerald-950 font-mono">
+          <span class="text-sm font-bold text-gray-500 font-mono">/ {{ batch.planned_quantity }} chiếc</span>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-1">{% blocktrans with name=batch.product.name %}Số lượng này sẽ được cộng trực tiếp vào tồn kho quầy bán lẻ của sản phẩm "{{ name }}".{% endblocktrans %}</p>
+      </div>
+
+      <!-- Real-time Waste Rate Indicator Card -->
+      <div id="waste-calc-card" class="p-4 rounded-2xl border transition-all duration-300 space-y-2">
+        <div class="flex items-center justify-between">
+          <div class="text-xs font-bold flex items-center gap-1.5" id="waste-calc-title">
+            <span id="waste-calc-icon">✓</span>
+            <span id="waste-calc-label">{% trans "Đánh giá hao hụt:" %}</span>
+          </div>
+          <div class="font-mono font-black text-base" id="waste-calc-percent">0.0%</div>
+        </div>
+        <div class="text-xs" id="waste-calc-desc">
+          {% trans "Hao hụt tối ưu đạt chuẩn tay nghề nghệ nhân (0 - 5%)" %}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Ghi chú kiểm tra chất lượng / Lý do hao hụt (nếu có):" %}</label>
+        <textarea name="notes" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:ring-2 focus:ring-emerald-500" placeholder="{% trans 'Mẻ bánh nướng vàng đều, thơm ngon, đạt chuẩn...' %}"></textarea>
+      </div>
+
+      <div class="pt-4 flex items-center justify-between gap-4">
+        <a href="/kitchen/" class="text-xs text-gray-500 font-bold hover:underline">
+          &larr; {% trans "Quay lại" %}
+        </a>
+        <button type="submit" {% if not is_sufficient %}disabled{% endif %} 
+                class="px-8 py-3.5 rounded-2xl bg-emerald-600 disabled:opacity-50 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-md shadow-emerald-600/30 transition btn-tactile">
+          ✓ {% trans "XÁC NHẬN NGHIỆM THU & TRỪ KHO NGUYÊN LIỆU" %}
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  const plannedQty = {{ batch.planned_quantity }};
+  const actualInput = document.getElementById('actual_qty_input');
+  const card = document.getElementById('waste-calc-card');
+  const percentEl = document.getElementById('waste-calc-percent');
+  const descEl = document.getElementById('waste-calc-desc');
+  const iconEl = document.getElementById('waste-calc-icon');
+  const labelEl = document.getElementById('waste-calc-label');
+
+  function updateWasteCalculation() {
+    const actual = parseInt(actualInput.value) || 0;
+    let rate = 0;
+    if (plannedQty > 0) {
+      if (actual < plannedQty) {
+        rate = ((plannedQty - actual) / plannedQty) * 100;
+      } else {
+        rate = 0;
+      }
+    }
+    const rateFixed = rate.toFixed(1);
+    percentEl.textContent = `${rateFixed}% hao hụt`;
+
+    if (rate <= 5.0) {
+      card.className = "p-4 rounded-2xl border transition-all duration-300 space-y-2 bg-emerald-50 border-emerald-300 text-emerald-900";
+      iconEl.textContent = "🛡️";
+      labelEl.textContent = "Cấp độ: Tốt (0 - 5%)";
+      descEl.textContent = "Sản lượng đạt chuẩn cao, hao hụt trong ngưỡng tối ưu tiêu chuẩn của tiệm.";
+    } else if (rate <= 10.0) {
+      card.className = "p-4 rounded-2xl border transition-all duration-300 space-y-2 bg-blue-50 border-blue-300 text-blue-900";
+      iconEl.textContent = "✓";
+      labelEl.textContent = "Cấp độ: Bình thường (5 - 10%)";
+      descEl.textContent = "Hao hụt chấp nhận được trong quá trình nướng bánh thủ công thông thường.";
+    } else if (rate <= 15.0) {
+      card.className = "p-4 rounded-2xl border transition-all duration-300 space-y-2 bg-amber-50 border-amber-300 text-amber-900";
+      iconEl.textContent = "⚠️";
+      labelEl.textContent = "Cấp độ: Cảnh báo (10 - 15%)";
+      descEl.textContent = "Hao hụt cao hơn định mức tiêu chuẩn! Thợ làm bánh cần lưu ý điều chỉnh nhiệt độ và kỹ thuật.";
+    } else {
+      card.className = "p-4 rounded-2xl border transition-all duration-300 space-y-2 bg-rose-50 border-rose-400 text-rose-900 animate-pulse";
+      iconEl.textContent = "🚨";
+      labelEl.textContent = "CẤP ĐỘ: BÁO ĐỘNG ĐỎ (> 15%)";
+      descEl.textContent = "Hao hụt vượt ngưỡng nghiêm trọng! Hệ thống sẽ lập tức gửi cảnh báo kiểm toán tới Quản trị viên (Admin).";
+    }
+  }
+
+  actualInput.addEventListener('input', updateWasteCalculation);
+  updateWasteCalculation();
+</script>
+{% endblock %}

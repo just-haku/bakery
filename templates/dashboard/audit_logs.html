@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Nhật Ký Kiểm Toán Hệ Thống" %} - Artisan Bakery{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-amber-200 gap-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">📋</span>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Nhật Ký Kiểm Toán Hệ Thống (Audit Trail)" %}</h1>
+      </div>
+      <p class="text-xs text-gray-500 mt-1">
+        {% trans "Theo dõi chi tiết mọi nghiệp vụ: Nhập kho nguyên liệu, Xuất lò mẻ bánh, Báo động đỏ hao hụt, In tem nhãn, Hóa đơn POS, Tiêu điểm" %}
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/dashboard/test-printing/" class="px-4 py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition">
+        🖨️ {% trans "Kiểm Tra In Ấn" %}
+      </a>
+      <a href="/kitchen/reports/" class="px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs transition">
+        📊 {% trans "Báo Cáo Mẻ Bánh" %}
+      </a>
+    </div>
+  </div>
+
+  <!-- Filters & Search Bar -->
+  <form method="GET" action="/dashboard/audit-logs/" class="bg-white rounded-3xl p-4 border border-amber-100 shadow-sm flex flex-col sm:flex-row items-center gap-3">
+    <div class="relative flex-1 w-full">
+      <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <input type="text" id="audit-search-input" name="q" value="{{ search_query }}" placeholder="{% trans 'Tìm theo mã mẻ, mã hóa đơn, nội dung hoặc người thực hiện...' %}" 
+             class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-amber-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 bg-amber-50/30">
+    </div>
+
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <select id="audit-action-select" name="action_type" class="px-3 py-2.5 rounded-xl border border-amber-200 text-xs font-semibold bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500">
+        <option value="">-- {% trans "Tất cả nghiệp vụ" %} --</option>
+        {% for code, label in action_choices %}
+          <option value="{{ code }}" {% if selected_action == code %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+
+      <button id="btn-audit-filter" type="submit" class="px-5 py-2.5 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs transition whitespace-nowrap btn-tactile">
+        {% trans "Lọc Nhật Ký" %}
+      </button>
+
+      {% if selected_action or search_query %}
+        <a href="/dashboard/audit-logs/" id="btn-audit-clear" class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-xs transition" title="{% trans 'Xóa lọc' %}">
+          &times;
+        </a>
+      {% endif %}
+    </div>
+  </form>
+
+  <!-- Table of Logs -->
+  <div class="bg-white rounded-3xl border border-amber-100 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead>
+          <tr class="bg-amber-50/70 border-b border-amber-100 text-amber-950 font-black uppercase tracking-wider text-[11px]">
+            <th class="py-3.5 px-4">{% trans "Thời Gian" %}</th>
+            <th class="py-3.5 px-4">{% trans "Hành Động Nghiệp Vụ" %}</th>
+            <th class="py-3.5 px-4">{% trans "Mã Đối Tượng" %}</th>
+            <th class="py-3.5 px-4">{% trans "Chi Tiết Kiểm Toán" %}</th>
+            <th class="py-3.5 px-4">{% trans "Người Thực Hiện" %}</th>
+            <th class="py-3.5 px-4 text-center">{% trans "IP" %}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-100/60 font-medium text-gray-700">
+          {% for log in logs %}
+            <tr class="hover:bg-amber-50/40 transition">
+              <td class="py-3 px-4 font-mono text-gray-500 whitespace-nowrap text-[11px]">
+                {{ log.created_at|date:"d/m/Y H:i:s" }}
+              </td>
+              <td class="py-3 px-4 whitespace-nowrap">
+                {% if log.action_type == 'BATCH_RED_ALERT' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-black bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+                    🚨 {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'MATERIAL_STOCK_IN' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                    📦 {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'BATCH_CREATE' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
+                    🥣 {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'BATCH_COMPLETE' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    ✓ {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'LABEL_PRINT' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">
+                    🏷️ {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'RECEIPT_PRINT' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-200 text-amber-900 border border-amber-300">
+                    🧾 {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'POINTS_REDEEM' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                    🎁 {{ log.get_action_type_display }}
+                  </span>
+                {% elif log.action_type == 'COUPON_APPLY' %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 border border-teal-200">
+                    🎟️ {{ log.get_action_type_display }}
+                  </span>
+                {% else %}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-800">
+                    {{ log.get_action_type_display }}
+                  </span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 font-mono font-bold text-amber-950 whitespace-nowrap">
+                {{ log.target_code|default:"-" }}
+              </td>
+              <td class="py-3 px-4 text-xs leading-relaxed max-w-md">
+                {{ log.description }}
+              </td>
+              <td class="py-3 px-4 whitespace-nowrap">
+                {% if log.user %}
+                  <span class="font-bold text-gray-900">{{ log.user.get_full_name|default:log.user.username }}</span>
+                  <span class="text-[10px] text-gray-400 block font-mono">({{ log.user.username }})</span>
+                {% else %}
+                  <span class="text-gray-400 italic">{% trans "Hệ thống tự động" %}</span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-center font-mono text-[10px] text-gray-400 whitespace-nowrap">
+                {{ log.ip_address|default:"localhost" }}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="py-12 text-center text-gray-400">
+                <span class="text-4xl block mb-2">📋</span>
+                <p class="font-bold text-sm">{% trans "Chưa có bản ghi kiểm toán nào phù hợp." %}</p>
+                <p class="text-xs">{% trans "Các hoạt động nghiệp vụ của nhân viên sẽ tự động được ghi nhận tại đây." %}</p>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="p-4 bg-amber-50/40 border-t border-amber-100 flex items-center justify-between text-xs text-gray-500">
+      <span>{% trans "Hiển thị tối đa 100 bản ghi mới nhất" %}</span>
+      <span class="font-bold text-amber-900">{% trans "Tổng cộng:" %} {{ total_logs_count }} {% trans "bản ghi" %}</span>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

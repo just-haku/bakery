@@ -1,0 +1,1124 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Bán Lẻ POS - Màn Hình Cảm Ứng" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Optimize POS height & scrolling */
+  .pos-viewport {
+    height: calc(100vh - 4rem);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="pos-viewport flex flex-col lg:flex-row overflow-hidden bg-amber-50/20">
+
+  <!-- Mobile Tab Switcher (Visible only on mobile/tablet screens < lg) -->
+  <div class="lg:hidden bg-white px-3 py-2 flex items-center justify-between gap-2 border-b border-amber-200/80 shadow-xs z-30 flex-shrink-0">
+    <button type="button" id="pos-tab-menu" onclick="switchPosMobileTab('menu')" class="flex-1 py-2 px-3 rounded-xl text-xs font-black bg-amber-700 text-white shadow-xs transition flex items-center justify-center gap-1.5 btn-tactile">
+      <span>🥐</span>
+      <span>{% trans "Menu Bánh" %}</span>
+    </button>
+    <button type="button" id="pos-tab-cart" onclick="switchPosMobileTab('cart')" class="flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 transition flex items-center justify-center gap-1.5 btn-tactile">
+      <span>🛒</span>
+      <span>{% trans "Hóa Đơn / Giỏ" %}</span>
+      <span id="pos-tab-cart-badge" class="px-1.5 py-0.2 rounded-full bg-amber-600 text-white text-[10px] font-black">0</span>
+    </button>
+  </div>
+
+  <!-- LEFT COLUMN: PRODUCTS & CATEGORY TABS (FLEX-1) -->
+  <div id="pos-left-column" class="flex-1 flex flex-col h-full overflow-hidden border-r border-amber-100/80">
+    
+    <!-- Top Bar: Search & Scan Barcode -->
+    <div class="p-3.5 bg-white border-b border-amber-100 flex items-center gap-3">
+      <div class="relative flex-1">
+        <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text" id="pos-search-input" placeholder="{% trans 'Tìm tên bánh hoặc quét mã SKU / Barcode...' %}" 
+               class="w-full pl-11 pr-4 py-3 rounded-2xl bg-amber-50/40 border border-amber-200/80 text-base focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition"
+               autofocus autocomplete="off">
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="openCameraScannerModal()" class="flex items-center gap-1.5 text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-3.5 py-2.5 rounded-xl font-bold transition shadow-sm whitespace-nowrap btn-tactile" title="{% trans 'Quét barcode / QR bằng camera thiết bị' %}">
+          <span>📷</span>
+          <span>{% trans "Quét Camera" %}</span>
+        </button>
+        <a href="/custom-orders/order/" class="flex items-center gap-1.5 text-xs text-white bg-amber-600 hover:bg-amber-700 px-3.5 py-2.5 rounded-xl font-bold transition shadow-sm whitespace-nowrap btn-tactile">
+          <span>🎂</span>
+          <span>{% trans "Đặt Bánh Hẹn" %}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="px-3.5 py-2.5 bg-white/70 border-b border-amber-100 overflow-x-auto flex gap-2 no-scrollbar">
+      <button onclick="filterCategory('ALL')" id="cat-btn-ALL" 
+              class="cat-tab px-4 py-2.5 rounded-xl text-sm font-bold bg-amber-700 text-white shadow-sm transition-all whitespace-nowrap btn-tactile">
+        {% trans "Tất Cả Món" %}
+      </button>
+      {% for cat in categories %}
+        <button onclick="filterCategory('{{ cat.id }}')" id="cat-btn-{{ cat.id }}" 
+                class="cat-tab px-4 py-2.5 rounded-xl text-sm font-semibold bg-white border border-amber-200 text-gray-700 hover:bg-amber-50 hover:text-amber-900 transition-all whitespace-nowrap btn-tactile">
+          {{ cat.name }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <!-- Products Grid (Scrollable) -->
+    <div class="flex-1 overflow-y-auto p-4">
+      <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3.5">
+        {% for p in products %}
+          {% with freshness=p.get_freshness_status %}
+          <div id="pos-prod-card-{{ p.id }}" data-id="{{ p.id }}" data-sku="{{ p.sku_code }}" data-name="{{ p.name }}" 
+               data-price="{{ freshness.current_price }}" 
+               data-original-price="{{ p.price }}"
+               data-stock="{{ p.stock_quantity }}" data-category="{{ p.category.id }}"
+               onclick="addToCart({{ p.id }})"
+               class="product-card group relative bg-white rounded-2xl border border-amber-100 p-3 shadow-sm hover:shadow-md hover:border-amber-300 transition-all cursor-pointer flex flex-col justify-between btn-tactile {% if p.stock_quantity == 0 %}opacity-60 bg-gray-50 cursor-not-allowed{% endif %}">
+            
+            <!-- Image & Stock Badge -->
+            <div class="relative w-full h-32 rounded-xl overflow-hidden bg-amber-50 mb-2.5 flex items-center justify-center">
+              {% if p.image_url %}
+                <img src="{{ p.image_url }}" alt="{{ p.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              {% elif p.image %}
+                <img src="{{ p.image.url }}" alt="{{ p.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              {% else %}
+                <span class="text-3xl">🥖</span>
+              {% endif %}
+
+              <!-- Near Expiry -40% Badge -->
+              {% if freshness.is_near_expiry %}
+                <div class="absolute top-2 left-2 z-10">
+                  <span class="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-600 text-white shadow-md animate-pulse">
+                    ⚡ -40% {% trans "GIỜ VÀNG" %}
+                  </span>
+                </div>
+              {% endif %}
+
+              <!-- Stock Badge -->
+              <div class="absolute top-2 right-2">
+                {% if p.stock_quantity == 0 %}
+                  <span class="px-2 py-1 rounded-lg text-[11px] font-black bg-rose-600 text-white shadow-sm">{% trans "HẾT HÀNG" %}</span>
+                {% elif p.stock_quantity <= 5 %}
+                  <span class="px-2 py-1 rounded-lg text-[11px] font-bold bg-amber-500 text-white shadow-sm">{% trans "Còn" %} {{ p.stock_quantity }} {% trans "cái" %}</span>
+                {% else %}
+                  <span class="px-2 py-1 rounded-lg text-[11px] font-semibold bg-emerald-600/90 text-white shadow-sm">{% trans "Tồn" %} {{ p.stock_quantity }}</span>
+                {% endif %}
+              </div>
+
+              <!-- Shelf life tag -->
+              <div class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-xs text-white text-[10px] px-1.5 py-0.5 rounded font-medium">
+                {% trans "HSD:" %} {{ p.shelf_life_hours }}h
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div>
+              <span class="text-[10px] font-mono text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-bold">{{ p.sku_code }}</span>
+              <h3 class="font-bold text-sm text-bakery-crust line-clamp-2 mt-1 leading-snug">{{ p.name }}</h3>
+            </div>
+
+            <div class="mt-2.5 pt-2 border-t border-amber-50 flex items-center justify-between">
+              <div>
+                {% if freshness.is_near_expiry %}
+                  <div class="flex items-baseline gap-1">
+                    <span class="text-sm font-black text-rose-600">{{ freshness.current_price|floatformat:0 }}đ</span>
+                    <span class="text-[10px] line-through text-gray-400 font-semibold">{{ p.price|floatformat:0 }}đ</span>
+                  </div>
+                  <span class="text-[9px] font-bold text-rose-700 block">⚡ {% trans "Giờ vàng -40%" %}</span>
+                {% else %}
+                  <span class="text-sm font-extrabold text-amber-700">{{ p.price|floatformat:0 }}đ</span>
+                {% endif %}
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button class="w-8 h-8 rounded-xl bg-amber-100 group-hover:bg-amber-600 group-hover:text-white text-amber-800 flex items-center justify-center font-bold text-base transition">
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN: CART & CHECKOUT (WIDTH: 440px) -->
+  <div id="pos-right-column" class="hidden lg:flex w-full lg:w-[440px] flex-col h-full bg-white shadow-xl z-20 border-l border-amber-100">
+    
+    <!-- Cart Header -->
+    <div class="p-4 border-b border-amber-100 flex items-center justify-between bg-amber-50/40">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+          🛒
+        </div>
+        <div>
+          <h2 class="font-black text-base text-bakery-crust leading-none">{% trans "Hóa Đơn Bán Hàng" %}</h2>
+          <span id="cart-count-badge" class="text-xs text-amber-700 font-semibold mt-0.5 block">0 {% trans "món trong giỏ" %}</span>
+        </div>
+      </div>
+      <button onclick="clearCart()" class="text-xs text-rose-600 hover:text-rose-800 font-bold px-2 py-1 rounded-lg hover:bg-rose-50 transition">
+        {% trans "Xóa giỏ" %}
+      </button>
+    </div>
+
+    <!-- Customer Loyalty Section -->
+    <div class="p-3 bg-amber-50/30 border-b border-amber-100">
+      <div class="flex gap-2">
+        <input type="text" id="customer-phone-input" placeholder="{% trans 'Nhập SĐT hoặc quét Thẻ Hội Viên...' %}" 
+               class="flex-1 px-3 py-2 rounded-xl border border-amber-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+        <button id="btn-customer-lookup" onclick="lookupCustomer()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition btn-tactile">
+          {% trans "Tra cứu" %}
+        </button>
+      </div>
+
+      <!-- Customer Info Card (Hidden until found) -->
+      <div id="customer-info-box" class="hidden mt-2.5 p-2.5 rounded-xl bg-amber-100/60 border border-amber-200/80 text-xs">
+        <div class="flex items-center justify-between">
+          <span id="customer-name-disp" class="font-extrabold text-amber-900 text-sm"></span>
+          <span id="customer-tier-badge" class="px-2 py-0.5 rounded-full bg-amber-600 text-white font-bold text-[10px]"></span>
+        </div>
+        <div id="customer-security-status" class="mt-1"></div>
+        <div class="flex items-center justify-between mt-1 text-amber-800">
+          <span>{% trans "Ví điểm:" %} <strong id="customer-points-disp" class="text-amber-900">0</strong> {% trans "điểm" %} (= <span id="customer-points-vnd">0</span>đ)</span>
+          <label id="use-points-label" class="flex items-center gap-1 cursor-pointer font-bold text-amber-900">
+            <input type="checkbox" id="use-points-checkbox" onchange="toggleUsePoints()" class="w-4 h-4 text-amber-600 rounded">
+            <span>{% trans "Dùng điểm" %}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coupon Input -->
+    <div class="px-3.5 py-2 border-b border-amber-100 flex gap-2">
+      <input type="text" id="coupon-code-input" placeholder="{% trans 'Mã giảm giá (VD: SINHNHATTIEM)' %}" 
+             class="flex-1 px-3 py-1.5 rounded-xl border border-amber-200 text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-amber-500">
+      <button id="btn-pos-coupon-apply" onclick="applyCoupon()" class="px-3 py-1.5 bg-amber-800 text-white rounded-xl text-xs font-bold hover:bg-amber-900 transition btn-tactile">
+        {% trans "Áp dụng" %}
+      </button>
+    </div>
+    <div id="coupon-applied-msg" class="hidden px-3.5 py-1 text-xs text-emerald-700 bg-emerald-50 border-b border-emerald-100 font-semibold flex items-center justify-between">
+      <span id="coupon-msg-text"></span>
+      <button onclick="removeCoupon()" class="text-emerald-800 font-bold">&times;</button>
+    </div>
+
+    <!-- Cart Items List (Scrollable) -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-3 space-y-2">
+      <div id="empty-cart-view" class="h-full flex flex-col items-center justify-center text-gray-400 py-12">
+        <span class="text-4xl mb-2">🛍️</span>
+        <p class="text-sm font-semibold">{% trans "Chưa có sản phẩm nào" %}</p>
+        <p class="text-xs">{% trans "Chạm vào bánh ở bên trái để thêm" %}</p>
+      </div>
+    </div>
+
+    <!-- Checkout Summary & Split Payment Area -->
+    <div class="p-3.5 bg-white border-t border-amber-200 shadow-lg flex flex-col gap-2">
+      
+      <!-- Money summary -->
+      <div class="space-y-1 text-xs text-gray-600">
+        <div class="flex justify-between">
+          <span>{% trans "Tiền hàng:" %}</span>
+          <span id="summary-subtotal" class="font-bold text-gray-900">0 đ</span>
+        </div>
+        <div id="row-coupon-discount" class="hidden flex justify-between text-emerald-700 font-semibold">
+          <span>{% trans "Giảm giá Voucher:" %}</span>
+          <span id="summary-coupon-discount">-0 đ</span>
+        </div>
+        <div id="row-points-discount" class="hidden flex justify-between text-amber-700 font-semibold">
+          <span>{% trans "Trừ điểm ví (1đ = 1.000đ):" %}</span>
+          <span id="summary-points-discount">-0 đ</span>
+        </div>
+        <div class="flex justify-between text-base font-black text-bakery-crust pt-1 border-t border-amber-100">
+          <span>{% trans "Khách Cần Trả:" %}</span>
+          <span id="summary-final-amount" class="text-amber-700 text-lg">0 đ</span>
+        </div>
+      </div>
+
+      <!-- Payment Method Selection -->
+      <div class="grid grid-cols-3 gap-1.5 pt-1">
+        <button onclick="selectPaymentMethod('CASH')" id="pay-btn-CASH" 
+                class="pay-method-btn py-2.5 rounded-xl border-2 border-amber-600 bg-amber-50 text-amber-900 font-bold text-xs flex flex-col items-center gap-0.5 transition btn-tactile">
+          <span class="text-base">💵</span>
+          <span>{% trans "Tiền Mặt" %}</span>
+        </button>
+        <button onclick="selectPaymentMethod('TRANSFER')" id="pay-btn-TRANSFER" 
+                class="pay-method-btn py-2.5 rounded-xl border border-gray-200 text-gray-700 font-bold text-xs flex flex-col items-center gap-0.5 hover:bg-amber-50 transition btn-tactile">
+          <span class="text-base">📲</span>
+          <span>{% trans "VietQR" %}</span>
+        </button>
+        <button onclick="selectPaymentMethod('SPLIT')" id="pay-btn-SPLIT" 
+                class="pay-method-btn py-2.5 rounded-xl border border-gray-200 text-gray-700 font-bold text-xs flex flex-col items-center gap-0.5 hover:bg-amber-50 transition btn-tactile">
+          <span class="text-base">⚡</span>
+          <span>{% trans "Tách Tiền" %}</span>
+        </button>
+      </div>
+
+      <!-- Split Payment Inputs (Hidden unless SPLIT or CASH selected) -->
+      <div id="split-payment-panel" class="hidden p-2 rounded-xl bg-amber-50/50 border border-amber-100 text-xs space-y-1.5">
+        <div class="flex items-center justify-between gap-2">
+          <span class="w-20 font-semibold text-gray-700">{% trans "Tiền mặt:" %}</span>
+          <input type="number" id="split-cash-input" oninput="calculateSplitTotal()" value="0" step="1000"
+                 class="flex-1 px-2.5 py-1.5 rounded-lg border border-amber-200 font-bold text-right text-sm">
+        </div>
+        <div class="flex items-center justify-between gap-2">
+          <span class="w-20 font-semibold text-gray-700">{% trans "VietQR:" %}</span>
+          <input type="number" id="split-transfer-input" oninput="calculateSplitTotal()" value="0" step="1000"
+                 class="flex-1 px-2.5 py-1.5 rounded-lg border border-amber-200 font-bold text-right text-sm">
+        </div>
+        <div class="flex justify-between text-[11px] font-bold pt-1 border-t border-amber-200">
+          <span>{% trans "Còn thiếu / Thừa:" %}</span>
+          <span id="split-balance-status" class="text-amber-800">0 đ</span>
+        </div>
+      </div>
+
+      <!-- Primary Action Button: Complete Payment / Open VietQR Modal -->
+      <button onclick="processCheckout()" id="checkout-btn" 
+              class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-black text-base shadow-lg shadow-amber-600/30 flex items-center justify-center gap-2 transition-all btn-tactile">
+        <span>{% trans "THANH TOÁN HÓA ĐƠN" %}</span>
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- POPUP MODAL: DYNAMIC VIETQR PAYMENT MODAL  -->
+<!-- ========================================== -->
+<div id="vietqr-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden no-print">
+  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl flex flex-col items-center text-center relative animate-pulse-subtle">
+    
+    <button onclick="closeVietQRModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">
+      &times;
+    </button>
+
+    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mb-2">
+      📲
+    </div>
+    
+    <h3 class="text-xl font-black text-bakery-crust">{% trans "Quét Mã VietQR Thanh Toán" %}</h3>
+    <p class="text-xs text-gray-500 mt-0.5">{% trans "Mở app Ngân hàng hoặc Ví điện tử bất kỳ để quét" %}</p>
+
+    <!-- QR Image Container -->
+    <div class="my-4 p-3 bg-white border-2 border-amber-200 rounded-2xl shadow-inner relative flex items-center justify-center">
+      <img id="vietqr-image" src="" alt="{% trans 'Mã VietQR' %}" class="w-64 h-64 object-contain rounded-xl">
+      <div id="vietqr-loading" class="absolute inset-0 bg-white/90 flex flex-col items-center justify-center gap-2 rounded-xl">
+        <div class="w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
+        <span class="text-xs text-amber-900 font-bold">{% trans "Đang sinh mã QR..." %}</span>
+      </div>
+    </div>
+
+    <!-- Details Box -->
+    <div class="w-full bg-amber-50/80 rounded-2xl p-3 text-xs space-y-1.5 text-left border border-amber-200/80 font-medium">
+      <div class="flex justify-between">
+        <span class="text-gray-500">{% trans "Số tiền cần chuyển:" %}</span>
+        <strong id="qr-amount-disp" class="text-base font-extrabold text-amber-700">0 đ</strong>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-500">{% trans "Nội dung chuyển khoản:" %}</span>
+        <strong id="qr-desc-disp" class="font-mono text-amber-900 bg-amber-200/60 px-1.5 py-0.5 rounded">TB HD...</strong>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-500">{% trans "Chủ tài khoản:" %}</span>
+        <span id="qr-accname-disp" class="font-bold text-gray-800">{{ setting.vietqr_account_name }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-500">{% trans "Số tài khoản / Ngân hàng:" %}</span>
+        <span class="font-bold text-gray-800">{{ setting.vietqr_account_no }} ({{ setting.vietqr_bank_id }})</span>
+      </div>
+    </div>
+
+    <!-- Countdown Timer -->
+    <div class="mt-3 flex items-center gap-1.5 text-xs text-amber-800 font-bold">
+      <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <span>{% trans "Mã hết hạn trong:" %} <span id="qr-timer" class="text-rose-600">10:00</span></span>
+    </div>
+
+    <!-- Confirmation Button -->
+    <button onclick="confirmVietQRPaid()" class="mt-4 w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-lg shadow-emerald-600/30 transition btn-tactile">
+      ✓ {% trans "XÁC NHẬN ĐÃ NHẬN TIỀN THÀNH CÔNG" %}
+    </button>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- POPUP MODAL: RECEIPT & PRINT MODAL         -->
+<!-- ========================================== -->
+<div id="receipt-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 hidden no-print">
+  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl flex flex-col max-h-[90vh]">
+    <div class="flex items-center justify-between border-b pb-3 mb-3">
+      <h3 class="text-lg font-black text-bakery-crust">{% trans "Hóa Đơn Thanh Toán" %}</h3>
+      <button id="btn-close-receipt-modal" onclick="closeReceiptModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+    </div>
+
+    <!-- Printable Bill Content -->
+    <div id="printable-receipt" class="flex-1 overflow-y-auto p-4 bg-white border border-gray-200 rounded-xl font-mono text-xs text-gray-800">
+      <div class="text-center pb-3 border-b border-dashed border-gray-400">
+        <h2 class="font-extrabold text-base">{{ setting.store_name }}</h2>
+        <p>{{ setting.address }}</p>
+        <p>{% trans "Hotline:" %} {{ setting.phone }}</p>
+        <h3 class="font-black text-sm mt-2">{% trans "HÓA ĐƠN BÁN HÀNG" %}</h3>
+        <p class="text-[10px]">{% trans "Mã HD:" %} <span id="rec-code">HD...</span></p>
+        <p class="text-[10px]">{% trans "Thời gian:" %} <span id="rec-date"></span></p>
+        <p class="text-[10px]">{% trans "Thu ngân:" %} {{ user.get_full_name|default:user.username }}</p>
+      </div>
+
+      <!-- Items List -->
+      <table class="w-full my-3 text-left">
+        <thead>
+          <tr class="border-b border-gray-400">
+            <th class="py-1">{% trans "Món" %}</th>
+            <th class="py-1 text-center">{% trans "SL" %}</th>
+            <th class="py-1 text-right">{% trans "Đ.Giá" %}</th>
+            <th class="py-1 text-right">{% trans "T.Tiền" %}</th>
+          </tr>
+        </thead>
+        <tbody id="rec-items-body">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+
+      <!-- Totals -->
+      <div class="border-t border-dashed border-gray-400 pt-2 space-y-1">
+        <div class="flex justify-between">
+          <span>{% trans "Tổng tiền hàng:" %}</span>
+          <span id="rec-subtotal">0 đ</span>
+        </div>
+        <div class="flex justify-between">
+          <span>{% trans "Giảm giá:" %}</span>
+          <span id="rec-discount">0 đ</span>
+        </div>
+        <div class="flex justify-between">
+          <span>{% trans "Trừ điểm ví:" %}</span>
+          <span id="rec-points-discount">0 đ</span>
+        </div>
+        <div class="flex justify-between font-black text-sm pt-1 border-t border-gray-400">
+          <span>{% trans "THANH TOÁN:" %}</span>
+          <span id="rec-final">0 đ</span>
+        </div>
+        <div class="flex justify-between text-[11px] pt-1">
+          <span>{% trans "Phương thức:" %}</span>
+          <span id="rec-method" class="font-bold">{% trans "Tiền mặt" %}</span>
+        </div>
+        <div id="rec-loyalty-row" class="flex justify-between text-[11px] text-emerald-800 font-bold pt-1 border-t border-dashed border-gray-300">
+          <span>{% trans "Điểm tích lũy (+10%):" %}</span>
+          <span id="rec-points-earned">+0 {% trans "điểm" %}</span>
+        </div>
+      </div>
+
+      <div class="text-center pt-4 mt-4 border-t border-dashed border-gray-400 text-[10px]">
+        <p>{% trans "Cảm ơn Quý khách & Hẹn gặp lại!" %}</p>
+        <p>{% trans "Chúc Quý khách ngon miệng!" %}</p>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-4 flex gap-3">
+      <button id="btn-print-pos-receipt" onclick="window.print()" class="flex-1 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-sm flex items-center justify-center gap-2 transition btn-tactile">
+        <span>🖨️ {% trans "IN HÓA ĐƠN" %}</span>
+      </button>
+      <button id="btn-pos-next-order" onclick="startNewOrder()" class="flex-1 py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-extrabold text-sm transition btn-tactile">
+        {% trans "ĐƠN TIẾP THEO" %}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- POPUP MODAL: CAMERA BARCODE SCANNER        -->
+<!-- ========================================== -->
+<div id="camera-scan-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 hidden no-print">
+  <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl flex flex-col space-y-4">
+    <div class="flex items-center justify-between pb-2 border-b border-gray-200">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">📷</span>
+        <h3 class="text-base font-extrabold text-bakery-crust">{% trans "Quét Barcode / QR Camera" %}</h3>
+      </div>
+      <button onclick="closeCameraScannerModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none">&times;</button>
+    </div>
+    <p class="text-xs text-gray-500">
+      {% trans "Hướng camera về phía tem dán trên bánh hoặc Thẻ Hội Viên của khách hàng." %}
+    </p>
+    <div id="camera-scanner-reader" class="w-full rounded-2xl overflow-hidden bg-black min-h-[260px] relative"></div>
+    <div class="flex gap-2">
+      <button onclick="closeCameraScannerModal()" class="w-full py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs transition">
+        {% trans "Đóng Camera" %}
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // POS Application Logic
+  let cart = [];
+  let currentCustomer = null;
+  let currentCoupon = null;
+  let currentPaymentMethod = 'CASH';
+  let qrCountdownInterval = null;
+
+  const STORE_SETTING = {
+    bank_id: "{{ setting.vietqr_bank_id }}",
+    account_no: "{{ setting.vietqr_account_no }}",
+    account_name: "{{ setting.vietqr_account_name }}",
+    template: "{{ setting.vietqr_template }}",
+  };
+
+  // Sound effects
+  function playClickSound() { SoundFX.playClick(); }
+
+  // Mobile POS Tab Switcher (Menu vs Cart)
+  function switchPosMobileTab(tab) {
+    playClickSound();
+    const leftCol = document.getElementById('pos-left-column');
+    const rightCol = document.getElementById('pos-right-column');
+    const tabMenu = document.getElementById('pos-tab-menu');
+    const tabCart = document.getElementById('pos-tab-cart');
+    if (!leftCol || !rightCol) return;
+
+    if (tab === 'menu') {
+      leftCol.classList.remove('hidden');
+      leftCol.classList.add('flex');
+      rightCol.classList.add('hidden');
+      rightCol.classList.remove('flex');
+      if (tabMenu) tabMenu.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-black bg-amber-700 text-white shadow-xs transition flex items-center justify-center gap-1.5 btn-tactile';
+      if (tabCart) tabCart.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 transition flex items-center justify-center gap-1.5 btn-tactile';
+    } else {
+      leftCol.classList.add('hidden');
+      leftCol.classList.remove('flex');
+      rightCol.classList.remove('hidden');
+      rightCol.classList.add('flex');
+      if (tabCart) tabCart.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-black bg-amber-700 text-white shadow-xs transition flex items-center justify-center gap-1.5 btn-tactile';
+      if (tabMenu) tabMenu.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200 transition flex items-center justify-center gap-1.5 btn-tactile';
+    }
+  }
+
+  // Filter Categories
+  function filterCategory(catId) {
+    playClickSound();
+    document.querySelectorAll('.cat-tab').forEach(b => {
+      b.classList.remove('bg-amber-700', 'text-white');
+      b.classList.add('bg-white', 'text-gray-700');
+    });
+    const activeBtn = document.getElementById(`cat-btn-${catId}`);
+    if (activeBtn) {
+      activeBtn.classList.remove('bg-white', 'text-gray-700');
+      activeBtn.classList.add('bg-amber-700', 'text-white');
+    }
+
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      if (catId === 'ALL' || card.getAttribute('data-category') === String(catId)) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  // Quick Search & Barcode Scan listener
+  const searchInput = document.getElementById('pos-search-input');
+  searchInput.addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(c => {
+      const name = c.getAttribute('data-name').toLowerCase();
+      const sku = c.getAttribute('data-sku').toLowerCase();
+      if (name.includes(val) || sku.includes(val)) {
+        c.classList.remove('hidden');
+      } else {
+        c.classList.add('hidden');
+      }
+    });
+  });
+
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const rawVal = e.target.value.trim();
+      const val = rawVal.toLowerCase();
+      if (!val) return;
+
+      // 1. Quét mã Thẻ Hội Viên
+      if (val.startsWith('cust-') || val.startsWith('cust')) {
+        lookupCustomer(rawVal.toUpperCase());
+        e.target.value = '';
+        return;
+      }
+
+      // 2. Quét mã Bánh (hỗ trợ cả {sku} và {sku}-{batch})
+      const skuPart = val.split('-')[0].trim();
+      const match = Array.from(document.querySelectorAll('.product-card')).find(c => {
+        const cSku = (c.getAttribute('data-sku') || '').toLowerCase();
+        return cSku === val || cSku === skuPart;
+      });
+      if (match) {
+        const id = parseInt(match.getAttribute('data-id'));
+        addToCart(id);
+        e.target.value = '';
+        showToast(`{% trans "Đã thêm món vào giỏ:" %} ${match.getAttribute('data-name')}`, 'success');
+      } else {
+        showToast(`{% trans "Không tìm thấy món với mã:" %} ${rawVal}`, 'warning');
+      }
+    }
+  });
+
+  // Cart Functions
+  function addToCart(productId) {
+    playClickSound();
+    const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+    if (!card) return;
+
+    const stock = parseInt(card.getAttribute('data-stock'));
+    const name = card.getAttribute('data-name');
+    const price = parseFloat(card.getAttribute('data-price'));
+    const sku = card.getAttribute('data-sku');
+
+    // TC02: Check stock
+    if (stock <= 0) {
+      showToast(`{% trans "Sản phẩm" %} "${name}" {% trans "đã hết hàng trong ca!" %}`, 'error');
+      return;
+    }
+
+    const existing = cart.find(item => item.id === productId);
+    if (existing) {
+      if (existing.quantity + 1 > stock) {
+        showToast(`{% trans "Không thể thêm! Kho chỉ còn" %} ${stock} {% trans "cái." %}`, 'warning');
+        return;
+      }
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        id: productId,
+        sku: sku,
+        name: name,
+        price: price,
+        quantity: 1,
+        stock: stock
+      });
+    }
+
+    renderCart();
+  }
+
+  function updateQuantity(productId, delta) {
+    playClickSound();
+    const item = cart.find(i => i.id === productId);
+    if (!item) return;
+
+    const newQty = item.quantity + delta;
+    if (newQty <= 0) {
+      cart = cart.filter(i => i.id !== productId);
+    } else if (newQty > item.stock) {
+      showToast(`{% trans "Số lượng vượt quá tồn kho hiện có" %} (${item.stock} {% trans "cái" %}).`, 'warning');
+      return;
+    } else {
+      item.quantity = newQty;
+    }
+    renderCart();
+  }
+
+  function removeItem(productId) {
+    playClickSound();
+    cart = cart.filter(i => i.id !== productId);
+    renderCart();
+  }
+
+  function clearCart() {
+    playClickSound();
+    cart = [];
+    currentCoupon = null;
+    document.getElementById('coupon-applied-msg').classList.add('hidden');
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items-container');
+    const emptyView = document.getElementById('empty-cart-view');
+    const countBadge = document.getElementById('cart-count-badge');
+
+    const totalQty = cart.reduce((sum, i) => sum + i.quantity, 0);
+    countBadge.textContent = `${totalQty} {% trans "món trong giỏ" %}`;
+    const tabBadge = document.getElementById('pos-tab-cart-badge');
+    if (tabBadge) tabBadge.textContent = totalQty;
+
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <div id="empty-cart-view" class="h-full flex flex-col items-center justify-center text-gray-400 py-12">
+          <span class="text-4xl mb-2">🛍️</span>
+          <p class="text-sm font-semibold">{% trans "Chưa có sản phẩm nào" %}</p>
+          <p class="text-xs">{% trans "Chạm vào bánh ở bên trái để thêm" %}</p>
+        </div>`;
+      updateSummary(0);
+      return;
+    }
+
+    let html = '';
+    let subtotal = 0;
+
+    cart.forEach(item => {
+      const itemSubtotal = item.price * item.quantity;
+      subtotal += itemSubtotal;
+      html += `
+        <div class="p-2.5 rounded-xl border border-amber-100 bg-amber-50/20 flex items-center justify-between gap-2 text-xs">
+          <div class="flex-1 min-w-0">
+            <h4 class="font-bold text-bakery-crust truncate">${item.name}</h4>
+            <div class="text-amber-800 font-medium text-[11px]">${formatVND(item.price)}</div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="updateQuantity(${item.id}, -1)" class="w-7 h-7 rounded-lg bg-white border border-amber-200 text-amber-900 font-bold flex items-center justify-center hover:bg-amber-100 btn-tactile">-</button>
+            <span class="w-6 text-center font-extrabold text-sm">${item.quantity}</span>
+            <button onclick="updateQuantity(${item.id}, 1)" class="w-7 h-7 rounded-lg bg-white border border-amber-200 text-amber-900 font-bold flex items-center justify-center hover:bg-amber-100 btn-tactile">+</button>
+          </div>
+          <div class="w-20 text-right font-extrabold text-amber-900">
+            ${formatVND(itemSubtotal)}
+          </div>
+          <button onclick="removeItem(${item.id})" class="text-gray-400 hover:text-rose-600 p-1">&times;</button>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+    updateSummary(subtotal);
+  }
+
+  function updateSummary(subtotal) {
+    document.getElementById('summary-subtotal').textContent = formatVND(subtotal);
+
+    // Coupon discount
+    let couponDiscount = 0;
+    if (currentCoupon) {
+      couponDiscount = currentCoupon.discount_amount;
+      document.getElementById('row-coupon-discount').classList.remove('hidden');
+      document.getElementById('summary-coupon-discount').textContent = `-${formatVND(couponDiscount)}`;
+    } else {
+      document.getElementById('row-coupon-discount').classList.add('hidden');
+    }
+
+    // Points discount
+    let pointsDiscount = 0;
+    const usePointsCheckbox = document.getElementById('use-points-checkbox');
+    if (usePointsCheckbox && usePointsCheckbox.checked && currentCustomer) {
+      const maxPts = currentCustomer.points_balance;
+      const neededPts = Math.ceil(Math.max(0, subtotal - couponDiscount) / 1000);
+      const ptsToUse = Math.min(maxPts, neededPts);
+      pointsDiscount = ptsToUse * 1000;
+      document.getElementById('row-points-discount').classList.remove('hidden');
+      document.getElementById('summary-points-discount').textContent = `-${formatVND(pointsDiscount)}`;
+    } else {
+      document.getElementById('row-points-discount').classList.add('hidden');
+    }
+
+    const finalAmount = Math.max(0, subtotal - couponDiscount - pointsDiscount);
+    document.getElementById('summary-final-amount').textContent = formatVND(finalAmount);
+
+    // Update split defaults
+    if (currentPaymentMethod === 'SPLIT') {
+      calculateSplitTotal();
+    }
+  }
+
+  // Customer Loyalty Lookup
+  async function lookupCustomer(overrideQuery) {
+    playClickSound();
+    const query = overrideQuery || document.getElementById('customer-phone-input').value.trim();
+    if (!query) {
+      showToast('{% trans "Vui lòng nhập số điện thoại hoặc quét Thẻ Hội Viên." %}', 'warning');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/pos/api/lookup-customer/?query=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if (data.status === 'success') {
+        currentCustomer = data.customer;
+        document.getElementById('customer-phone-input').value = currentCustomer.phone || query;
+        document.getElementById('customer-name-disp').textContent = currentCustomer.full_name;
+        document.getElementById('customer-tier-badge').textContent = `${currentCustomer.tier}${currentCustomer.is_vip ? ' [VIP]' : ''}`;
+        document.getElementById('customer-points-disp').textContent = currentCustomer.points_balance.toLocaleString('vi-VN');
+        document.getElementById('customer-points-vnd').textContent = currentCustomer.points_in_vnd.toLocaleString('vi-VN');
+        
+        const secStatusEl = document.getElementById('customer-security-status');
+        const pointsCheckbox = document.getElementById('use-points-checkbox');
+        const pointsLabel = document.getElementById('use-points-label');
+
+        if (currentCustomer.allow_redeem_points) {
+          secStatusEl.innerHTML = `<span class="px-2 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px] flex items-center gap-1">✓ {% trans "Đã quét Thẻ Hội Viên: ĐƯỢC DÙNG ĐIỂM" %}</span>`;
+          pointsCheckbox.disabled = false;
+          pointsLabel.classList.remove('opacity-40', 'cursor-not-allowed');
+        } else {
+          secStatusEl.innerHTML = `<span class="px-2 py-0.5 rounded-lg bg-amber-200 text-amber-900 font-bold text-[10px] flex items-center gap-1">⚠️ {% trans "Nhập SĐT: CHỈ TÍCH ĐIỂM (Quét thẻ để tiêu điểm)" %}</span>`;
+          pointsCheckbox.checked = false;
+          pointsCheckbox.disabled = true;
+          pointsLabel.classList.add('opacity-40', 'cursor-not-allowed');
+        }
+
+        document.getElementById('customer-info-box').classList.remove('hidden');
+        showToast(currentCustomer.lookup_message, currentCustomer.allow_redeem_points ? 'success' : 'info');
+        renderCart();
+      } else {
+        currentCustomer = null;
+        document.getElementById('customer-info-box').classList.add('hidden');
+        showToast(data.message || '{% trans "Không tìm thấy khách hàng." %}', 'error');
+      }
+    } catch (e) {
+      showToast('{% trans "Lỗi khi tra cứu khách hàng." %}', 'error');
+    }
+  }
+
+  function toggleUsePoints() {
+    playClickSound();
+    renderCart();
+  }
+
+  // Coupon Logic
+  async function applyCoupon() {
+    playClickSound();
+    const code = document.getElementById('coupon-code-input').value.trim();
+    if (!code) {
+      showToast('{% trans "Vui lòng nhập mã khuyến mãi." %}', 'warning');
+      return;
+    }
+
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const phone = currentCustomer ? currentCustomer.phone : '';
+
+    try {
+      const res = await fetch('/products/api/validate-coupon/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': window.CSRF_TOKEN,
+        },
+        body: JSON.stringify({
+          code: code,
+          order_amount: subtotal,
+          customer_phone: phone
+        })
+      });
+      const data = await res.json();
+      if (data.status === 'success') {
+        currentCoupon = data;
+        document.getElementById('coupon-msg-text').textContent = `${data.code}: {% trans "Giảm" %} ${formatVND(data.discount_amount)}`;
+        document.getElementById('coupon-applied-msg').classList.remove('hidden');
+        showToast(`{% trans "Áp dụng mã" %} ${data.code} {% trans "thành công!" %}`, 'success');
+        renderCart();
+      } else {
+        showToast(data.message || '{% trans "Mã không hợp lệ." %}', 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi áp dụng voucher." %}', 'error');
+    }
+  }
+
+  function removeCoupon() {
+    playClickSound();
+    currentCoupon = null;
+    document.getElementById('coupon-code-input').value = '';
+    document.getElementById('coupon-applied-msg').classList.add('hidden');
+    renderCart();
+  }
+
+  // Payment Method Selection
+  function selectPaymentMethod(method) {
+    playClickSound();
+    currentPaymentMethod = method;
+    document.querySelectorAll('.pay-method-btn').forEach(b => {
+      b.classList.remove('border-amber-600', 'bg-amber-50', 'text-amber-900', 'border-2');
+      b.classList.add('border-gray-200', 'text-gray-700', 'border');
+    });
+
+    const activeBtn = document.getElementById(`pay-btn-${method}`);
+    if (activeBtn) {
+      activeBtn.classList.remove('border-gray-200', 'text-gray-700', 'border');
+      activeBtn.classList.add('border-amber-600', 'bg-amber-50', 'text-amber-900', 'border-2');
+    }
+
+    const splitPanel = document.getElementById('split-payment-panel');
+    if (method === 'SPLIT') {
+      splitPanel.classList.remove('hidden');
+      calculateSplitTotal();
+    } else {
+      splitPanel.classList.add('hidden');
+    }
+  }
+
+  function calculateSplitTotal() {
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const couponDiscount = currentCoupon ? currentCoupon.discount_amount : 0;
+    let pointsDiscount = 0;
+    const usePoints = document.getElementById('use-points-checkbox')?.checked;
+    if (usePoints && currentCustomer) {
+      pointsDiscount = Math.min(currentCustomer.points_in_vnd, subtotal - couponDiscount);
+    }
+
+    const finalAmount = Math.max(0, subtotal - couponDiscount - pointsDiscount);
+    const cash = parseFloat(document.getElementById('split-cash-input').value) || 0;
+    const transfer = parseFloat(document.getElementById('split-transfer-input').value) || 0;
+    const totalPaid = cash + transfer;
+    const diff = totalPaid - finalAmount;
+
+    const statusEl = document.getElementById('split-balance-status');
+    if (diff < 0) {
+      statusEl.className = 'text-rose-600 font-bold';
+      statusEl.textContent = `{% trans "Thiếu" %} ${formatVND(Math.abs(diff))}`;
+    } else if (diff > 0) {
+      statusEl.className = 'text-emerald-700 font-bold';
+      statusEl.textContent = `{% trans "Thừa" %} ${formatVND(diff)} ({% trans "Trả lại" %})`;
+    } else {
+      statusEl.className = 'text-amber-900 font-bold';
+      statusEl.textContent = '{% trans "Khớp đúng số tiền" %}';
+    }
+  }
+
+  // Checkout Execution
+  async function processCheckout() {
+    playClickSound();
+    if (cart.length === 0) {
+      showToast('{% trans "Giỏ hàng đang trống! Vui lòng chọn món bánh." %}', 'warning');
+      return;
+    }
+
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const couponDiscount = currentCoupon ? currentCoupon.discount_amount : 0;
+    let pointsUsed = 0;
+    let pointsDiscount = 0;
+
+    const usePoints = document.getElementById('use-points-checkbox')?.checked;
+    if (usePoints && currentCustomer) {
+      pointsUsed = Math.min(currentCustomer.points_balance, Math.ceil((subtotal - couponDiscount) / 1000));
+      pointsDiscount = pointsUsed * 1000;
+    }
+
+    const finalAmount = Math.max(0, subtotal - couponDiscount - pointsDiscount);
+
+    // If Payment method is TRANSFER or (SPLIT with transfer > 0), open VietQR modal first!
+    if (currentPaymentMethod === 'TRANSFER') {
+      openVietQRModal(finalAmount);
+      return;
+    } else if (currentPaymentMethod === 'SPLIT') {
+      const transfer = parseFloat(document.getElementById('split-transfer-input').value) || 0;
+      const cash = parseFloat(document.getElementById('split-cash-input').value) || 0;
+      if (cash + transfer < finalAmount) {
+        showToast('{% trans "Tổng tiền chia chưa đủ thanh toán đơn hàng." %}', 'error');
+        return;
+      }
+      if (transfer > 0) {
+        openVietQRModal(transfer);
+        return;
+      }
+    }
+
+    // Direct Cash checkout
+    submitOrderToBackend();
+  }
+
+  // VietQR Dynamic Modal Handler
+  function openVietQRModal(amount) {
+    const tempOrderCode = `HD${Date.now()}`;
+    const desc = `TB ${tempOrderCode}`;
+    const modal = document.getElementById('vietqr-modal');
+    const img = document.getElementById('vietqr-image');
+    const loading = document.getElementById('vietqr-loading');
+
+    document.getElementById('qr-amount-disp').textContent = formatVND(amount);
+    document.getElementById('qr-desc-disp').textContent = desc;
+
+    loading.classList.remove('hidden');
+    modal.classList.remove('hidden');
+
+    const qrUrl = `https://img.vietqr.io/image/${STORE_SETTING.bank_id}-${STORE_SETTING.account_no}-${STORE_SETTING.template}.png?amount=${Math.round(amount)}&addInfo=${encodeURIComponent(desc)}&accountName=${encodeURIComponent(STORE_SETTING.account_name)}`;
+    img.onload = () => loading.classList.add('hidden');
+    img.src = qrUrl;
+
+    // Start 10-minute countdown
+    let timeLeft = 600;
+    clearInterval(qrCountdownInterval);
+    const timerEl = document.getElementById('qr-timer');
+    qrCountdownInterval = setInterval(() => {
+      timeLeft--;
+      if (timeLeft <= 0) {
+        clearInterval(qrCountdownInterval);
+        timerEl.textContent = "{% trans 'Hết hạn' %}";
+      } else {
+        const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        const s = String(timeLeft % 60).padStart(2, '0');
+        timerEl.textContent = `${m}:${s}`;
+      }
+    }, 1000);
+  }
+
+  function closeVietQRModal() {
+    clearInterval(qrCountdownInterval);
+    document.getElementById('vietqr-modal').classList.add('hidden');
+  }
+
+  function confirmVietQRPaid() {
+    closeVietQRModal();
+    submitOrderToBackend();
+  }
+
+  // Submit Order API
+  async function submitOrderToBackend() {
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const couponDiscount = currentCoupon ? currentCoupon.discount_amount : 0;
+    let pointsUsed = 0;
+    const usePoints = document.getElementById('use-points-checkbox')?.checked;
+    if (usePoints && currentCustomer) {
+      pointsUsed = Math.min(currentCustomer.points_balance, Math.ceil((subtotal - couponDiscount) / 1000));
+    }
+
+    const finalAmount = Math.max(0, subtotal - couponDiscount - (pointsUsed * 1000));
+
+    let cashPaid = 0;
+    let transferPaid = 0;
+
+    if (currentPaymentMethod === 'CASH') {
+      cashPaid = finalAmount;
+    } else if (currentPaymentMethod === 'TRANSFER') {
+      transferPaid = finalAmount;
+    } else if (currentPaymentMethod === 'SPLIT') {
+      cashPaid = parseFloat(document.getElementById('split-cash-input').value) || 0;
+      transferPaid = parseFloat(document.getElementById('split-transfer-input').value) || 0;
+    }
+
+    const payload = {
+      items: cart.map(i => ({ id: i.id, quantity: i.quantity })),
+      customer_phone: currentCustomer ? currentCustomer.phone : '',
+      card_code: (currentCustomer && currentCustomer.allow_redeem_points) ? (currentCustomer.member_card_code || '') : '',
+      coupon_code: currentCoupon ? currentCoupon.code : '',
+      points_used: pointsUsed,
+      payment_method: currentPaymentMethod,
+      cash_paid: cashPaid,
+      transfer_paid: transferPaid,
+    };
+
+    try {
+      const btn = document.getElementById('checkout-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<span>{% trans "Đang xử lý đơn..." %}</span>`;
+
+      const res = await fetch('/pos/api/checkout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': window.CSRF_TOKEN,
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      btn.disabled = false;
+      btn.innerHTML = `<span>{% trans "THANH TOÁN HÓA ĐƠN" %}</span>`;
+
+      if (data.status === 'success') {
+        showToast(data.message, 'success');
+        openReceiptModal(data);
+      } else {
+        showToast(data.message || '{% trans "Lỗi thanh toán." %}', 'error');
+      }
+    } catch(e) {
+      showToast('{% trans "Lỗi hệ thống khi thanh toán." %}', 'error');
+    }
+  }
+
+  // Printable Receipt Modal
+  function openReceiptModal(orderData) {
+    document.getElementById('rec-code').textContent = orderData.order_code;
+    document.getElementById('rec-date').textContent = new Date().toLocaleString('vi-VN');
+    document.getElementById('rec-subtotal').textContent = formatVND(orderData.subtotal);
+    document.getElementById('rec-discount').textContent = `-${formatVND(orderData.discount_amount)}`;
+    document.getElementById('rec-points-discount').textContent = `-${formatVND(orderData.points_discount_amount)}`;
+    document.getElementById('rec-final').textContent = formatVND(orderData.final_amount);
+    document.getElementById('rec-method').textContent = currentPaymentMethod === 'CASH' ? '{% trans "Tiền mặt" %}' : (currentPaymentMethod === 'TRANSFER' ? '{% trans "Chuyển khoản VietQR" %}' : '{% trans "Tách thanh toán" %}');
+    document.getElementById('rec-points-earned').textContent = `+${orderData.points_earned} {% trans "điểm" %}`;
+
+    const body = document.getElementById('rec-items-body');
+    body.innerHTML = cart.map(i => `
+      <tr>
+        <td class="py-1">${i.name}</td>
+        <td class="py-1 text-center">${i.quantity}</td>
+        <td class="py-1 text-right">${formatVND(i.price)}</td>
+        <td class="py-1 text-right font-bold">${formatVND(i.price * i.quantity)}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('receipt-modal').classList.remove('hidden');
+  }
+
+  function closeReceiptModal() {
+    document.getElementById('receipt-modal').classList.add('hidden');
+    clearCart();
+  }
+
+  function startNewOrder() {
+    closeReceiptModal();
+    // Refresh product stock on cards
+    window.location.reload();
+  }
+
+  // Camera Barcode Scanner for Mobile Staff
+  let html5QrScannerInstance = null;
+
+  async function openCameraScannerModal() {
+    playClickSound();
+    const modal = document.getElementById('camera-scan-modal');
+    modal.classList.remove('hidden');
+
+    try {
+      if (!html5QrScannerInstance) {
+        html5QrScannerInstance = new Html5Qrcode("camera-scanner-reader");
+      }
+      const config = { fps: 10, qrbox: { width: 250, height: 180 } };
+      await html5QrScannerInstance.start(
+        { facingMode: "environment" },
+        config,
+        onCameraScanSuccess
+      );
+    } catch (err) {
+      showToast('{% trans "Không thể truy cập camera. Vui lòng cấp quyền camera trên trình duyệt!" %}', 'error');
+      closeCameraScannerModal();
+    }
+  }
+
+  async function closeCameraScannerModal() {
+    const modal = document.getElementById('camera-scan-modal');
+    modal.classList.add('hidden');
+    if (html5QrScannerInstance) {
+      try {
+        await html5QrScannerInstance.stop();
+      } catch (e) {}
+    }
+  }
+
+  function onCameraScanSuccess(decodedText) {
+    playClickSound();
+    const rawVal = decodedText.trim();
+    const val = rawVal.toLowerCase();
+
+    // 1. Quét Thẻ Hội Viên
+    if (val.startsWith('cust-') || val.startsWith('cust')) {
+      lookupCustomer(rawVal.toUpperCase());
+      closeCameraScannerModal();
+      return;
+    }
+
+    // 2. Quét tem bánh: SKU hoặc SKU-Batch
+    const skuPart = val.split('-')[0].trim();
+    const match = Array.from(document.querySelectorAll('.product-card')).find(c => {
+      const cSku = (c.getAttribute('data-sku') || '').toLowerCase();
+      return cSku === val || cSku === skuPart;
+    });
+    if (match) {
+      const id = parseInt(match.getAttribute('data-id'));
+      addToCart(id);
+      showToast(`{% trans "Đã thêm món vào giỏ:" %} ${match.getAttribute('data-name')}`, 'success');
+    } else {
+      showToast(`{% trans "Không tìm thấy món với mã:" %} ${rawVal}`, 'warning');
+    }
+  }
+</script>
+{% endblock %}

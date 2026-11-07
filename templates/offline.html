@@ -1,0 +1,50 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>{% trans "Đang Mất Kết Nối Mạng" %} - Artisan Bakery</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <link rel="manifest" href="/static/manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="h-full bg-[#FAF6F0] text-[#261309] flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-white rounded-3xl p-8 shadow-xl shadow-amber-900/10 border border-amber-200 text-center space-y-6">
+    <div class="w-24 h-24 mx-auto rounded-3xl bg-amber-50 border-2 border-amber-200 flex items-center justify-center text-5xl shadow-inner">
+      🥖
+    </div>
+
+    <div class="space-y-2">
+      <span class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">
+        {% trans "Chế Độ Ngoại Tuyến" %}
+      </span>
+      <h1 class="text-2xl font-black text-[#261309]">
+        {% trans "Mất Kết Nối Máy Chủ" %}
+      </h1>
+      <p class="text-sm text-amber-900/70 font-medium leading-relaxed">
+        {% trans "Tiệm bánh không nhận được phản hồi từ mạng internet. Xin hãy kiểm tra lại kết nối Wi-Fi hoặc 4G/5G trên thiết bị của bạn." %}
+      </p>
+    </div>
+
+    <div class="pt-2 flex flex-col gap-3">
+      <button onclick="window.location.reload()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-extrabold text-sm shadow-md shadow-amber-600/30 transition transform active:scale-95">
+        🔄 {% trans "Thử Kết Nối Lại" %}
+      </button>
+      <a href="/" class="w-full py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs transition">
+        🏠 {% trans "Về Trang Chủ Đã Lưu" %}
+      </a>
+    </div>
+
+    <div class="border-t border-amber-100 pt-4">
+      <p class="text-[11px] text-gray-400 font-medium">Artisan Bakery System • PWA Offline Safe Mode</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Xóa Sản Phẩm:" %} {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+  <div class="bg-white rounded-3xl p-8 border border-rose-100 shadow-xl text-center space-y-4">
+    <div class="w-16 h-16 rounded-3xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mx-auto">
+      ⚠️
+    </div>
+    <h1 class="text-xl font-black text-rose-900">{% trans "Xác Nhận Xóa Bánh" %}</h1>
+    <p class="text-xs text-gray-600">
+      {% blocktrans with name=product.name sku=product.sku_code %}Bạn có chắc chắn muốn xóa sản phẩm <strong>{{ name }}</strong> (Mã SKU: {{ sku }})?{% endblocktrans %}
+    </p>
+
+    <form method="POST" class="pt-4 flex gap-3">
+      {% csrf_token %}
+      <a href="/products/" class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-700 font-bold text-xs hover:bg-gray-200 transition">
+        {% trans "Hủy bỏ" %}
+      </a>
+      <button type="submit" class="flex-1 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs shadow-md transition btn-tactile">
+        {% trans "Xác nhận Xóa" %}
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

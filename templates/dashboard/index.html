@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Bảng Điều Khiển Quản Lý Tiệm Bánh" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+
+  <!-- Welcome Bar -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 text-white p-6 rounded-3xl shadow-lg shadow-amber-700/20">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-amber-200 font-bold uppercase tracking-wider">
+        <svg class="w-4 h-4 text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+        <span>{{ store_setting.store_name }}</span>
+        <span>•</span>
+        <span>{{ now|date:"l, d/m/Y" }}</span>
+      </div>
+      <h1 class="text-2xl font-black mt-1">{% trans "Xin chào" %}, {{ user.get_full_name|default:user.username }}!</h1>
+      <p class="text-xs text-amber-100 font-medium mt-0.5">
+        {% if current_portal_role == 'ADMIN' %}
+          {% trans "Cổng Quản Trị Hệ Thống (Port 8010/9010)" %}
+        {% elif current_portal_role == 'EMPLOYEE' %}
+          {% trans "Cổng Vận Hành Nội Bộ (Port 8009/9009)" %}
+        {% else %}
+          {% trans "Cổng Khách Hàng Trực Tuyến (Port 8008/9008)" %}
+        {% endif %}
+      </p>
+    </div>
+
+    <!-- Contextual Hero Actions -->
+    <div class="flex items-center gap-2 flex-wrap">
+      {% if current_portal_role == 'ADMIN' %}
+        <a href="/employees/" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-white text-purple-900 font-extrabold text-xs shadow-md hover:bg-purple-50 transition">
+          <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <span>{% trans "Quản Lý Nhân Viên" %}</span>
+        </a>
+        <a href="/products/add/" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-amber-500 text-white font-extrabold text-xs shadow-md hover:bg-amber-400 transition">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+          <span>{% trans "Thêm Món Bánh" %}</span>
+        </a>
+        <a href="/settings/" class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-2xl bg-amber-800/80 text-white font-extrabold text-xs hover:bg-amber-900 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span class="hidden sm:inline">{% trans "Cài Đặt VietQR" %}</span>
+        </a>
+      {% elif current_portal_role == 'EMPLOYEE' %}
+        <a href="/pos/" class="inline-flex items-center gap-1.5 px-5 py-3 rounded-2xl bg-white text-amber-900 font-extrabold text-xs shadow-md hover:bg-amber-50 transition btn-tactile">
+          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          <span>{% trans "Vào Quầy POS Bán Lẻ" %} &rarr;</span>
+        </a>
+      {% else %}
+        <a href="/online/" class="inline-flex items-center gap-1.5 px-5 py-3 rounded-2xl bg-white text-emerald-900 font-extrabold text-xs shadow-md hover:bg-emerald-50 transition">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          <span>{% trans "Khám Phá Bánh Tươi" %} &rarr;</span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Key Metrics Row (4 Cards) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Today Revenue -->
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between text-xs text-gray-500 font-bold">
+        <span>{% trans "DOANH THU HÔM NAY" %}</span>
+        <span class="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </span>
+      </div>
+      <div class="text-2xl font-black text-amber-900 mt-2">{{ today_revenue|floatformat:0 }}đ</div>
+      <div class="text-[11px] text-emerald-700 font-bold mt-1 flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span>{{ today_order_count }} {% trans "hóa đơn thành công" %}</span>
+      </div>
+    </div>
+
+    <!-- Week Revenue -->
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between text-xs text-gray-500 font-bold">
+        <span>{% trans "DOANH THU TUẦN NÀY" %}</span>
+        <span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        </span>
+      </div>
+      <div class="text-2xl font-black text-amber-900 mt-2">{{ week_revenue|floatformat:0 }}đ</div>
+      <div class="text-[11px] text-gray-400 font-medium mt-1">
+        {% trans "Từ đầu tuần đến hiện tại" %}
+      </div>
+    </div>
+
+    <!-- Pending Custom Cakes -->
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between text-xs text-gray-500 font-bold">
+        <span>{% trans "BÁNH KEM ĐANG CHỜ" %}</span>
+        <span class="w-8 h-8 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M3 21h18M3 10h18M3 7l9-4 9 4v11a3 3 0 01-3 3H6a3 3 0 01-3-3V7z"></path></svg>
+        </span>
+      </div>
+      <div class="text-2xl font-black text-amber-700 mt-2">{{ pending_cakes.count }} {% trans "đơn" %}</div>
+      {% if current_portal_role == 'EMPLOYEE' %}
+        <a href="/custom-orders/" class="text-[11px] text-amber-800 font-bold hover:underline mt-1 block">
+          {% trans "Xem Kanban tiến độ" %} &rarr;
+        </a>
+      {% else %}
+        <span class="text-[11px] text-gray-400 mt-1 block">{% trans "Đơn đặt bánh kem hẹn trước" %}</span>
+      {% endif %}
+    </div>
+
+    <!-- Total Members -->
+    <div class="bg-white rounded-3xl p-5 border border-amber-100 shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between text-xs text-gray-500 font-bold">
+        <span>{% trans "HỘI VIÊN TÍCH ĐIỂM" %}</span>
+        <span class="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        </span>
+      </div>
+      <div class="text-2xl font-black text-bakery-crust mt-2">{{ total_customers }} {% trans "khách" %}</div>
+      <div class="text-[11px] text-amber-700 font-bold mt-1">
+        {% trans "Tích 10% điểm mỗi đơn" %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Red Alerts & Kitchen Row -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+    
+    <!-- Red Alert Box: Fresh cakes < 24h & Low Materials -->
+    <div class="bg-white rounded-3xl p-6 border-2 border-rose-100 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-rose-100">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-600 animate-ping"></span>
+          <h2 class="text-base font-black text-rose-900">{% trans "Cảnh Báo Cần Xử Lý Ngay" %}</h2>
+        </div>
+        {% if current_portal_role == 'EMPLOYEE' %}
+          <a href="/inventory/alerts/" class="text-xs text-rose-700 font-bold hover:underline">{% trans "Xem tất cả" %} &rarr;</a>
+        {% endif %}
+      </div>
+
+      <div class="space-y-3">
+        <!-- Fresh Cakes -->
+        <div>
+          <span class="text-[11px] font-extrabold text-gray-500 uppercase tracking-wider block mb-1">
+            {% trans "Bánh tươi bảo quản < 24 giờ (Cần bán nhanh trong ca):" %}
+          </span>
+          <div class="grid grid-cols-2 gap-2">
+            {% for p in fresh_cakes_warning %}
+              <div class="p-2.5 rounded-xl bg-rose-50 border border-rose-200/80 text-xs">
+                <span class="font-bold text-gray-800 block truncate">{{ p.name }}</span>
+                <div class="flex justify-between text-[11px] text-rose-800 font-medium mt-1">
+                  <span>{% trans "HSD:" %} {{ p.shelf_life_hours }}h</span>
+                  <strong class="text-rose-900">{% trans "Tồn:" %} {{ p.stock_quantity }}</strong>
+                </div>
+              </div>
+            {% empty %}
+              <p class="text-xs text-gray-400">{% trans "Không có bánh cận hạn" %}</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Low Raw Materials -->
+        {% if critical_materials %}
+          <div class="pt-2 border-t border-rose-100">
+            <span class="text-[11px] font-extrabold text-gray-500 uppercase tracking-wider block mb-1">
+              {% trans "Nguyên vật liệu dưới ngưỡng tồn tối thiểu:" %}
+            </span>
+            <div class="flex flex-wrap gap-2">
+              {% for m in critical_materials %}
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold">
+                  <svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                  <span>{{ m.name }}: {{ m.stock_quantity }} {{ m.unit }} ({% trans "Ngưỡng" %} {{ m.min_threshold }})</span>
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Pending Custom Cakes Queue -->
+    <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-amber-100">
+        <h2 class="text-base font-black text-bakery-crust">{% trans "Đơn Đặt Bánh Kem Chờ Làm" %}</h2>
+        {% if current_portal_role == 'EMPLOYEE' %}
+          <a href="/custom-orders/" class="text-xs text-amber-800 font-bold hover:underline">{% trans "Mở Kanban Bếp" %} &rarr;</a>
+        {% endif %}
+      </div>
+
+      <div class="space-y-3">
+        {% for c in pending_cakes %}
+          <div class="p-3 rounded-2xl bg-amber-50/50 border border-amber-100 flex items-center justify-between gap-3 text-xs">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono font-bold text-amber-900 bg-amber-100 px-1 rounded">{{ c.order_code }}</span>
+                <strong class="text-gray-900">{{ c.customer_name }}</strong>
+              </div>
+              <p class="text-[11px] text-gray-500 mt-0.5">
+                {{ c.cake_base }} • {{ c.cream_flavor }} ({{ c.size }})
+              </p>
+            </div>
+            <div class="text-right">
+              <span class="text-rose-600 font-bold block">{{ c.pickup_datetime|date:"d/m H:i" }}</span>
+              <span class="text-[10px] text-gray-400 font-medium">{% trans "Đã cọc:" %} {{ c.deposit_amount|floatformat:0 }}đ</span>
+            </div>
+          </div>
+        {% empty %}
+          <div class="py-8 text-center text-xs text-gray-400">{% trans "Không có đơn đặt bánh kem đang chờ." %}</div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Recent Orders Table -->
+  <div class="bg-white rounded-3xl p-6 border border-amber-100 shadow-sm space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="text-base font-black text-bakery-crust">{% trans "Giao Dịch Hóa Đơn Gần Nhất" %}</h2>
+      {% if current_portal_role == 'EMPLOYEE' %}
+        <a href="/pos/orders/" class="text-xs text-amber-800 font-bold hover:underline">{% trans "Xem tất cả hóa đơn" %} &rarr;</a>
+      {% endif %}
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead class="bg-amber-50/60 text-amber-900 font-bold border-b border-amber-100">
+          <tr>
+            <th class="py-3 px-4">{% trans "Mã Hóa Đơn" %}</th>
+            <th class="py-3 px-4">{% trans "Kênh Bán" %}</th>
+            <th class="py-3 px-4">{% trans "Khách Hàng / Thu Ngân" %}</th>
+            <th class="py-3 px-4 text-right">{% trans "Tổng Tiền" %}</th>
+            <th class="py-3 px-4">{% trans "Thanh Toán" %}</th>
+            <th class="py-3 px-4">{% trans "Thời Gian" %}</th>
+            {% if current_portal_role == 'EMPLOYEE' %}
+              <th class="py-3 px-4 text-center">{% trans "Thao Tác" %}</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-amber-50">
+          {% for o in recent_orders %}
+            <tr class="hover:bg-amber-50/20 transition">
+              <td class="py-3 px-4 font-mono font-bold text-amber-900">{{ o.order_code }}</td>
+              <td class="py-3 px-4">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold {% if o.order_type == 'POS' %}bg-amber-100 text-amber-900{% else %}bg-sky-100 text-sky-900{% endif %}">
+                  {{ o.get_order_type_display }}
+                </span>
+              </td>
+              <td class="py-3 px-4 font-medium">{{ o.customer.full_name|default:o.recipient_name|default:_("Khách vãng lai") }}</td>
+              <td class="py-3 px-4 text-right font-black text-amber-800 text-sm">{{ o.final_amount|floatformat:0 }}đ</td>
+              <td class="py-3 px-4">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 border border-amber-200 text-amber-900">
+                  {{ o.get_payment_method_display }}
+                </span>
+              </td>
+              <td class="py-3 px-4 text-gray-500 font-mono">{{ o.created_at|date:"d/m H:i" }}</td>
+              {% if current_portal_role == 'EMPLOYEE' %}
+                <td class="py-3 px-4 text-center">
+                  <a href="/pos/orders/{{ o.id }}/" class="text-amber-800 font-bold hover:underline">{% trans "Chi tiết" %}</a>
+                </td>
+              {% endif %}
+            </tr>
+          {% empty %}
+            <tr><td colspan="7" class="py-6 text-center text-gray-400">{% trans "Chưa có giao dịch nào hôm nay." %}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

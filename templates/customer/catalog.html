@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Thực Đơn Bánh Tươi Hôm Nay - Artisan Bakery" %}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8 space-y-8">
+
+  <!-- Hero Banner -->
+  <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-amber-900 via-amber-800 to-amber-700 text-white p-8 sm:p-12 shadow-xl shadow-amber-900/10">
+    <div class="relative z-10 max-w-2xl space-y-3">
+      <span class="px-3 py-1 rounded-full bg-amber-500/30 text-amber-200 border border-amber-400/30 text-xs font-bold uppercase tracking-wider">
+        ✨ {% trans "Bánh nướng nóng hổi mỗi sáng" %}
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+        {% trans "Hương Vị Thủ Công Đích Thực Từ Lò Nướng" %}
+      </h1>
+      <p class="text-sm text-amber-100 font-medium">
+        {% trans "Nguyên liệu bơ sữa hảo hạng nhập khẩu, men tự nhiên lên men chậm, giao hàng tận nơi nhanh chóng với phí ship chỉ 30.000đ!" %}
+      </p>
+      
+      <div class="pt-2 flex flex-wrap items-center gap-3">
+        <a href="#menu-section" class="px-6 py-3.5 rounded-2xl bg-white text-amber-900 font-extrabold text-sm hover:bg-amber-50 shadow-md transition btn-tactile">
+          {% trans "Khám Phá Thực Đơn" %} &rarr;
+        </a>
+        <a href="/custom-orders/order/" class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-sm shadow-md transition btn-tactile">
+          🎂 {% trans "Đặt Bánh Sinh Nhật Theo Hẹn" %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Coupons Carousel / Highlights -->
+  {% if active_coupons %}
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-xl">🎟️</span>
+        <h2 class="text-base font-black text-bakery-crust">{% trans "Mã Ưu Đãi Khả Dụng" %}</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {% for c in active_coupons %}
+          <div class="p-3.5 rounded-2xl bg-white border border-amber-200/80 shadow-xs flex items-center justify-between gap-3">
+            <div>
+              <span class="font-mono text-xs font-black text-amber-900 bg-amber-100 px-2 py-0.5 rounded">{{ c.code }}</span>
+              <h4 class="text-xs font-bold text-gray-800 mt-1 truncate">{{ c.title }}</h4>
+              <p class="text-[11px] text-emerald-700 font-bold">
+                {% trans "Giảm" %} {% if c.discount_type == 'PERCENT' %}{{ c.discount_value|floatformat:0 }}%{% else %}{{ c.discount_value|floatformat:0 }}đ{% endif %}
+              </p>
+            </div>
+            <button onclick="copyCouponCode('{{ c.code }}')" class="px-2.5 py-1 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold transition">
+              {% trans "Sao chép" %}
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Category Filter Tabs -->
+  <div id="menu-section" class="pt-4">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-black text-bakery-crust">{% trans "Thực Đơn Món Bánh" %}</h2>
+      <a href="/online/cart/" id="btn-header-cart" class="relative px-4 py-2 rounded-2xl bg-amber-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm hover:bg-amber-700 transition btn-tactile">
+        <span>🛒 {% trans "Giỏ Hàng Online" %}</span>
+        <span id="online-cart-count" class="px-1.5 py-0.5 rounded-full bg-white text-amber-900 font-extrabold text-[10px]">0</span>
+      </a>
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+      <a href="/online/" id="tab-cat-all" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition {% if not selected_category_slug and not filter_type %}bg-amber-700 text-white shadow-sm{% else %}bg-white border border-amber-200 text-gray-700 hover:bg-amber-50{% endif %} btn-tactile">
+        {% trans "Tất Cả Bánh" %}
+      </a>
+      <a href="/online/?filter=bestseller" id="tab-cat-bestseller" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 {% if filter_type == 'bestseller' %}bg-amber-800 text-white shadow-sm{% else %}bg-amber-50 border border-amber-200 text-amber-900 hover:bg-amber-100{% endif %} btn-tactile">
+        <span>🔥</span>
+        <span>{% trans "Bánh Bán Chạy" %}</span>
+      </a>
+      <a href="/online/?filter=golden_hour" id="tab-cat-golden" class="px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition flex items-center gap-1.5 {% if filter_type == 'golden_hour' %}bg-rose-700 text-white shadow-sm{% else %}bg-rose-50 border border-rose-200 text-rose-800 hover:bg-rose-100{% endif %} btn-tactile">
+        <span>⚡</span>
+        <span>{% trans "Giờ Vàng (-40%)" %}</span>
+        {% if golden_hour_count > 0 %}
+          <span class="px-1.5 py-0.2 rounded-full bg-rose-600 text-white text-[10px] font-extrabold">{{ golden_hour_count }}</span>
+        {% endif %}
+      </a>
+      {% for cat in categories %}
+        <a href="/online/?category={{ cat.slug }}" id="tab-cat-{{ cat.slug }}" class="px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition {% if selected_category_slug == cat.slug %}bg-amber-700 text-white shadow-sm font-bold{% else %}bg-white border border-amber-200 text-gray-700 hover:bg-amber-50{% endif %} btn-tactile">
+          {{ cat.name }}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for p in products %}
+      {% with freshness=p.get_freshness_status %}
+      <div id="product-card-{{ p.id }}" class="bg-white rounded-3xl p-3.5 border border-amber-100 shadow-sm hover:shadow-md hover:border-amber-300 transition-all flex flex-col justify-between group">
+        <div>
+          <!-- Image -->
+          <div class="w-full h-44 rounded-2xl overflow-hidden bg-amber-50 relative flex items-center justify-center mb-3">
+            {% if p.image_url %}
+              <img src="{{ p.image_url }}" alt="{{ p.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            {% elif p.image %}
+              <img src="{{ p.image.url }}" alt="{{ p.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            {% else %}
+              <span class="text-4xl">🥖</span>
+            {% endif %}
+
+            <!-- Near Expiry -40% Badge -->
+            {% if freshness.is_near_expiry %}
+              <div class="absolute top-2 left-2 z-10">
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-600 text-white shadow-md animate-pulse">
+                  ⚡ -40% {% trans "GIỜ VÀNG" %}
+                </span>
+              </div>
+            {% endif %}
+
+            <div class="absolute top-2 right-2">
+              {% if p.stock_quantity == 0 %}
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-black bg-rose-600 text-white shadow-sm">{% trans "HẾT HÀNG" %}</span>
+              {% else %}
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-600/90 text-white shadow-sm">{% trans "Còn" %} {{ p.stock_quantity }}</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <span class="text-[10px] font-mono text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-bold">{{ p.sku_code }}</span>
+          <h3 class="font-bold text-sm text-bakery-crust mt-1 line-clamp-2">{{ p.name }}</h3>
+          <p class="text-[11px] text-gray-400 mt-0.5">{{ p.category.name }}</p>
+        </div>
+
+        <div class="mt-3 pt-2.5 border-t border-amber-50 flex items-center justify-between">
+          <div>
+            {% if freshness.is_near_expiry %}
+              <div class="flex items-baseline gap-1">
+                <span class="text-base font-black text-rose-600" data-vnd="{{ freshness.current_price }}">{{ freshness.current_price|floatformat:0 }}đ</span>
+                <span class="text-xs line-through text-gray-400 font-semibold" data-vnd="{{ p.price }}">{{ p.price|floatformat:0 }}đ</span>
+              </div>
+              <span class="text-[9px] font-bold text-rose-700 block">⚡ {% trans "Giờ vàng bánh tươi -40%" %}</span>
+            {% else %}
+              <span class="text-base font-black text-amber-700" data-vnd="{{ p.price }}">{{ p.price|floatformat:0 }}đ</span>
+            {% endif %}
+          </div>
+          
+          {% if p.stock_quantity > 0 %}
+            <button id="btn-add-cart-{{ p.id }}" 
+                    onclick="addOnlineCart({{ p.id }}, '{{ p.name|escapejs }}', {{ freshness.current_price|stringformat:'.2f' }}, {{ p.stock_quantity }}, '{{ p.image_url|default:''|escapejs }}')" 
+                    class="px-3.5 py-2 rounded-xl bg-amber-100 hover:bg-amber-600 hover:text-white text-amber-900 font-bold text-xs transition-all shadow-xs btn-tactile">
+              + {% trans "Thêm Mua" %}
+            </button>
+          {% else %}
+            <span class="text-xs text-gray-400 font-medium">{% trans "Hết hàng" %}</span>
+          {% endif %}
+        </div>
+      </div>
+      {% endwith %}
+    {% endfor %}
+  </div>
+
+</div>
+
+<!-- Sticky Floating Cart Button (Mobile & Desktop) -->
+<div class="fixed bottom-6 right-6 z-40 no-print">
+  <a href="/online/cart/" id="btn-floating-cart" class="px-5 py-3.5 rounded-full bg-gradient-to-r from-amber-600 to-amber-700 text-white font-extrabold text-sm shadow-xl shadow-amber-600/40 flex items-center gap-2.5 hover:scale-105 transition-transform btn-tactile">
+    <span class="text-lg">🛒</span>
+    <span>{% trans "Xem Giỏ Hàng" %}</span>
+    <span id="floating-cart-badge" class="w-6 h-6 rounded-full bg-white text-amber-900 font-black text-xs flex items-center justify-center transition-all">0</span>
+  </a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function getOnlineCart() {
+    return JSON.parse(localStorage.getItem('online_cart') || '[]');
+  }
+
+  function saveOnlineCart(cart) {
+    localStorage.setItem('online_cart', JSON.stringify(cart));
+    updateCartBadges();
+  }
+
+  function updateCartBadges() {
+    const cart = getOnlineCart();
+    const count = cart.reduce((sum, i) => sum + i.quantity, 0);
+    const badge1 = document.getElementById('online-cart-count');
+    const badge2 = document.getElementById('floating-cart-badge');
+    if (badge1) badge1.textContent = count;
+    if (badge2) {
+      badge2.textContent = count;
+      badge2.classList.remove('scale-125');
+      void badge2.offsetWidth;
+      badge2.classList.add('scale-125');
+      setTimeout(() => badge2.classList.remove('scale-125'), 300);
+    }
+  }
+
+  function addOnlineCart(id, name, price, stock, img) {
+    if (window.SoundFX && window.SoundFX.playClick) {
+      window.SoundFX.playClick();
+    }
+    const cart = getOnlineCart();
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
+      if (existing.quantity + 1 > stock) {
+        showToast(`{% trans "Kho chỉ còn" %} ${stock} {% trans "cái." %}`, 'warning');
+        return;
+      }
+      existing.quantity += 1;
+    } else {
+      cart.push({ id, name, price, stock, image_url: img, quantity: 1 });
+    }
+    saveOnlineCart(cart);
+    showToast(`{% trans "Đã thêm" %} "${name}" {% trans "vào giỏ hàng!" %}`, 'success');
+  }
+
+  function copyCouponCode(code) {
+    if (window.SoundFX && window.SoundFX.playClick) {
+      window.SoundFX.playClick();
+    }
+    navigator.clipboard.writeText(code);
+    showToast(`{% trans "Đã sao chép mã" %} ${code}! {% trans "Hãy dán vào giỏ hàng." %}`, 'info');
+  }
+
+  updateCartBadges();
+</script>
+{% endblock %}

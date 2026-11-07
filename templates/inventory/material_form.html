@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Thêm Nguyên Vật Liệu Mới" %} - Artisan Bakery{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-3xl p-8 border border-amber-100 shadow-xl space-y-6">
+    
+    <div class="flex items-center gap-3 pb-6 border-b border-amber-100">
+      <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-white flex items-center justify-center text-2xl shadow-md">
+        🌾
+      </div>
+      <div>
+        <h1 class="text-2xl font-black text-bakery-crust">{% trans "Khai Báo Nguyên Liệu Mới" %}</h1>
+        <p class="text-xs text-gray-500">{% trans "Admin nhập mã SKU, tên, loại nguyên liệu, khối lượng ban đầu và đơn giá" %}</p>
+      </div>
+    </div>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Mã SKU Nguyên Liệu" %} *</label>
+          {{ form.code }}
+          <span class="text-[10px] text-gray-400">{% trans "Mã quét vạch hoặc định danh nội bộ, vd: NL_BOT_MI, NL_BO_PHAP" %}</span>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Phân Loại Nguyên Liệu" %} *</label>
+          {{ form.material_type }}
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Tên Nguyên Vật Liệu (Bột, bơ, sữa...)" %} *</label>
+        {{ form.name }}
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Đơn Vị Tính" %} *</label>
+          {{ form.unit }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Khối Lượng / Số Lượng Tồn Ban Đầu" %} *</label>
+          {{ form.stock_quantity }}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Đơn Giá Nhập (VNĐ / Đơn vị)" %} *</label>
+          {{ form.unit_cost }}
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">{% trans "Ngưỡng Cảnh Báo Tối Thiểu" %} *</label>
+          {{ form.min_threshold }}
+        </div>
+      </div>
+
+      <div class="pt-4 flex items-center justify-between gap-4 border-t border-amber-100">
+        <a href="/inventory/materials/" class="text-xs text-gray-500 font-bold hover:underline">
+          &larr; {% trans "Quay lại danh sách" %}
+        </a>
+        <button type="submit" class="px-8 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs shadow-md transition btn-tactile">
+          ✓ {% trans "LƯU NGUYÊN VẬT LIỆU MỚI" %}
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}
